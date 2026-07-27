@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Website Is Cool</title>
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            background-image: url("Background.png"); 
+            background-size: cover; 
+            background-position: center;
+            background-repeat: no-repeat;
+            background-attachment: fixed; 
+            font-size: 20px;
+            text-align: center;
+            margin: 0;
+            padding: 0;
+            font-family: sans-serif;
+            color: white;
+            min-height: 100vh;
+        }
+
+        .wrapper {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 100%;
+        }
+
+        .hero-section {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            padding: 20px;
+        }
+
+        .download-section {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            padding: 20px;
+        }
+
+        .container {
+            background: rgba(0, 0, 0, 0.6); 
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            padding: 40px;
+            border-radius: 16px;
+            max-width: 800px;
+            width: 90%;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
+        }
+        
+        h3 {
+            color: yellow;
+            cursor: pointer;
+            font-size: 2.5rem;
+            margin-top: 0;
+            margin-bottom: 20px;
+        }
+
+        p {
+            line-height: 1.6;
+            margin: 0;
+        }
+
+        .scroll-hint {
+            margin-top: 30px;
+            font-size: 0.9rem;
+            color: rgba(255, 255, 255, 0.6);
+            animation: bounce 2s infinite;
+        }
+
+        .download-title {
+            font-size: 2rem;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+        }
+
+        /* Pricing Badge Layout */
+        .price-tag {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: #4caf50; /* Clean green shade for monetary elements */
+            margin-bottom: 25px;
+            text-shadow: 0 2px 10px rgba(76, 175, 80, 0.3);
+        }
+
+        .download-btn {
+            display: inline-block;
+            background-color: #0066cc;
+            color: white;
+            text-decoration: none;
+            padding: 15px 40px;
+            font-size: 1.2rem;
+            font-weight: bold;
+            border-radius: 8px;
+            transition: background 0.2s ease, transform 0.1s ease;
+            box-shadow: 0 4px 15px rgba(0, 102, 204, 0.4);
+        }
+
+        .download-btn:hover {
+            background-color: #0052a3;
+            transform: translateY(-2px);
+        }
+
+        .download-btn:active {
+            transform: translateY(0);
+        }
+
+        /* Subtext for security compliance peace of mind */
+        .secure-notice {
+            margin-top: 15px;
+            font-size: 0.75rem;
+            color: rgba(255, 255, 255, 0.5);
+        }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+            40% { transform: translateY(-10px); }
+            60% { transform: translateY(-5px); }
+        }
+    </style>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const heading = document.querySelector('h3');
+
+            if (heading) {
+                let isYellow = true;
+                heading.style.transition = 'color 0.3s ease';
+
+                heading.addEventListener('click', () => {
+                    if (isYellow) {
+                        heading.style.color = '#0066cc';
+                        isYellow = false;
+                    } else {
+                        heading.style.color = 'yellow';
+                        isYellow = true;
+                    }
+                });
+            }
+        });
+    </script>
+</head>
+<body>
+    <div class="wrapper">
+        <section class="hero-section">
+            <div class="container">
+                <h3>JetWing Client</h3>
+                <p>Jetwing is a qol mod for minecraft. <br /> Made for convenience and more customization than something like Lunar Client.<br /> While it is true it has cheats, they arent permanent. <br /> If you want more information, please ask the developer. It is not a cheat. <br /> It follows discord and Mojang ToS. Cheats are for testing and i personally don't know what'll happen in the final release but just know, <br /> Jetwing is not a cheat (jk)</p>
+                <div class="scroll-hint">Scroll down to purchase ↓</div>
+            </div>
+        </section>
+
+        <section class="download-section">
+            <div class="container">
+                <div class="download-title">Get Lifetime Access</div>
+                
+                <a href="YOUR_STRIPE_OR_PAYPAY_LINK_HERE" target="_blank" class="download-btn">Purchase JetWing Client</a>
+                
+                <div class="secure-notice">🔒 Secure Checkout via Card or PayPal. Downloads unlock immediately after approval.</div>
+            </div>
+        </section>
+    </div>
+</body>
+</html>
