@@ -1,150 +1,154 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Jetwing</title>
-  <style>
-    * { 
-      box-sizing: border-box; 
-    }
-    body { 
-      background-color: #121212; 
-      background-image: url("background.png"); 
-      background-size: cover; 
-      background-position: center; 
-      background-repeat: no-repeat; 
-      background-attachment: fixed; 
-      font-size: 20px; 
-      text-align: center; 
-      margin: 0; 
-      padding: 0; 
-      font-family: sans-serif; 
-      color: white; 
-      min-height: 100vh; 
-    }
-    .wrapper { 
-      display: flex; 
-      flex-direction: column; 
-      align-items: center; 
-      width: 100%; 
-    }
-    .hero-section, .download-section { 
-      min-height: 100vh; 
-      display: flex; 
-      flex-direction: column;
-      align-items: center; 
-      justify-content: center; 
-      width: 100%; 
-      padding: 40px 20px; 
-    }
-    .container { 
-      background: rgba(0, 0, 0, 0.75); 
-      backdrop-filter: blur(8px); 
-      -webkit-backdrop-filter: blur(8px); 
-      padding: 40px; 
-      border-radius: 16px; 
-      max-width: 800px; 
-      width: 90%; 
-      border: 1px solid rgba(255, 255, 255, 0.1); 
-      box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.5); 
-    }
-    h3 { 
-      color: yellow; 
-      cursor: pointer; 
-      font-size: 2.5rem; 
-      margin-top: 0; 
-      margin-bottom: 20px; 
-    }
-    p { 
-      line-height: 1.6; 
-      margin-bottom: 25px; 
-    }
-    .scroll-hint { 
-      margin-top: 25px; 
-      font-size: 0.9rem; 
-      color: rgba(255, 255, 255, 0.6); 
-      animation: bounce 2s infinite; 
-    }
-    .download-title { 
-      font-size: 2rem; 
-      margin-bottom: 20px; 
-      text-shadow: 2px 2px 4px rgba(0,0,0,0.5); 
-    }
-    .download-btn, .discord-btn { 
-      display: inline-block; 
-      color: white; 
-      text-decoration: none; 
-      padding: 15px 40px; 
-      font-size: 1.2rem; 
-      font-weight: bold; 
-      border-radius: 8px; 
-      transition: background 0.2s ease, transform 0.1s ease; 
-    }
-    .download-btn {
-      background-color: #0066cc; 
-      box-shadow: 0 4px 15px rgba(0, 102, 204, 0.4); 
-    }
-    .download-btn:hover { 
-      background-color: #0052a3; 
-      transform: translateY(-2px); 
-    }
-    .discord-btn {
-      background-color: #5865F2; 
-      box-shadow: 0 4px 15px rgba(88, 101, 242, 0.4); 
-    }
-    .discord-btn:hover { 
-      background-color: #4752C4; 
-      transform: translateY(-2px); 
-    }
-      discord-btn:active { 
-      transform: translateY(0); 
-    }
-    .secure-notice { 
-      margin-top: 20px; 
-      font-size: 0.75rem; 
-      color: rgba(255, 255, 255, 0.6); 
-    }
-    @keyframes bounce { 
-      0%, 20%, 50%, 80%, 100% { transform: translateY(0); } 
-      40% { transform: translateY(-10px); } 
-      60% { transform: translateY(-5px); } 
-    }
-  </style>
-  <script>
-    document.addEventListener('DOMContentLoaded', () => {
-      const heading = document.querySelector('h3');
-      if (heading) {
-        let isYellow = true;
-        heading.style.transition = 'color 0.3s ease';
-        heading.addEventListener('click', () => {
-          if (isYellow) {
-            heading.style.color = '#0066cc';
-            isYellow = false;
-          } else {
-            heading.style.color = 'yellow';
-            isYellow = true;
-          }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jetwing</title>
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+        body {
+            background-color: #121212;
+            background-image: url("background.png");
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            font-size: 20px;
+            text-align: center;
+            margin: 0;
+            padding: 0;
+            font-family: sans-serif;
+            color: white;
+            min-height: 100vh;
+        }
+        .wrapper {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 100%;
+        }
+        .hero-section, .download-section {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            padding: 40px 20px;
+        }
+        /* Applied to both the text container and the new button container */
+        .container {
+            background: rgba(0, 0, 0, 0.75);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            padding: 40px;
+            border-radius: 16px;
+            max-width: 800px;
+            width: 90%;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.5);
+        }
+        h3 {
+            color: yellow;
+            cursor: pointer;
+            font-size: 2.5rem;
+            margin-top: 0;
+            margin-bottom: 20px;
+        }
+        p {
+            line-height: 1.6;
+            margin-bottom: 25px;
+        }
+        .scroll-hint {
+            margin-top: 25px;
+            font-size: 0.9rem;
+            color: rgba(255, 255, 255, 0.6);
+            animation: bounce 2s infinite;
+        }
+        .download-title {
+            font-size: 2rem;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+        }
+        .download-btn, .discord-btn {
+            display: inline-block;
+            color: white;
+            text-decoration: none;
+            padding: 15px 40px;
+            font-size: 1.2rem;
+            font-weight: bold;
+            border-radius: 8px;
+            transition: background 0.2s ease, transform 0.1s ease;
+        }
+        .download-btn {
+            background-color: #0066cc;
+            box-shadow: 0 4px 15px rgba(0, 102, 204, 0.4);
+        }
+        .download-btn:hover {
+            background-color: #0052a3;
+            transform: translateY(-2px);
+        }
+        .discord-btn {
+            background-color: #5865F2;
+            box-shadow: 0 4px 15px rgba(88, 101, 242, 0.4);
+        }
+        .discord-btn:hover {
+            background-color: #4752C4;
+            transform: translateY(-2px);
+        }
+        .discord-btn:active {
+            transform: translateY(0);
+        }
+        .secure-notice {
+            margin-top: 20px;
+            font-size: 0.75rem;
+            color: rgba(255, 255, 255, 0.6);
+        }
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+            40% { transform: translateY(-10px); }
+            60% { transform: translateY(-5px); }
+        }
+    </style>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const heading = document.querySelector('h3');
+            if (heading) {
+                let isYellow = true;
+                heading.style.transition = 'color 0.3s ease';
+                heading.addEventListener('click', () => {
+                    if (isYellow) {
+                        heading.style.color = '#0066cc';
+                        isYellow = false;
+                    } else {
+                        heading.style.color = 'yellow';
+                        isYellow = true;
+                    }
+                });
+            }
         });
-      }
-    });
-  </script>
+    </script>
 </head>
 <body>
-  <div class="wrapper">
-    <section class="hero-section">
-      <div class="container">
-        <h3>JetWing Client</h3>
-        <p>Jetwing is a Minecraft client, developed by Bleach and more. <br />
-It features "mods" like ESP, fastplace and also has good anticheat bypass! <br /> It's also injectable into lunar and regular minecraft.
-It's developed by some <br /> teenagers, bypassing million dollar anticheats. Simon's care for hypixel<br /> is as holeless as a cheese grater, he doesn't care at all. <br /> Join Discord to purchase if you can't get to the link below</p>  
-        <div class="scroll-hint">Scroll down to purchase ↓</div>
-      </div>
-    </section>
-    <section>
-      <div>
-        <a href="https://discord.gg/vAtbG2BXVu" target="_blank" class="discord-btn">Purchase through discord</a>
-      </div>
-    </section>
+    <div class="wrapper">
+        <section class="hero-section">
+            <div class="container">
+                <h3>JetWing Client</h3>
+                <p>Jetwing is a Minecraft client, developed by Bleach and more. <br /> It features "mods" like ESP, fastplace and also has good anticheat bypass! <br /> It's also injectable into lunar and regular minecraft. It's developed by some <br /> teenagers, bypassing million dollar anticheats. Simon's care for hypixel<br /> is as holeless as a cheese grater, he doesn't care at all. <br /> Join Discord to purchase if you can't get to the link below</p>
+                <div class="scroll-hint">Scroll down to purchase ↓</div>
+            </div>
+        </section>
+
+        <section class="download-section">
+            <div class="container">
+                <div class="download-title">Ready to Access?</div>
+                <p>Gain access to the client instantly by verified purchase on our Discord server.</p>
+                <a href="https://discord.gg" target="_blank" class="discord-btn">Purchase through discord</a>
+                <div class="secure-notice">Secured link via official Discord verification.</div>
+            </div>
+        </section>
+    </div>
 </body>
 </html>
