@@ -9,21 +9,69 @@ function resize() {
 resize();
 window.addEventListener('resize', resize);
 
-// more particles, bigger, varying opacity
 var flakes = [];
-for (var i = 0; i < 160; i++) {
+for (var i = 0; i < 120; i++) {
   flakes.push({
     x:       Math.random() * window.innerWidth,
     y:       Math.random() * window.innerHeight,
-    r:       Math.random() * 3.5 + 0.8,
-    speed:   Math.random() * 1.4 + 0.3,
-    drift:   Math.random() * 0.6 - 0.3,
-    opacity: Math.random() * 0.6 + 0.2
+    r:       Math.random() * 3 + 0.8,
+    speed:   Math.random() * 1.2 + 0.3,
+    drift:   Math.random() * 0.5 - 0.25,
+    opacity: Math.random() * 0.5 + 0.2
   });
 }
 
+var stars = [];
+for (var i = 0; i < 80; i++) {
+  stars.push({
+    x:       Math.random() * window.innerWidth,
+    y:       Math.random() * window.innerHeight,
+    r:       Math.random() * 1.5 + 0.3,
+    opacity: Math.random(),
+    speed:   Math.random() * 0.02 + 0.005,
+    dir:     Math.random() > 0.5 ? 1 : -1
+  });
+}
+
+var shooters = [];
+function spawnShooter() {
+  shooters.push({
+    x:       Math.random() * window.innerWidth,
+    y:       Math.random() * window.innerHeight * 0.5,
+    len:     Math.random() * 120 + 60,
+    speed:   Math.random() * 8 + 5,
+    opacity: 1
+  });
+}
+setInterval(spawnShooter, 3000);
+
 function draw() {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+  for (var i = 0; i < stars.length; i++) {
+    var s = stars[i];
+    s.opacity += s.speed * s.dir;
+    if (s.opacity >= 1) { s.opacity = 1; s.dir = -1; }
+    if (s.opacity <= 0) { s.opacity = 0; s.dir = 1; }
+    ctx.beginPath();
+    ctx.arc(s.x, s.y, s.r, 0, Math.PI * 2);
+    ctx.fillStyle = 'rgba(255, 255, 255, ' + s.opacity + ')';
+    ctx.fill();
+  }
+
+  for (var i = shooters.length - 1; i >= 0; i--) {
+    var sh = shooters[i];
+    ctx.beginPath();
+    ctx.moveTo(sh.x, sh.y);
+    ctx.lineTo(sh.x - sh.len, sh.y - sh.len * 0.3);
+    ctx.strokeStyle = 'rgba(180, 160, 255, ' + sh.opacity + ')';
+    ctx.lineWidth = 1.5;
+    ctx.stroke();
+    sh.x += sh.speed;
+    sh.y += sh.speed * 0.3;
+    sh.opacity -= 0.015;
+    if (sh.opacity <= 0) shooters.splice(i, 1);
+  }
 
   for (var i = 0; i < flakes.length; i++) {
     var f = flakes[i];
