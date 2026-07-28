@@ -1,37 +1,75 @@
 var container = document.getElementById('termLines');
 
-var lines = [
-  { text: '> JetWing Client v3.0',      delay: 0    },
-  { text: '> Loading modules... ',       delay: 600  },
-  { text: '> Loading modules... [129/129]', delay: 1400, replace: true },
-  { text: '> Silent flags... ',          delay: 2200 },
-  { text: '> Silent flags... <span class="success">bypassed successfully</span>', delay: 3000, replace: true },
-  { text: '> Client ready!',             delay: 3800 },
-  { text: '',                            delay: 4400 },
-  { text: '$ Bye bye watchdog ',         delay: 4800, cursor: true },
-];
+function addLine(html) {
+  var el = document.createElement('div');
+  el.className = 'term-line';
+  el.innerHTML = html;
+  container.appendChild(el);
+  return el;
+}
 
-lines.forEach(function(line, i) {
-  setTimeout(function() {
-
-    if (line.replace) {
-      var all = container.querySelectorAll('.term-line');
-      var last = all[all.length - 1];
-      if (last) last.innerHTML = line.text;
-      return;
+function typeInto(el, text, speed, done) {
+  var i = 0;
+  var t = setInterval(function() {
+    el.innerHTML = text.slice(0, i);
+    i++;
+    if (i > text.length) {
+      clearInterval(t);
+      if (done) done();
     }
+  }, speed);
+}
 
-    var el = document.createElement('div');
-    el.className = 'term-line';
-    el.innerHTML = line.text;
+setTimeout(function() {
 
-    if (line.cursor) {
-      var cur = document.createElement('span');
-      cur.className = 'cursor';
-      el.appendChild(cur);
-    }
+  // line 1
+  var l1 = addLine('');
+  typeInto(l1, '> JetWing Client v3.0', 45, function() {
+    setTimeout(function() {
 
-    container.appendChild(el);
+      // line 2 — count from 1 to 129
+      var l2 = addLine('> Loading modules... [0/129]');
+      var n = 0;
+      var counter = setInterval(function() {
+        n++;
+        l2.innerHTML = '> Loading modules... [' + n + '/129]';
+        if (n >= 129) {
+          clearInterval(counter);
+          setTimeout(function() {
 
-  }, line.delay);
-});
+            // line 3
+            var l3 = addLine('');
+            typeInto(l3, '> Silent flags... ', 35, function() {
+              setTimeout(function() {
+                l3.innerHTML = '> Silent flags... <span class="success">bypassed successfully</span>';
+                setTimeout(function() {
+
+                  // line 4
+                  var l4 = addLine('');
+                  typeInto(l4, '> Client ready!', 45, function() {
+                    setTimeout(function() {
+                      addLine('');
+
+                      // last line with cursor
+                      var last = addLine('');
+                      typeInto(last, 'Bye bye watchdog ', 45, function() {
+                        var cur = document.createElement('span');
+                        cur.className = 'cursor';
+                        last.appendChild(cur);
+                      });
+
+                    }, 300);
+                  });
+
+                }, 400);
+              }, 500);
+            });
+
+          }, 300);
+        }
+      }, 18);
+
+    }, 300);
+  });
+
+}, 300);
