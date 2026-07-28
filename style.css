@@ -16,6 +16,64 @@ body {
   overflow-x: hidden;
 }
 
+#loader {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  background: linear-gradient(135deg, #0a0520, #12063a, #0d0428);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+  transition: opacity 0.8s ease, visibility 0.8s ease;
+}
+
+#loader.hidden {
+  opacity: 0;
+  visibility: hidden;
+}
+
+.loader-content { text-align: center; }
+
+.loader-title {
+  font-family: 'Fredoka', sans-serif;
+  font-size: 52px;
+  font-weight: 700;
+  background: linear-gradient(90deg, #6a9fff, #a855f7);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin-bottom: 24px;
+  animation: pulse 1.5s ease-in-out infinite;
+}
+
+.loader-bar {
+  width: 200px;
+  height: 3px;
+  background: rgba(120, 80, 255, 0.2);
+  border-radius: 3px;
+  margin: 0 auto;
+  overflow: hidden;
+}
+
+.loader-fill {
+  height: 100%;
+  width: 0%;
+  background: linear-gradient(90deg, #6a9fff, #a855f7);
+  border-radius: 3px;
+  animation: fill 1.8s ease forwards;
+}
+
+@keyframes fill {
+  0%   { width: 0%; }
+  100% { width: 100%; }
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0.6; }
+}
+
 #snow {
   position: fixed;
   top: 0; left: 0;
@@ -177,6 +235,8 @@ nav button:hover {
 }
 
 .term-line .success { color: #60a5fa; font-weight: bold; }
+.term-line .warn    { color: #facc15; font-weight: bold; }
+.term-line .error   { color: #f87171; font-weight: bold; }
 
 .cursor {
   display: inline-block;
