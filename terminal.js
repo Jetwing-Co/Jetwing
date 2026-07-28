@@ -22,12 +22,10 @@ function typeInto(el, text, speed, done) {
 
 setTimeout(function() {
 
-  // line 1
   var l1 = addLine('');
   typeInto(l1, '> JetWing Client v3.0', 45, function() {
     setTimeout(function() {
 
-      // line 2 — count from 1 to 129
       var l2 = addLine('> Loading modules... [0/129]');
       var n = 0;
       var counter = setInterval(function() {
@@ -37,28 +35,73 @@ setTimeout(function() {
           clearInterval(counter);
           setTimeout(function() {
 
-            // line 3
             var l3 = addLine('');
-            typeInto(l3, '> Silent flags... ', 35, function() {
+            typeInto(l3, '> Checking for anticheats... ', 35, function() {
               setTimeout(function() {
-                l3.innerHTML = '> Silent flags... <span class="success">bypassed successfully</span>';
+                l3.innerHTML = '> Checking for anticheats... <span class="warn">found 3</span>';
                 setTimeout(function() {
 
-                  // line 4
                   var l4 = addLine('');
-                  typeInto(l4, '> Client ready!', 45, function() {
+                  typeInto(l4, '> Bypassing Watchdog... ', 35, function() {
                     setTimeout(function() {
-                      addLine('');
+                      l4.innerHTML = '> Bypassing Watchdog... <span class="success">too easy</span>';
+                      setTimeout(function() {
 
-                      // last line with cursor
-                      var last = addLine('');
-                      typeInto(last, 'Bye bye watchdog ', 45, function() {
-                        var cur = document.createElement('span');
-                        cur.className = 'cursor';
-                        last.appendChild(cur);
-                      });
+                        var l5 = addLine('');
+                        typeInto(l5, '> Bypassing Grim... ', 35, function() {
+                          setTimeout(function() {
+                            l5.innerHTML = '> Bypassing Grim... <span class="success">lol ok</span>';
+                            setTimeout(function() {
 
-                    }, 300);
+                              var l6 = addLine('');
+                              typeInto(l6, '> Bypassing Matrix... ', 35, function() {
+                                setTimeout(function() {
+                                  l6.innerHTML = '> Bypassing Matrix... <span class="success">done</span>';
+                                  setTimeout(function() {
+
+                                    var l7 = addLine('');
+                                    typeInto(l7, '> Silent flags... ', 35, function() {
+                                      setTimeout(function() {
+                                        l7.innerHTML = '> Silent flags... <span class="success">bypassed successfully</span>';
+                                        setTimeout(function() {
+
+                                          var l8 = addLine('');
+                                          typeInto(l8, '> Saying hi to Simon... ', 35, function() {
+                                            setTimeout(function() {
+                                              l8.innerHTML = '> Saying hi to Simon... <span class="warn">no response (as usual)</span>';
+                                              setTimeout(function() {
+
+                                                var l9 = addLine('');
+                                                typeInto(l9, '> Client ready!', 45, function() {
+                                                  setTimeout(function() {
+                                                    addLine('');
+                                                    var last = addLine('');
+                                                    typeInto(last, 'Bye bye watchdog ', 45, function() {
+                                                      var cur = document.createElement('span');
+                                                      cur.className = 'cursor';
+                                                      last.appendChild(cur);
+                                                    });
+                                                  }, 300);
+                                                });
+
+                                              }, 400);
+                                            }, 600);
+                                          });
+
+                                        }, 400);
+                                      }, 500);
+                                    });
+
+                                  }, 400);
+                                }, 500);
+                              });
+
+                            }, 400);
+                          }, 500);
+                        });
+
+                      }, 400);
+                    }, 500);
                   });
 
                 }, 400);
