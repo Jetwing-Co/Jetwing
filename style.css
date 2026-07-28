@@ -162,12 +162,11 @@ nav button:hover { opacity: 0.85; }
   .card { transform: rotateY(8deg) rotateX(4deg) rotate(1deg); }
   .terminal { transform: rotateY(-8deg) rotateX(4deg) rotate(-1deg); min-width: unset; }
 }
-
 .credits {
   position: fixed;
   bottom: 20px;
-  left: 50%;
-  transform: translateX(-50%);
+  left: 20px;
+  transform: none;
   z-index: 10;
   background: rgba(12, 10, 28, 0.75);
   border: 1px solid rgba(120, 80, 255, 0.2);
