@@ -4,43 +4,12 @@
 
 body {
   min-height: 100vh;
-<<<<<<< HEAD
-  background:
-=======
-  background: 
->>>>>>> f1fb5a3a579cfab98d2257824130bb375c27bb7a
-    radial-gradient(ellipse at top left, rgba(100, 0, 255, 0.4) 0%, transparent 60%),
-    radial-gradient(ellipse at bottom right, rgba(80, 0, 200, 0.35) 0%, transparent 60%),
-    radial-gradient(ellipse at center, rgba(60, 0, 180, 0.2) 0%, transparent 70%),
-    linear-gradient(135deg, #0a0520 0%, #12063a 30%, #1a0850 60%, #0d0428 100%);
+  background: linear-gradient(180deg, #1a0a2e 0%, #3d1a6e 30%, #c8520a 70%, #1a3a6e 100%);
   display: flex;
   align-items: center;
   justify-content: center;
   font-family: 'Fredoka', sans-serif;
   overflow-x: hidden;
-  min-height: 100vh;
-}
-
-/* aurora animated background layer */
-body::before {
-  content: '';
-  position: fixed;
-  top: 0; left: 0;
-  width: 100%; height: 100%;
-  background:
-    radial-gradient(ellipse at 20% 50%, rgba(120, 0, 255, 0.15) 0%, transparent 50%),
-    radial-gradient(ellipse at 80% 20%, rgba(60, 0, 200, 0.2) 0%, transparent 50%),
-    radial-gradient(ellipse at 60% 80%, rgba(100, 0, 180, 0.15) 0%, transparent 50%);
-  animation: aurora 8s ease-in-out infinite alternate;
-  pointer-events: none;
-  z-index: 0;
-}
-
-@keyframes aurora {
-  0%   { opacity: 0.6; transform: scale(1) translate(0, 0); }
-  33%  { opacity: 1;   transform: scale(1.05) translate(2%, 1%); }
-  66%  { opacity: 0.7; transform: scale(0.98) translate(-1%, 2%); }
-  100% { opacity: 0.9; transform: scale(1.03) translate(1%, -1%); }
 }
 
 #snow {
@@ -48,7 +17,7 @@ body::before {
   top: 0; left: 0;
   width: 100%; height: 100%;
   pointer-events: none;
-  z-index: 1;
+  z-index: 0;
 }
 
 nav {
@@ -68,14 +37,10 @@ nav button {
   cursor: pointer;
   font-size: 14px;
   font-family: 'Fredoka', sans-serif;
-  transition: opacity 0.2s, transform 0.2s, box-shadow 0.2s;
+  transition: opacity 0.2s;
 }
 
-nav button:hover {
-  opacity: 0.9;
-  transform: translateY(-2px);
-  box-shadow: 0 4px 20px rgba(138, 43, 226, 0.5);
-}
+nav button:hover { opacity: 0.85; }
 
 .layout {
   position: relative;
@@ -104,16 +69,6 @@ nav button:hover {
     0 0 40px rgba(138, 43, 226, 0.3),
     0 0 80px rgba(100, 0, 200, 0.15),
     0 30px 80px rgba(0, 0, 0, 0.7);
-  transition: box-shadow 0.3s, border-color 0.3s;
-}
-
-/* hover glow on card */
-.card:hover {
-  box-shadow:
-    0 0 60px rgba(138, 43, 226, 0.5),
-    0 0 100px rgba(100, 0, 200, 0.25),
-    0 30px 80px rgba(0, 0, 0, 0.7);
-  border-color: rgba(150, 100, 255, 0.5);
 }
 
 .card h1 {
@@ -159,15 +114,6 @@ nav button:hover {
     0 30px 80px rgba(0, 0, 0, 0.7);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
-  transition: box-shadow 0.3s;
-}
-
-/* hover glow on terminal */
-.terminal:hover {
-  box-shadow:
-    0 0 60px rgba(100, 0, 255, 0.55),
-    0 0 100px rgba(80, 0, 200, 0.3),
-    0 30px 80px rgba(0, 0, 0, 0.7);
 }
 
 .terminal::before {
@@ -194,8 +140,6 @@ nav button:hover {
 }
 
 .term-line .success { color: #60a5fa; font-weight: bold; }
-.term-line .error   { color: #f87171; font-weight: bold; }
-.term-line .warn    { color: #facc15; }
 
 .cursor {
   display: inline-block;
@@ -213,15 +157,11 @@ nav button:hover {
   .card { transform: rotateY(8deg) rotateX(4deg) rotate(1deg); }
   .terminal { transform: rotateY(-8deg) rotateX(4deg) rotate(-1deg); min-width: unset; }
 }
-<<<<<<< HEAD
 
-=======
->>>>>>> f1fb5a3a579cfab98d2257824130bb375c27bb7a
 .credits {
   position: fixed;
   bottom: 20px;
   left: 20px;
-  transform: none;
   z-index: 10;
   background: rgba(12, 10, 28, 0.75);
   border: 1px solid rgba(120, 80, 255, 0.2);
