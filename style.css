@@ -61,8 +61,7 @@ nav button:hover { opacity: 0.85; }
 .card-wrap { perspective: 900px; }
 
 .card {
-  /* very dark background with subtle purple tint */
-  background: rgba(8, 4, 20, 0.92);
+  background: rgba(8, 4, 20, 0.72);
   border: 1px solid rgba(138, 43, 226, 0.3);
   border-radius: 14px;
   padding: 48px 52px;
@@ -102,8 +101,7 @@ nav button:hover { opacity: 0.85; }
 .terminal-wrap { perspective: 900px; }
 
 .terminal {
-  /* dark background matching card */
-  background: rgba(8, 4, 20, 0.95);
+  background: rgba(8, 4, 20, 0.72);
   border-radius: 12px;
   padding: 48px 52px;
   min-width: 520px;
