@@ -48,7 +48,6 @@ nav button:hover {
   opacity: 0.85;
 }
 
-/* side by side layout */
 .layout {
   position: relative;
   z-index: 5;
@@ -90,18 +89,36 @@ nav button:hover {
   color: #9b87c8;
 }
 
-/* terminal window */
+/* terminal — tilted and blue/purple gradient border */
 .terminal {
   background: #0d1117;
-  border: 1px solid #2a2a3a;
+  /* blue purple gradient border */
+  border: 2px solid transparent;
+  background-clip: padding-box;
   border-radius: 12px;
   padding: 20px 24px;
   min-width: 340px;
   font-family: 'Courier New', monospace;
   font-size: 14px;
+  /* tilt like the reference image */
+  transform: rotate(-4deg);
+  box-shadow:
+    0 0 0 2px transparent,
+    0 8px 32px rgba(100, 60, 255, 0.35);
+  /* gradient border trick */
+  position: relative;
 }
 
-/* mac style dots */
+/* gradient border using pseudo element */
+.terminal::before {
+  content: '';
+  position: absolute;
+  inset: -2px;
+  border-radius: 14px;
+  background: linear-gradient(135deg, #4a00e0, #a855f7, #6a9fff);
+  z-index: -1;
+}
+
 .dots {
   display: flex;
   gap: 7px;
@@ -118,20 +135,17 @@ nav button:hover {
 .dot.yellow { background: #febc2e; }
 .dot.green  { background: #28c840; }
 
-/* terminal text lines */
 .term-line {
   color: #4ec9b0;
   margin-bottom: 6px;
   white-space: pre;
 }
 
-/* success word highlighted bold */
 .term-line .success {
   color: #4ade80;
   font-weight: bold;
 }
 
-/* blinking cursor */
 .cursor {
   display: inline-block;
   width: 9px;
@@ -146,9 +160,11 @@ nav button:hover {
   50% { opacity: 0; }
 }
 
-/* responsive — stack on small screens */
 @media (max-width: 900px) {
   .layout {
     flex-direction: column;
+  }
+  .terminal {
+    transform: rotate(-2deg);
   }
 }
