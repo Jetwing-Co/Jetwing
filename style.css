@@ -12,6 +12,7 @@ body {
   justify-content: center;
   font-family: 'Segoe UI', sans-serif;
   overflow-x: hidden;
+  position: relative;
 }
 
 #snow {
@@ -162,19 +163,12 @@ nav button:hover { opacity: 0.85; }
   margin-left: 2px;
 }
 
-/* Base Layout Setup for Positioning */
-.layout {
-  position: relative;
-  min-height: 100vh;
-  box-sizing: border-box;
-}
-
-/* Credits Positioning Wrapper (Bottom Left Area) */
+/* Credits Positioning Wrapper (Anchored directly to window viewport) */
 .credits-wrap {
-  position: absolute;
-  bottom: 40px;
-  left: 40px;
-  z-index: 10;
+  position: fixed;
+  bottom: 20px; 
+  left: 20px;   
+  z-index: 15;  
 }
 
 /* Translucent Glassmorphism Card Styling */
@@ -183,8 +177,8 @@ nav button:hover { opacity: 0.85; }
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
   border: 1px solid rgba(255, 255, 255, 0.1);
-  padding: 15px 25px;
-  border-radius: 12px;
+  padding: 12px 20px;
+  border-radius: 10px;
   box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
 }
 
@@ -192,9 +186,9 @@ nav button:hover { opacity: 0.85; }
 .credits-card p {
   color: #fff;
   margin: 0;
-  font-family: sans-serif; /* Fallback font, change to match your site font */
+  font-family: 'Segoe UI', sans-serif;
   font-weight: 600;
-  font-size: 1.1rem;
+  font-size: 14px;
 }
 
 /* Developer Custom Color Formatting */
@@ -216,7 +210,19 @@ nav button:hover { opacity: 0.85; }
 @keyframes blink { 50% { opacity: 0; } }
 
 @media (max-width: 900px) {
-  .layout { flex-direction: column; }
+  .layout { 
+    flex-direction: column; 
+    transform: translateX(0); 
+  }
   .card { transform: rotateY(8deg) rotateX(4deg) rotate(1deg); }
   .terminal { transform: rotateY(-8deg) rotateX(4deg) rotate(-1deg); }
+  
+  .credits-wrap {
+    position: relative;
+    bottom: auto;
+    left: auto;
+    margin-top: 30px;
+    margin-bottom: 20px;
+    text-align: center;
+  }
 }
