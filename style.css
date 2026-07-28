@@ -56,13 +56,8 @@ nav button:hover { opacity: 0.85; }
 .card-wrap { perspective: 900px; }
 
 .card {
-<<<<<<< HEAD
   background: linear-gradient(160deg, rgba(25, 22, 45, 0.88), rgba(12, 10, 28, 0.92));
   border: 1px solid rgba(120, 80, 255, 0.25);
-=======
-  background: linear-gradient(135deg, rgba(20, 20, 30, 0.85), rgba(10, 8, 20, 0.85));
-  border: 1px solid rgba(138, 43, 226, 0.3);
->>>>>>> 4fd3acf82e37825161acd1ce2832f8f3cf1f7ffa
   border-radius: 14px;
   padding: 48px 52px;
   max-width: 520px;
@@ -104,11 +99,7 @@ nav button:hover { opacity: 0.85; }
 .terminal-wrap { perspective: 900px; }
 
 .terminal {
-<<<<<<< HEAD
   background: linear-gradient(160deg, rgba(25, 22, 45, 0.88), rgba(12, 10, 28, 0.92));
-=======
-  background: linear-gradient(135deg, rgba(20, 20, 30, 0.85), rgba(10, 8, 20, 0.85));
->>>>>>> 4fd3acf82e37825161acd1ce2832f8f3cf1f7ffa
   border-radius: 12px;
   padding: 48px 52px;
   min-width: 520px;
