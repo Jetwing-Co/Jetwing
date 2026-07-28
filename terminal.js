@@ -63,7 +63,7 @@ setTimeout(function() {
                             addLine('');
 
                             // last line with cursor
-                            var last = addLine('$ Play better than ever ');
+                            var last = addLine('Jetwing offically loaded, bye bye watchdog. ');
                             var cur = document.createElement('span');
                             cur.className = 'cursor';
                             last.appendChild(cur);
