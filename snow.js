@@ -45,7 +45,6 @@ function spawnShooter() {
 }
 setInterval(spawnShooter, 3000);
 
-// cursor trail particles
 var mouse = { x: 0, y: 0 };
 var trail = [];
 window.addEventListener('mousemove', function(e) {
@@ -63,10 +62,27 @@ window.addEventListener('mousemove', function(e) {
   }
 });
 
+var orb = document.getElementById('orb');
+var orbX = 0, orbY = 0;
+var targetX = 0, targetY = 0;
+
+window.addEventListener('mousemove', function(e) {
+  targetX = e.clientX;
+  targetY = e.clientY;
+});
+
+function moveOrb() {
+  orbX += (targetX - orbX) * 0.06;
+  orbY += (targetY - orbY) * 0.06;
+  orb.style.left = orbX + 'px';
+  orb.style.top  = orbY + 'px';
+  requestAnimationFrame(moveOrb);
+}
+moveOrb();
+
 function draw() {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-  // stars
   for (var i = 0; i < stars.length; i++) {
     var s = stars[i];
     s.opacity += s.speed * s.dir;
@@ -78,7 +94,6 @@ function draw() {
     ctx.fill();
   }
 
-  // shooting stars
   for (var i = shooters.length - 1; i >= 0; i--) {
     var sh = shooters[i];
     ctx.beginPath();
@@ -93,7 +108,6 @@ function draw() {
     if (sh.opacity <= 0) shooters.splice(i, 1);
   }
 
-  // snow
   for (var i = 0; i < flakes.length; i++) {
     var f = flakes[i];
     var color = blueSnow
@@ -110,7 +124,6 @@ function draw() {
     if (f.x < 0)             f.x = canvas.width;
   }
 
-  // cursor trail
   for (var i = trail.length - 1; i >= 0; i--) {
     var p = trail[i];
     ctx.beginPath();
