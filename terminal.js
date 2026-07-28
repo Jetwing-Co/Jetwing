@@ -40,5 +40,52 @@ lines.forEach(function(line, i) {
 
     container.appendChild(el);
 
+<<<<<<< HEAD
   }, line.delay);
 });
+=======
+            // line 3
+            var l3 = addLine('');
+            typeInto(l3, '> Bypassing Hypixel... ', 35, function() {
+              setTimeout(function() {
+                l3.innerHTML = '> Bypassing Hypixel... <span class="success">Success</span>';
+                setTimeout(function() {
+
+                  // line 4
+                  var l4 = addLine('');
+                  typeInto(l4, '> Bypassing Grim... ', 35, function() {
+                    setTimeout(function() {
+                      l4.innerHTML = '> Bypassing Grim... <span class="success">Success</span>';
+                      setTimeout(function() {
+
+                        // line 5
+                        var l5 = addLine('');
+                        typeInto(l5, '> Client ready!', 45, function() {
+                          setTimeout(function() {
+                            addLine('');
+
+                            // last line with cursor
+                            var last = addLine('Jetwing offically loaded, bye bye watchdog. ');
+                            var cur = document.createElement('span');
+                            cur.className = 'cursor';
+                            last.appendChild(cur);
+                          }, 300);
+                        });
+
+                      }, 400);
+                    }, 500);
+                  });
+
+                }, 400);
+              }, 500);
+            });
+
+          }, 300);
+        }
+      }, 18); // 18ms per number
+
+    }, 300);
+  });
+
+}, 300);
+>>>>>>> f1fb5a3a579cfab98d2257824130bb375c27bb7a

@@ -4,7 +4,11 @@
 
 body {
   min-height: 100vh;
+<<<<<<< HEAD
   background:
+=======
+  background: 
+>>>>>>> f1fb5a3a579cfab98d2257824130bb375c27bb7a
     radial-gradient(ellipse at top left, rgba(100, 0, 255, 0.4) 0%, transparent 60%),
     radial-gradient(ellipse at bottom right, rgba(80, 0, 200, 0.35) 0%, transparent 60%),
     radial-gradient(ellipse at center, rgba(60, 0, 180, 0.2) 0%, transparent 70%),
@@ -14,6 +18,7 @@ body {
   justify-content: center;
   font-family: 'Fredoka', sans-serif;
   overflow-x: hidden;
+  min-height: 100vh;
 }
 
 /* aurora animated background layer */
@@ -208,7 +213,10 @@ nav button:hover {
   .card { transform: rotateY(8deg) rotateX(4deg) rotate(1deg); }
   .terminal { transform: rotateY(-8deg) rotateX(4deg) rotate(-1deg); min-width: unset; }
 }
+<<<<<<< HEAD
 
+=======
+>>>>>>> f1fb5a3a579cfab98d2257824130bb375c27bb7a
 .credits {
   position: fixed;
   bottom: 20px;
