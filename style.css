@@ -53,9 +53,9 @@ nav button:hover { opacity: 0.85; }
   display: flex;
   gap: 40px;
   align-items: center;
+  justify-content: center;
   padding: 20px;
-  /* shift everything slightly right */
-  transform: translateX(60px);
+  width: 100%;
 }
 
 .card-wrap { perspective: 900px; }
@@ -69,7 +69,7 @@ nav button:hover { opacity: 0.85; }
   max-width: 520px;
   text-align: center;
   backdrop-filter: blur(10px);
-  transform: rotateY(45deg) rotateX(6deg) rotate(2deg);
+  transform: rotateY(15deg) rotateX(4deg) rotate(1deg);
   /* purple glow + heavy drop shadow */
   box-shadow:
     0 0 40px rgba(138, 43, 226, 0.3),
@@ -111,7 +111,7 @@ nav button:hover { opacity: 0.85; }
   font-family: 'Courier New', monospace;
   font-size: 15px;
   position: relative;
-  transform: rotateY(-35deg) rotateX(6deg) rotate(-2deg);
+  transform: rotateY(-15deg) rotateX(4deg) rotate(-1deg);
   /* purple glow + heavy drop shadow */
   box-shadow:
     0 0 40px rgba(100, 0, 255, 0.35),
