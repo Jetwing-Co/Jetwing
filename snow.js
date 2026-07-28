@@ -45,9 +45,28 @@ function spawnShooter() {
 }
 setInterval(spawnShooter, 3000);
 
+// cursor trail particles
+var mouse = { x: 0, y: 0 };
+var trail = [];
+window.addEventListener('mousemove', function(e) {
+  mouse.x = e.clientX;
+  mouse.y = e.clientY;
+  for (var i = 0; i < 3; i++) {
+    trail.push({
+      x:       mouse.x + (Math.random() - 0.5) * 10,
+      y:       mouse.y + (Math.random() - 0.5) * 10,
+      r:       Math.random() * 3 + 1,
+      opacity: 0.8,
+      vx:      (Math.random() - 0.5) * 1.5,
+      vy:      (Math.random() - 0.5) * 1.5 - 0.5
+    });
+  }
+});
+
 function draw() {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
 
+  // stars
   for (var i = 0; i < stars.length; i++) {
     var s = stars[i];
     s.opacity += s.speed * s.dir;
@@ -59,6 +78,7 @@ function draw() {
     ctx.fill();
   }
 
+  // shooting stars
   for (var i = shooters.length - 1; i >= 0; i--) {
     var sh = shooters[i];
     ctx.beginPath();
@@ -73,23 +93,35 @@ function draw() {
     if (sh.opacity <= 0) shooters.splice(i, 1);
   }
 
+  // snow
   for (var i = 0; i < flakes.length; i++) {
     var f = flakes[i];
     var color = blueSnow
       ? 'rgba(120, 160, 255, ' + f.opacity + ')'
       : 'rgba(255, 255, 255, ' + f.opacity + ')';
-
     ctx.beginPath();
     ctx.arc(f.x, f.y, f.r, 0, Math.PI * 2);
     ctx.fillStyle = color;
     ctx.fill();
-
     f.y += f.speed;
     f.x += f.drift;
-
     if (f.y > canvas.height) { f.y = -5; f.x = Math.random() * canvas.width; }
     if (f.x > canvas.width)  f.x = 0;
     if (f.x < 0)             f.x = canvas.width;
+  }
+
+  // cursor trail
+  for (var i = trail.length - 1; i >= 0; i--) {
+    var p = trail[i];
+    ctx.beginPath();
+    ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+    ctx.fillStyle = 'rgba(160, 100, 255, ' + p.opacity + ')';
+    ctx.fill();
+    p.x  += p.vx;
+    p.y  += p.vy;
+    p.r  *= 0.94;
+    p.opacity -= 0.04;
+    if (p.opacity <= 0) trail.splice(i, 1);
   }
 
   requestAnimationFrame(draw);
