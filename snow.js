@@ -147,3 +147,9 @@ function toggleSnow() {
   var btn = document.getElementById('snowToggle');
   btn.textContent = blueSnow ? 'White Snow' : 'Blue Snow';
 }
+
+window.addEventListener('load', function() {
+  setTimeout(function() {
+    document.getElementById('loader').classList.add('hidden');
+  }, 2000);
+});
