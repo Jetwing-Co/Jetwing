@@ -16,7 +16,6 @@
     <button id="snowToggle" onclick="toggleSnow()">White Snow</button>
   </nav>
 
-  <!-- card left, terminal right -->
   <div class="layout">
 
     <div class="card">
@@ -31,13 +30,16 @@
       <p class="scroll">Scroll down to purchase ↓</p>
     </div>
 
-    <div class="terminal">
-      <div class="dots">
-        <span class="dot red"></span>
-        <span class="dot yellow"></span>
-        <span class="dot green"></span>
+    <!-- perspective wrapper needed for 3d tilt to work -->
+    <div class="terminal-wrap">
+      <div class="terminal">
+        <div class="dots">
+          <span class="dot red"></span>
+          <span class="dot yellow"></span>
+          <span class="dot green"></span>
+        </div>
+        <div id="termLines"></div>
       </div>
-      <div id="termLines"></div>
     </div>
 
   </div>
