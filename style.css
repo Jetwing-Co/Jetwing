@@ -1,0 +1,154 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  min-height: 100vh;
+  background: linear-gradient(180deg, #1a0a2e 0%, #3d1a6e 30%, #c8520a 70%, #1a3a6e 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Segoe UI', sans-serif;
+  overflow-x: hidden;
+}
+
+#snow {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 0;
+}
+
+nav {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  display: flex;
+  gap: 10px;
+  z-index: 10;
+}
+
+nav button {
+  background: linear-gradient(135deg, #4a00e0, #8e2de2);
+  color: white;
+  border: none;
+  padding: 8px 18px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: opacity 0.2s;
+}
+
+nav button:hover {
+  opacity: 0.85;
+}
+
+/* side by side layout */
+.layout {
+  position: relative;
+  z-index: 5;
+  display: flex;
+  gap: 28px;
+  align-items: center;
+  padding: 20px;
+}
+
+.card {
+  background: rgba(20, 10, 40, 0.75);
+  border: 1px solid rgba(138, 43, 226, 0.4);
+  border-radius: 14px;
+  padding: 48px 52px;
+  max-width: 520px;
+  text-align: center;
+  backdrop-filter: blur(6px);
+}
+
+.card h1 {
+  font-size: 32px;
+  font-weight: 700;
+  background: linear-gradient(90deg, #6a9fff, #a855f7);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin-bottom: 20px;
+}
+
+.card p {
+  color: #d0c8e8;
+  font-size: 15px;
+  line-height: 1.7;
+}
+
+.scroll {
+  margin-top: 24px;
+  font-size: 13px;
+  color: #9b87c8;
+}
+
+/* terminal window */
+.terminal {
+  background: #0d1117;
+  border: 1px solid #2a2a3a;
+  border-radius: 12px;
+  padding: 20px 24px;
+  min-width: 340px;
+  font-family: 'Courier New', monospace;
+  font-size: 14px;
+}
+
+/* mac style dots */
+.dots {
+  display: flex;
+  gap: 7px;
+  margin-bottom: 18px;
+}
+
+.dot {
+  width: 13px;
+  height: 13px;
+  border-radius: 50%;
+}
+
+.dot.red    { background: #ff5f57; }
+.dot.yellow { background: #febc2e; }
+.dot.green  { background: #28c840; }
+
+/* terminal text lines */
+.term-line {
+  color: #4ec9b0;
+  margin-bottom: 6px;
+  white-space: pre;
+}
+
+/* success word highlighted bold */
+.term-line .success {
+  color: #4ade80;
+  font-weight: bold;
+}
+
+/* blinking cursor */
+.cursor {
+  display: inline-block;
+  width: 9px;
+  height: 14px;
+  background: #4ec9b0;
+  vertical-align: middle;
+  animation: blink 1s step-end infinite;
+  margin-left: 2px;
+}
+
+@keyframes blink {
+  50% { opacity: 0; }
+}
+
+/* responsive — stack on small screens */
+@media (max-width: 900px) {
+  .layout {
+    flex-direction: column;
+  }
+}
