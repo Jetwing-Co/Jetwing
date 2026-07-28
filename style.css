@@ -44,9 +44,7 @@ nav button {
   transition: opacity 0.2s;
 }
 
-nav button:hover {
-  opacity: 0.85;
-}
+nav button:hover { opacity: 0.85; }
 
 .layout {
   position: relative;
@@ -55,24 +53,27 @@ nav button:hover {
   gap: 40px;
   align-items: center;
   padding: 20px;
+  /* shift everything slightly right */
+  transform: translateX(60px);
 }
 
-/* card tilts RIGHT — opposite of terminal */
-.card-wrap {
-  perspective: 900px;
-}
+.card-wrap { perspective: 900px; }
 
 .card {
-  background: rgba(20, 10, 40, 0.75);
-  border: 1px solid rgba(138, 43, 226, 0.4);
+  /* very dark background with subtle purple tint */
+  background: rgba(8, 4, 20, 0.92);
+  border: 1px solid rgba(138, 43, 226, 0.3);
   border-radius: 14px;
   padding: 48px 52px;
   max-width: 520px;
   text-align: center;
-  backdrop-filter: blur(6px);
-  /* mirror of terminal tilt — looks right */
-  transform: rotateY(18deg) rotateX(6deg) rotate(2deg);
-  box-shadow: 0 20px 60px rgba(80, 0, 200, 0.4);
+  backdrop-filter: blur(10px);
+  transform: rotateY(45deg) rotateX(6deg) rotate(2deg);
+  /* purple glow + heavy drop shadow */
+  box-shadow:
+    0 0 40px rgba(138, 43, 226, 0.3),
+    0 0 80px rgba(100, 0, 200, 0.15),
+    0 30px 80px rgba(0, 0, 0, 0.7);
 }
 
 .card h1 {
@@ -86,7 +87,7 @@ nav button:hover {
 }
 
 .card p {
-  color: #d0c8e8;
+  color: #c4b8e0;
   font-size: 15px;
   line-height: 1.7;
 }
@@ -94,26 +95,30 @@ nav button:hover {
 .scroll {
   margin-top: 24px;
   font-size: 13px;
-  color: #9b87c8;
+  color: #7a6a9a;
 }
 
-.terminal-wrap {
-  perspective: 900px;
-}
+.terminal-wrap { perspective: 900px; }
 
 .terminal {
-  background: #0d0818;
+  /* dark background matching card */
+  background: rgba(8, 4, 20, 0.95);
   border-radius: 12px;
-  padding: 20px 24px;
-  min-width: 340px;
+  padding: 48px 52px;
+  min-width: 520px;
+  max-width: 520px;
   font-family: 'Courier New', monospace;
   font-size: 15px;
   position: relative;
-  /* tilts LEFT */
-  transform: rotateY(-18deg) rotateX(6deg) rotate(-2deg);
-  box-shadow: 0 20px 60px rgba(80, 0, 200, 0.5);
+  transform: rotateY(-35deg) rotateX(6deg) rotate(-2deg);
+  /* purple glow + heavy drop shadow */
+  box-shadow:
+    0 0 40px rgba(100, 0, 255, 0.35),
+    0 0 80px rgba(80, 0, 200, 0.2),
+    0 30px 80px rgba(0, 0, 0, 0.7);
 }
 
+/* blue purple gradient border */
 .terminal::before {
   content: '';
   position: absolute;
@@ -129,12 +134,7 @@ nav button:hover {
   margin-bottom: 18px;
 }
 
-.dot {
-  width: 13px;
-  height: 13px;
-  border-radius: 50%;
-}
-
+.dot { width: 13px; height: 13px; border-radius: 50%; }
 .dot.red    { background: #ff5f57; }
 .dot.yellow { background: #febc2e; }
 .dot.green  { background: #28c840; }
@@ -162,12 +162,10 @@ nav button:hover {
   margin-left: 2px;
 }
 
-@keyframes blink {
-  50% { opacity: 0; }
-}
+@keyframes blink { 50% { opacity: 0; } }
 
 @media (max-width: 900px) {
   .layout { flex-direction: column; }
-  .card   { transform: rotateY(8deg) rotateX(4deg) rotate(1deg); }
+  .card { transform: rotateY(8deg) rotateX(4deg) rotate(1deg); }
   .terminal { transform: rotateY(-8deg) rotateX(4deg) rotate(-1deg); }
 }
