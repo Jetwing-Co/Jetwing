@@ -119,9 +119,9 @@ nav button:hover { opacity: 0.85; }
 .terminal::before {
   content: '';
   position: absolute;
-  inset: -2px;
+  inset: -1px;
   border-radius: 14px;
-  background: linear-gradient(135deg, #1e3aff, #6a00ff, #9b30ff);
+  background: linear-gradient(135deg, rgba(30, 58, 255, 0.4), rgba(106, 0, 255, 0.4), rgba(155, 48, 255, 0.4));
   z-index: -1;
 }
 
@@ -156,4 +156,44 @@ nav button:hover { opacity: 0.85; }
   .layout { flex-direction: column; }
   .card { transform: rotateY(8deg) rotateX(4deg) rotate(1deg); }
   .terminal { transform: rotateY(-8deg) rotateX(4deg) rotate(-1deg); min-width: unset; }
+}
+
+.credits {
+  position: fixed;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 10;
+  background: rgba(12, 10, 28, 0.75);
+  border: 1px solid rgba(120, 80, 255, 0.2);
+  border-radius: 8px;
+  padding: 8px 20px;
+  font-family: 'Fredoka', sans-serif;
+  font-size: 15px;
+  color: #9b87c8;
+  backdrop-filter: blur(10px);
+}
+
+.credit-bleach {
+  background: linear-gradient(90deg, #6a9fff, #38bdf8);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  font-weight: 600;
+}
+
+.credit-epc {
+  background: linear-gradient(90deg, #a855f7, #7c3aed);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  font-weight: 600;
+}
+
+.credit-why {
+  background: linear-gradient(90deg, #4ade80, #22c55e);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  font-weight: 600;
 }
