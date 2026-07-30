@@ -7,11 +7,18 @@ function getCtx() {
   return actx;
 }
 
-// Unlock audio on first user interaction
-document.addEventListener('click', function unlock() {
-  getCtx();
-  document.removeEventListener('click', unlock);
-}, { once: true });
+// Try to unlock audio as early as possible
+// Browsers allow AudioContext creation on page load, just need resume on interaction
+actx = new AudioCtx();
+
+// Unlock on ANY interaction including mousemove so sounds work ASAP
+function unlockAudio() {
+  if (actx.state === 'suspended') actx.resume();
+}
+document.addEventListener('mousemove', unlockAudio, { once: true });
+document.addEventListener('keydown', unlockAudio, { once: true });
+document.addEventListener('touchstart', unlockAudio, { once: true });
+document.addEventListener('click', unlockAudio, { once: true });
 
 function playWhoosh() {
   try {
