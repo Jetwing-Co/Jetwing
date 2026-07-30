@@ -44,17 +44,23 @@
   <ellipse cx="88" cy="39" rx="9" ry="4" fill="rgba(100,160,255,0.35)" stroke="url(#flyGrad)" stroke-width="0.8"/>
 </svg>
 
+<!-- NAV -->
 <nav>
-  <button onclick="window.location.href='docs.html'">Docs</button>
-  <button onclick="window.location.href='changelogs.html'">Changelogs</button>
-  <button onclick="window.open('https://discord.gg/JbGbVn3HMT', '_blank')">Discord</button>
-  <button id="snowToggle" onclick="toggleSnow()">White Snow</button>
+  <div class="nav-links" id="navLinks">
+    <button onclick="window.location.href='docs.html'">Docs</button>
+    <button onclick="window.location.href='changelogs.html'">Changelogs</button>
+    <button onclick="window.open('https://discord.gg/JbGbVn3HMT', '_blank')">Discord</button>
+    <button id="snowToggle" onclick="toggleSnow()">White Snow</button>
+  </div>
+  <button class="hamburger" id="hamburger" onclick="toggleNav()" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
 </nav>
 
 <!-- HERO -->
 <div class="layout">
   <div class="card-wrap">
-    <div class="card">
+    <div class="card reveal">
       <div class="logo-wrap">
         <svg id="cardJet" class="jet-logo" viewBox="0 0 120 80" xmlns="http://www.w3.org/2000/svg"
              style="cursor:pointer;" title="Click me!">
@@ -91,7 +97,7 @@
     </div>
   </div>
 
-  <div class="terminal-wrap">
+  <div class="terminal-wrap reveal">
     <div class="terminal">
       <div class="dots">
         <span class="dot red"></span>
@@ -105,11 +111,10 @@
 
 <!-- FEATURES -->
 <section class="features-section">
-  <h2 class="features-title">What's Inside</h2>
-  <p class="features-sub">129 modules. Every category covered.</p>
+  <h2 class="features-title reveal">What's Inside</h2>
+  <p class="features-sub reveal">129 modules. Every category covered.</p>
   <div class="features-grid">
-
-    <div class="feature-card">
+    <div class="feature-card reveal">
       <div class="feature-icon">
         <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
           <rect x="3" y="3" width="18" height="18" rx="2" stroke="url(#fg1)" stroke-width="1.5"/>
@@ -118,94 +123,128 @@
           <line x1="15" y1="12" x2="21" y2="12" stroke="url(#fg1)" stroke-width="1.5"/>
           <line x1="12" y1="3" x2="12" y2="9" stroke="url(#fg1)" stroke-width="1.5"/>
           <line x1="12" y1="15" x2="12" y2="21" stroke="url(#fg1)" stroke-width="1.5"/>
-          <defs>
-            <linearGradient id="fg1" x1="0" y1="0" x2="24" y2="24" gradientUnits="userSpaceOnUse">
-              <stop stop-color="#6a9fff"/><stop offset="1" stop-color="#a855f7"/>
-            </linearGradient>
-          </defs>
+          <defs><linearGradient id="fg1" x1="0" y1="0" x2="24" y2="24" gradientUnits="userSpaceOnUse"><stop stop-color="#6a9fff"/><stop offset="1" stop-color="#a855f7"/></linearGradient></defs>
         </svg>
       </div>
       <h3>Visuals</h3>
       <p>ESP, nametags, chams, trajectories and more. See everything before they even know you're there.</p>
     </div>
-
-    <div class="feature-card">
+    <div class="feature-card reveal">
       <div class="feature-icon">
         <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
           <path d="M12 3L14.5 8.5L21 9.3L16.5 13.6L17.7 20L12 17L6.3 20L7.5 13.6L3 9.3L9.5 8.5L12 3Z" stroke="url(#fg2)" stroke-width="1.5" stroke-linejoin="round"/>
-          <defs>
-            <linearGradient id="fg2" x1="0" y1="0" x2="24" y2="24" gradientUnits="userSpaceOnUse">
-              <stop stop-color="#6a9fff"/><stop offset="1" stop-color="#a855f7"/>
-            </linearGradient>
-          </defs>
+          <defs><linearGradient id="fg2" x1="0" y1="0" x2="24" y2="24" gradientUnits="userSpaceOnUse"><stop stop-color="#6a9fff"/><stop offset="1" stop-color="#a855f7"/></linearGradient></defs>
         </svg>
       </div>
       <h3>Combat</h3>
       <p>Knockback delay, backtrack killaura, autoclicker, fastplace and more.</p>
     </div>
-
-    <div class="feature-card">
+    <div class="feature-card reveal">
       <div class="feature-icon">
         <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
           <path d="M13 2L3 14H12L11 22L21 10H12L13 2Z" stroke="url(#fg3)" stroke-width="1.5" stroke-linejoin="round"/>
-          <defs>
-            <linearGradient id="fg3" x1="0" y1="0" x2="24" y2="24" gradientUnits="userSpaceOnUse">
-              <stop stop-color="#6a9fff"/><stop offset="1" stop-color="#a855f7"/>
-            </linearGradient>
-          </defs>
+          <defs><linearGradient id="fg3" x1="0" y1="0" x2="24" y2="24" gradientUnits="userSpaceOnUse"><stop stop-color="#6a9fff"/><stop offset="1" stop-color="#a855f7"/></linearGradient></defs>
         </svg>
       </div>
       <h3>Movement</h3>
       <p>Timer, stasis, blink, lagrange and more. Move how you want, when you want.</p>
     </div>
-
-    <div class="feature-card">
+    <div class="feature-card reveal">
       <div class="feature-icon">
         <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
           <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" stroke="url(#fg4)" stroke-width="1.5" stroke-linejoin="round"/>
-          <defs>
-            <linearGradient id="fg4" x1="0" y1="0" x2="24" y2="24" gradientUnits="userSpaceOnUse">
-              <stop stop-color="#6a9fff"/><stop offset="1" stop-color="#a855f7"/>
-            </linearGradient>
-          </defs>
+          <defs><linearGradient id="fg4" x1="0" y1="0" x2="24" y2="24" gradientUnits="userSpaceOnUse"><stop stop-color="#6a9fff"/><stop offset="1" stop-color="#a855f7"/></linearGradient></defs>
         </svg>
       </div>
       <h3>Anticheat Bypass</h3>
       <p>Built from the ground up to bypass Watchdog, Grim, and NCP. We study anticheats so you don't have to.</p>
     </div>
-
-    <div class="feature-card">
+    <div class="feature-card reveal">
       <div class="feature-icon">
         <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
           <rect x="2" y="3" width="20" height="14" rx="2" stroke="url(#fg5)" stroke-width="1.5"/>
           <path d="M8 21H16M12 17V21" stroke="url(#fg5)" stroke-width="1.5" stroke-linecap="round"/>
           <path d="M6 8h4M6 11h8" stroke="url(#fg5)" stroke-width="1.5" stroke-linecap="round"/>
-          <defs>
-            <linearGradient id="fg5" x1="0" y1="0" x2="24" y2="24" gradientUnits="userSpaceOnUse">
-              <stop stop-color="#6a9fff"/><stop offset="1" stop-color="#a855f7"/>
-            </linearGradient>
-          </defs>
+          <defs><linearGradient id="fg5" x1="0" y1="0" x2="24" y2="24" gradientUnits="userSpaceOnUse"><stop stop-color="#6a9fff"/><stop offset="1" stop-color="#a855f7"/></linearGradient></defs>
         </svg>
       </div>
       <h3>Clean GUI</h3>
       <p>Open the panel with Right Shift. A sleek drag and drop interface with per-module settings and keybinds.</p>
     </div>
-
-    <div class="feature-card">
+    <div class="feature-card reveal">
       <div class="feature-icon">
         <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
           <circle cx="12" cy="8" r="4" stroke="url(#fg6)" stroke-width="1.5"/>
           <path d="M4 20c0-4 3.6-7 8-7s8 3 8 7" stroke="url(#fg6)" stroke-width="1.5" stroke-linecap="round"/>
           <path d="M16 3.5c1.5.5 3 2 3 4.5" stroke="url(#fg6)" stroke-width="1.5" stroke-linecap="round"/>
-          <defs>
-            <linearGradient id="fg6" x1="0" y1="0" x2="24" y2="24" gradientUnits="userSpaceOnUse">
-              <stop stop-color="#6a9fff"/><stop offset="1" stop-color="#a855f7"/>
-            </linearGradient>
-          </defs>
+          <defs><linearGradient id="fg6" x1="0" y1="0" x2="24" y2="24" gradientUnits="userSpaceOnUse"><stop stop-color="#6a9fff"/><stop offset="1" stop-color="#a855f7"/></linearGradient></defs>
         </svg>
       </div>
       <h3>Injectable</h3>
       <p>1 button is all it takes, and then you inject greatness.</p>
+    </div>
+  </div>
+</section>
+
+<!-- PRICING -->
+<section class="pricing-section">
+  <h2 class="pricing-title reveal">Get JetWing</h2>
+  <p class="pricing-sub reveal">Purchase through our Discord. All plans include every module.</p>
+  <div class="pricing-grid">
+
+    <div class="pricing-card reveal">
+      <div class="pricing-period">1 Month</div>
+      <div class="pricing-price">€6</div>
+      <div class="pricing-per">per month</div>
+      <ul class="pricing-features">
+        <li>All 129 modules</li>
+        <li>Anticheat bypass</li>
+        <li>Discord support</li>
+        <li>All future updates</li>
+      </ul>
+      <a href="https://discord.gg/JbGbVn3HMT" target="_blank" class="pricing-btn">Buy on Discord</a>
+    </div>
+
+    <div class="pricing-card reveal">
+      <div class="pricing-period">3 Months</div>
+      <div class="pricing-price">€12</div>
+      <div class="pricing-per">€4 / month</div>
+      <div class="pricing-badge">SWEET DEAL</div>
+      <ul class="pricing-features">
+        <li>All 129 modules</li>
+        <li>Anticheat bypass</li>
+        <li>Discord support</li>
+        <li>All future updates</li>
+      </ul>
+      <a href="https://discord.gg/JbGbVn3HMT" target="_blank" class="pricing-btn">Buy on Discord</a>
+    </div>
+
+    <div class="pricing-card reveal">
+      <div class="pricing-period">6 Months</div>
+      <div class="pricing-price">€15</div>
+      <div class="pricing-per">€2.50 / month</div>
+      <ul class="pricing-features">
+        <li>All 129 modules</li>
+        <li>Anticheat bypass</li>
+        <li>Discord support</li>
+        <li>All future updates</li>
+      </ul>
+      <a href="https://discord.gg/JbGbVn3HMT" target="_blank" class="pricing-btn">Buy on Discord</a>
+    </div>
+
+    <div class="pricing-card pricing-lifetime reveal">
+      <div class="pricing-period">Lifetime</div>
+      <div class="pricing-price">€19.99</div>
+      <div class="pricing-per">one time payment</div>
+      <ul class="pricing-features">
+        <li>All 129 modules</li>
+        <li>Anticheat bypass</li>
+        <li>Priority support</li>
+        <li>Every future update</li>
+        <li>Never pay again</li>
+      </ul>
+      <a href="https://discord.gg/JbGbVn3HMT" target="_blank" class="pricing-btn pricing-btn-lifetime">Buy on Discord</a>
+      <p class="booster-note">✦ Server boosters get a free 1 month key!</p>
     </div>
 
   </div>
@@ -250,7 +289,7 @@
 <script src="snow.js"></script>
 <script src="terminal.js"></script>
 <script>
-  // ── Hide loader after 2.5s regardless ──
+  // ── Hide loader ──
   setTimeout(function() {
     document.getElementById('loader').classList.add('hidden');
   }, 2500);
@@ -269,6 +308,36 @@
   }
   typeBackdoor();
 
+  // ── Hamburger ──
+  function toggleNav() {
+    const nav = document.getElementById('navLinks');
+    const ham = document.getElementById('hamburger');
+    nav.classList.toggle('open');
+    ham.classList.toggle('active');
+  }
+  // Close nav when clicking outside
+  document.addEventListener('click', function(e) {
+    const nav = document.getElementById('navLinks');
+    const ham = document.getElementById('hamburger');
+    if (!nav.contains(e.target) && !ham.contains(e.target)) {
+      nav.classList.remove('open');
+      ham.classList.remove('active');
+    }
+  });
+
+  // ── Scroll reveal ──
+  const revealObserver = new IntersectionObserver(function(entries) {
+    entries.forEach(function(entry) {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('revealed');
+        revealObserver.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.12 });
+  document.querySelectorAll('.reveal').forEach(function(el) {
+    revealObserver.observe(el);
+  });
+
   // ── Flying jet ──
   const cardJet   = document.getElementById('cardJet');
   const flyingJet = document.getElementById('flyingJet');
@@ -277,75 +346,50 @@
   cardJet.addEventListener('click', function () {
     if (flying) return;
     flying = true;
-
-    // Hide card jet, show overlay jet
     cardJet.style.opacity = '0';
     flyingJet.style.display = 'block';
-
-    // Start position: where the card jet is
     const rect = cardJet.getBoundingClientRect();
     let x = rect.left + rect.width / 2 - 55;
     let y = rect.top + rect.height / 2 - 40;
-
     flyingJet.style.left = x + 'px';
     flyingJet.style.top  = y + 'px';
-
     if (typeof playWhoosh === 'function') playWhoosh();
-
-    // Lap: fly right across screen, arc down and back, return
     const W = window.innerWidth;
     const H = window.innerHeight;
-    const startX = x;
-    const startY = y;
-
-    // Waypoints for the lap
+    const startX = x, startY = y;
     const waypoints = [
-      { x: W + 60,        y: startY - 80,      duration: 900  },  // off right side going up
-      { x: W + 60,        y: H * 0.7,           duration: 500  },  // drop down off screen
-      { x: W * 0.5,       y: H * 0.85,          duration: 700  },  // swoop bottom center
-      { x: -120,          y: H * 0.6,           duration: 800  },  // off left side
-      { x: startX,        y: startY,            duration: 700  },  // return home
+      { x: W + 60,   y: startY - 80, duration: 900 },
+      { x: W + 60,   y: H * 0.7,     duration: 500 },
+      { x: W * 0.5,  y: H * 0.85,    duration: 700 },
+      { x: -120,     y: H * 0.6,     duration: 800 },
+      { x: startX,   y: startY,      duration: 700 },
     ];
-
     let step = 0;
-
     function flyTo(wp, cb) {
-      const startX2 = parseFloat(flyingJet.style.left);
-      const startY2 = parseFloat(flyingJet.style.top);
-      const dx = wp.x - startX2;
-      const dy = wp.y - startY2;
-
-      // Rotate jet to face direction of travel
-      const angle = Math.atan2(dy, dx) * (180 / Math.PI);
-      flyingJet.style.transform = `rotate(${angle}deg)`;
-
-      const start = performance.now();
+      const sx = parseFloat(flyingJet.style.left);
+      const sy = parseFloat(flyingJet.style.top);
+      const dx = wp.x - sx, dy = wp.y - sy;
+      flyingJet.style.transform = `rotate(${Math.atan2(dy, dx) * 180 / Math.PI}deg)`;
+      const t0 = performance.now();
       function tick(now) {
-        const t = Math.min((now - start) / wp.duration, 1);
-        const ease = t < 0.5 ? 2 * t * t : -1 + (4 - 2 * t) * t;
-        flyingJet.style.left = (startX2 + dx * ease) + 'px';
-        flyingJet.style.top  = (startY2 + dy * ease) + 'px';
-        if (t < 1) requestAnimationFrame(tick);
-        else cb();
+        const t = Math.min((now - t0) / wp.duration, 1);
+        const e = t < 0.5 ? 2*t*t : -1+(4-2*t)*t;
+        flyingJet.style.left = (sx + dx * e) + 'px';
+        flyingJet.style.top  = (sy + dy * e) + 'px';
+        if (t < 1) requestAnimationFrame(tick); else cb();
       }
       requestAnimationFrame(tick);
     }
-
     function nextStep() {
       if (step >= waypoints.length) {
-        // Done — restore
         flyingJet.style.display = 'none';
         flyingJet.style.transform = '';
         cardJet.style.opacity = '1';
         flying = false;
         return;
       }
-      flyTo(waypoints[step], function () {
-        step++;
-        nextStep();
-      });
+      flyTo(waypoints[step++], nextStep);
     }
-
     nextStep();
   });
 </script>
