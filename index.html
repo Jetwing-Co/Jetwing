@@ -250,6 +250,11 @@
 <script src="snow.js"></script>
 <script src="terminal.js"></script>
 <script>
+  // ── Hide loader after 2.5s regardless ──
+  setTimeout(function() {
+    document.getElementById('loader').classList.add('hidden');
+  }, 2500);
+
   // ── Typewriter loader ──
   const bdText = "accessing backdoor...";
   const bdEl = document.getElementById("backdoorText");
