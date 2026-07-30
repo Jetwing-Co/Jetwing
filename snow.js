@@ -42,6 +42,7 @@ function spawnShooter() {
     speed:   Math.random() * 8 + 5,
     opacity: 1
   });
+  if (typeof playWhoosh === 'function') playWhoosh();
 }
 setInterval(spawnShooter, 3000);
 

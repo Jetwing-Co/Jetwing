@@ -11,13 +11,38 @@
 <div id="loader">
   <div class="loader-content">
     <div class="loader-title">JetWing</div>
-    <div class="loader-sub">accessing backdoor...</div>
+    <div class="loader-sub"><span id="backdoorText"></span><span class="loader-cursor">|</span></div>
     <div class="loader-bar"><div class="loader-fill"></div></div>
   </div>
 </div>
 
 <canvas id="snow"></canvas>
 <div id="orb"></div>
+
+<!-- FLYING JET OVERLAY -->
+<svg id="flyingJet" viewBox="0 0 120 80" xmlns="http://www.w3.org/2000/svg"
+  style="position:fixed;width:110px;height:auto;pointer-events:none;z-index:9998;display:none;
+         filter:drop-shadow(0 0 10px rgba(106,159,255,0.8)) drop-shadow(0 0 24px rgba(168,85,247,0.6));">
+  <defs>
+    <linearGradient id="flyGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#6a9fff"/>
+      <stop offset="100%" style="stop-color:#a855f7"/>
+    </linearGradient>
+    <filter id="flyGlow">
+      <feGaussianBlur stdDeviation="2" result="coloredBlur"/>
+      <feMerge><feMergeNode in="coloredBlur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
+  <path d="M10 42 Q30 38 70 40 Q90 40 112 36 Q100 42 112 44 Q90 44 70 44 Q30 46 10 42 Z" fill="url(#flyGrad)" filter="url(#flyGlow)"/>
+  <path d="M100 40 L115 36 L118 40 L115 44 Z" fill="url(#flyGrad)" filter="url(#flyGlow)"/>
+  <path d="M55 42 L40 20 L50 22 L68 42 Z" fill="url(#flyGrad)" opacity="0.9" filter="url(#flyGlow)"/>
+  <path d="M55 42 L40 64 L50 62 L68 42 Z" fill="url(#flyGrad)" opacity="0.75" filter="url(#flyGlow)"/>
+  <path d="M18 40 L12 26 L22 32 L22 42 Z" fill="url(#flyGrad)" opacity="0.85" filter="url(#flyGlow)"/>
+  <path d="M18 42 L8 52 L18 50 L24 42 Z" fill="url(#flyGrad)" opacity="0.7" filter="url(#flyGlow)"/>
+  <ellipse cx="14" cy="42" rx="5" ry="3.5" fill="url(#flyGrad)" opacity="0.5"/>
+  <ellipse cx="14" cy="42" rx="3" ry="2" fill="#c084fc" opacity="0.8" filter="url(#flyGlow)"/>
+  <ellipse cx="88" cy="39" rx="9" ry="4" fill="rgba(100,160,255,0.35)" stroke="url(#flyGrad)" stroke-width="0.8"/>
+</svg>
 
 <nav>
   <button onclick="window.location.href='docs.html'">Docs</button>
@@ -31,7 +56,8 @@
   <div class="card-wrap">
     <div class="card">
       <div class="logo-wrap">
-        <svg class="jet-logo" viewBox="0 0 120 80" xmlns="http://www.w3.org/2000/svg">
+        <svg id="cardJet" class="jet-logo" viewBox="0 0 120 80" xmlns="http://www.w3.org/2000/svg"
+             style="cursor:pointer;" title="Click me!">
           <defs>
             <linearGradient id="jetGrad" x1="0%" y1="0%" x2="100%" y2="100%">
               <stop offset="0%" style="stop-color:#6a9fff"/>
@@ -220,7 +246,103 @@
   &amp; <span class="credit-why">WhyShallow</span>
 </div>
 
+<script src="sounds.js"></script>
 <script src="snow.js"></script>
 <script src="terminal.js"></script>
+<script>
+  // ── Typewriter loader ──
+  const bdText = "accessing backdoor...";
+  const bdEl = document.getElementById("backdoorText");
+  let bdI = 0;
+  function typeBackdoor() {
+    if (bdI < bdText.length) {
+      bdEl.textContent += bdText[bdI];
+      bdI++;
+      if (typeof playKey === "function") playKey();
+      setTimeout(typeBackdoor, 80);
+    }
+  }
+  typeBackdoor();
+
+  // ── Flying jet ──
+  const cardJet   = document.getElementById('cardJet');
+  const flyingJet = document.getElementById('flyingJet');
+  let flying = false;
+
+  cardJet.addEventListener('click', function () {
+    if (flying) return;
+    flying = true;
+
+    // Hide card jet, show overlay jet
+    cardJet.style.opacity = '0';
+    flyingJet.style.display = 'block';
+
+    // Start position: where the card jet is
+    const rect = cardJet.getBoundingClientRect();
+    let x = rect.left + rect.width / 2 - 55;
+    let y = rect.top + rect.height / 2 - 40;
+
+    flyingJet.style.left = x + 'px';
+    flyingJet.style.top  = y + 'px';
+
+    if (typeof playWhoosh === 'function') playWhoosh();
+
+    // Lap: fly right across screen, arc down and back, return
+    const W = window.innerWidth;
+    const H = window.innerHeight;
+    const startX = x;
+    const startY = y;
+
+    // Waypoints for the lap
+    const waypoints = [
+      { x: W + 60,        y: startY - 80,      duration: 900  },  // off right side going up
+      { x: W + 60,        y: H * 0.7,           duration: 500  },  // drop down off screen
+      { x: W * 0.5,       y: H * 0.85,          duration: 700  },  // swoop bottom center
+      { x: -120,          y: H * 0.6,           duration: 800  },  // off left side
+      { x: startX,        y: startY,            duration: 700  },  // return home
+    ];
+
+    let step = 0;
+
+    function flyTo(wp, cb) {
+      const startX2 = parseFloat(flyingJet.style.left);
+      const startY2 = parseFloat(flyingJet.style.top);
+      const dx = wp.x - startX2;
+      const dy = wp.y - startY2;
+
+      // Rotate jet to face direction of travel
+      const angle = Math.atan2(dy, dx) * (180 / Math.PI);
+      flyingJet.style.transform = `rotate(${angle}deg)`;
+
+      const start = performance.now();
+      function tick(now) {
+        const t = Math.min((now - start) / wp.duration, 1);
+        const ease = t < 0.5 ? 2 * t * t : -1 + (4 - 2 * t) * t;
+        flyingJet.style.left = (startX2 + dx * ease) + 'px';
+        flyingJet.style.top  = (startY2 + dy * ease) + 'px';
+        if (t < 1) requestAnimationFrame(tick);
+        else cb();
+      }
+      requestAnimationFrame(tick);
+    }
+
+    function nextStep() {
+      if (step >= waypoints.length) {
+        // Done — restore
+        flyingJet.style.display = 'none';
+        flyingJet.style.transform = '';
+        cardJet.style.opacity = '1';
+        flying = false;
+        return;
+      }
+      flyTo(waypoints[step], function () {
+        step++;
+        nextStep();
+      });
+    }
+
+    nextStep();
+  });
+</script>
 </body>
 </html>
