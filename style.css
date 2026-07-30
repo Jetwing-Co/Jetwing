@@ -48,6 +48,16 @@ body {
   animation: pulse 1.5s ease-in-out infinite;
 }
 
+.loader-sub {
+  font-family: 'Courier New', monospace;
+  font-size: 13px;
+  color: #6a9fff;
+  letter-spacing: 2px;
+  margin-bottom: 16px;
+  opacity: 0.7;
+  animation: pulse 1.5s ease-in-out infinite;
+}
+
 .loader-bar {
   width: 200px;
   height: 3px;
