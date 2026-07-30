@@ -34,7 +34,7 @@ body {
   visibility: hidden;
 }
 
-.loader-content { text-align: center; }
+.loader-content { text-align: center; padding: 0 20px; }
 
 .loader-title {
   font-family: 'Fredoka', sans-serif;
@@ -50,9 +50,9 @@ body {
 
 .loader-sub {
   font-family: 'Courier New', monospace;
-  font-size: 22px;
+  font-size: 18px;
   font-weight: 600;
-  letter-spacing: 6px;
+  letter-spacing: 4px;
   text-transform: uppercase;
   background: linear-gradient(90deg, #6a9fff, #a855f7, #6a9fff);
   background-size: 200% auto;
@@ -119,22 +119,26 @@ body {
 /* NAV */
 nav {
   position: fixed;
-  top: 20px; right: 20px;
+  top: 12px; right: 12px;
   display: flex;
-  gap: 10px;
+  gap: 6px;
   z-index: 10;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  max-width: calc(100vw - 24px);
 }
 
 nav button {
   background: linear-gradient(135deg, #4a00e0, #8e2de2);
   color: white;
   border: none;
-  padding: 8px 18px;
+  padding: 7px 14px;
   border-radius: 6px;
   cursor: pointer;
-  font-size: 14px;
+  font-size: 13px;
   font-family: 'Fredoka', sans-serif;
   transition: opacity 0.2s, transform 0.2s, box-shadow 0.2s;
+  white-space: nowrap;
 }
 
 nav button:hover {
@@ -167,6 +171,7 @@ nav button:hover {
   height: auto;
   filter: drop-shadow(0 0 10px rgba(106, 159, 255, 0.6)) drop-shadow(0 0 24px rgba(168, 85, 247, 0.4));
   animation: jetFloat 4s ease-in-out infinite;
+  cursor: pointer;
 }
 
 @keyframes jetFloat {
@@ -181,8 +186,9 @@ nav button:hover {
   background: linear-gradient(160deg, rgba(25, 22, 45, 0.25), rgba(12, 10, 28, 0.30));
   border: 1px solid rgba(120, 80, 255, 0.25);
   border-radius: 14px;
-  padding: 48px 52px;
+  padding: 40px 36px;
   max-width: 520px;
+  width: 100%;
   text-align: center;
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
@@ -233,7 +239,7 @@ nav button:hover {
 .terminal {
   background: linear-gradient(160deg, rgba(25, 22, 45, 0.25), rgba(12, 10, 28, 0.30));
   border-radius: 12px;
-  padding: 48px 52px;
+  padding: 40px 36px;
   min-width: 520px;
   max-width: 520px;
   font-family: 'Courier New', monospace;
@@ -274,8 +280,8 @@ nav button:hover {
 .term-line {
   color: #e8e8ff;
   margin-bottom: 6px;
-  white-space: pre;
-  font-size: 15px;
+  white-space: pre-wrap;
+  font-size: 14px;
   letter-spacing: 0.3px;
 }
 
@@ -423,6 +429,8 @@ nav button:hover {
 .footer-links {
   display: flex;
   gap: 32px;
+  flex-wrap: wrap;
+  justify-content: center;
 }
 
 .footer-links a {
@@ -441,6 +449,7 @@ nav button:hover {
   font-size: 13px;
   color: #4a3a6a;
   font-family: 'Fredoka', sans-serif;
+  text-align: center;
 }
 
 /* CREDITS */
@@ -483,19 +492,103 @@ nav button:hover {
   font-weight: 600;
 }
 
-/* RESPONSIVE */
+/* ── RESPONSIVE ── */
+
+/* Tablet */
 @media (max-width: 1000px) {
   .features-grid { grid-template-columns: repeat(2, 1fr); }
 }
 
+/* Small tablet / large phone landscape */
 @media (max-width: 900px) {
-  .layout { flex-direction: column; padding-top: 100px; }
-  .card { transform: rotateY(8deg) rotateX(4deg) rotate(1deg); }
-  .terminal { transform: rotateY(-8deg) rotateX(4deg) rotate(-1deg); min-width: unset; }
+  .layout {
+    flex-direction: column;
+    padding: 90px 16px 60px;
+    gap: 28px;
+  }
+  .card {
+    transform: none;
+    max-width: 100%;
+  }
+  .terminal {
+    transform: none;
+    min-width: unset;
+    max-width: 100%;
+    width: 100%;
+  }
+  .card-wrap, .terminal-wrap {
+    width: 100%;
+    max-width: 540px;
+    perspective: none;
+  }
 }
 
+/* Mobile */
 @media (max-width: 600px) {
-  .features-grid { grid-template-columns: 1fr; }
-  .features-section { padding: 60px 20px 80px; }
-  .site-footer { padding: 32px 20px; }
+  .loader-title { font-size: 38px; }
+  .loader-sub { font-size: 13px; letter-spacing: 2px; }
+  .loader-bar { width: 160px; }
+
+  nav {
+    top: 8px; right: 8px;
+    gap: 5px;
+  }
+  nav button {
+    padding: 6px 10px;
+    font-size: 12px;
+  }
+
+  .layout {
+    padding: 80px 14px 40px;
+    gap: 20px;
+  }
+
+  .card {
+    padding: 28px 20px;
+    transform: none;
+  }
+  .card h1 { font-size: 26px; }
+  .card p  { font-size: 14px; }
+
+  .jet-logo { width: 80px; }
+
+  .terminal {
+    padding: 24px 18px;
+    transform: none;
+    min-width: unset;
+    width: 100%;
+  }
+  .term-line { font-size: 12px; }
+  .dots { margin-bottom: 14px; }
+
+  .features-section {
+    padding: 48px 16px 60px;
+  }
+  .features-title { font-size: 30px; }
+  .features-sub   { font-size: 14px; margin-bottom: 32px; }
+  .features-grid  { grid-template-columns: 1fr; gap: 16px; }
+  .feature-card   { padding: 24px 20px; }
+  .feature-card h3 { font-size: 17px; }
+  .feature-card p  { font-size: 13px; }
+
+  .site-footer { padding: 28px 16px; }
+  .footer-brand { font-size: 20px; }
+  .footer-copy {
+    font-size: 11px;
+    line-height: 1.6;
+  }
+
+  .credits {
+    font-size: 12px;
+    padding: 6px 14px;
+    bottom: 12px;
+    left: 12px;
+  }
+}
+
+/* Very small phones */
+@media (max-width: 380px) {
+  nav button { padding: 5px 8px; font-size: 11px; }
+  .card h1   { font-size: 22px; }
+  .loader-title { font-size: 32px; }
 }
