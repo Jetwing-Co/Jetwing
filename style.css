@@ -659,7 +659,16 @@ nav button:hover {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   gap: 20px;
-  align-items: start;
+  align-items: stretch;
+}
+
+.pricing-card {
+  display: flex;
+  flex-direction: column;
+}
+
+.pricing-btn {
+  margin-top: auto;
 }
 
 .pricing-card {
