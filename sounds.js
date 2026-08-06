@@ -7,17 +7,13 @@ function getCtx() {
   return actx;
 }
 
-// Try to unlock audio as early as possible
-// Browsers allow AudioContext creation on page load, just need resume on interaction
-actx = new AudioCtx();
-
-// Unlock on ANY interaction including mousemove so sounds work ASAP
+// Unlock on any interaction
 function unlockAudio() {
-  if (actx.state === 'suspended') actx.resume();
+  getCtx();
 }
 document.addEventListener('mousemove', unlockAudio, { once: true });
-document.addEventListener('keydown', unlockAudio, { once: true });
 document.addEventListener('touchstart', unlockAudio, { once: true });
+document.addEventListener('keydown', unlockAudio, { once: true });
 document.addEventListener('click', unlockAudio, { once: true });
 
 function playWhoosh() {
@@ -99,8 +95,14 @@ function playKey() {
   } catch(e) {}
 }
 
-document.addEventListener('DOMContentLoaded', () => {
-  document.querySelectorAll('button, a').forEach(el => {
-    el.addEventListener('click', playClick);
-  });
+// Click sound on every click anywhere on the page (buttons, links, anything)
+document.addEventListener('click', function(e) {
+  playClick();
+});
+
+// Keyboard sound on every keydown
+document.addEventListener('keydown', function(e) {
+  // Skip modifier-only keys
+  if (['Shift', 'Control', 'Alt', 'Meta', 'CapsLock', 'Tab'].includes(e.key)) return;
+  playKey();
 });
