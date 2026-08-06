@@ -1,9 +1,723 @@
-<html>
-  <head>
-    <title>Docs | Jetwing</title>
-  </head>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Docs | Jetsidian</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    .docs-wrap {
+      position: relative;
+      z-index: 5;
+      max-width: 900px;
+      width: 100%;
+      margin: 0 auto;
+      padding: 120px 32px 100px;
+    }
 
-  <body>
-    <h3>This is the docs file </h3>
-  </body>
+    .docs-back {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      color: #7a6a9a;
+      font-family: 'Fredoka', sans-serif;
+      font-size: 15px;
+      text-decoration: none;
+      margin-bottom: 40px;
+      transition: color 0.2s;
+    }
+    .docs-back:hover { color: #a855f7; }
+
+    .docs-hero {
+      margin-bottom: 60px;
+    }
+    .docs-hero h1 {
+      font-size: 48px;
+      font-weight: 700;
+      font-family: 'Fredoka', sans-serif;
+      background: linear-gradient(90deg, #6a9fff, #a855f7);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin-bottom: 12px;
+    }
+    .docs-hero p {
+      color: #7a6a9a;
+      font-family: 'Fredoka', sans-serif;
+      font-size: 16px;
+    }
+
+    /* Sidebar TOC */
+    .docs-layout {
+      display: flex;
+      gap: 40px;
+      align-items: flex-start;
+    }
+    .docs-toc {
+      position: sticky;
+      top: 100px;
+      min-width: 200px;
+      background: linear-gradient(160deg, rgba(25,22,45,0.28), rgba(12,10,28,0.32));
+      border: 1px solid rgba(120,80,255,0.18);
+      border-radius: 12px;
+      padding: 20px;
+      backdrop-filter: blur(14px);
+    }
+    .docs-toc h4 {
+      font-family: 'Fredoka', sans-serif;
+      font-size: 13px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: #5a4a7a;
+      margin-bottom: 14px;
+    }
+    .docs-toc a {
+      display: block;
+      font-family: 'Fredoka', sans-serif;
+      font-size: 14px;
+      color: #8a7ab0;
+      text-decoration: none;
+      padding: 5px 0;
+      border-left: 2px solid transparent;
+      padding-left: 10px;
+      transition: color 0.2s, border-color 0.2s;
+    }
+    .docs-toc a:hover {
+      color: #a855f7;
+      border-left-color: #a855f7;
+    }
+
+    /* Content */
+    .docs-content { flex: 1; min-width: 0; }
+
+    .docs-section {
+      margin-bottom: 60px;
+    }
+    .docs-section h2 {
+      font-size: 28px;
+      font-weight: 700;
+      font-family: 'Fredoka', sans-serif;
+      background: linear-gradient(90deg, #6a9fff, #a855f7);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin-bottom: 16px;
+      padding-bottom: 10px;
+      border-bottom: 1px solid rgba(120,80,255,0.15);
+    }
+    .docs-section h3 {
+      font-size: 18px;
+      font-weight: 600;
+      font-family: 'Fredoka', sans-serif;
+      color: #c4b8e0;
+      margin: 24px 0 10px;
+    }
+    .docs-section p {
+      color: #a89ec0;
+      font-family: 'Fredoka', sans-serif;
+      font-size: 15px;
+      line-height: 1.75;
+      margin-bottom: 12px;
+    }
+    .docs-section ul, .docs-section ol {
+      color: #a89ec0;
+      font-family: 'Fredoka', sans-serif;
+      font-size: 15px;
+      line-height: 1.75;
+      padding-left: 20px;
+      margin-bottom: 12px;
+    }
+    .docs-section li { margin-bottom: 4px; }
+
+    pre, code {
+      font-family: 'Courier New', monospace;
+    }
+    pre {
+      background: rgba(10,5,32,0.6);
+      border: 1px solid rgba(120,80,255,0.15);
+      border-radius: 10px;
+      padding: 20px;
+      overflow-x: auto;
+      margin: 16px 0;
+      font-size: 13px;
+      line-height: 1.65;
+      color: #e8e8ff;
+    }
+    code {
+      background: rgba(106,159,255,0.1);
+      border: 1px solid rgba(106,159,255,0.15);
+      border-radius: 4px;
+      padding: 2px 6px;
+      font-size: 13px;
+      color: #6a9fff;
+    }
+    pre code {
+      background: none;
+      border: none;
+      padding: 0;
+      color: inherit;
+    }
+
+    .api-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 16px 0;
+      font-size: 13px;
+    }
+    .api-table th {
+      text-align: left;
+      padding: 10px 14px;
+      background: rgba(106,159,255,0.08);
+      color: #6a9fff;
+      font-family: 'Fredoka', sans-serif;
+      font-weight: 600;
+      border-bottom: 1px solid rgba(120,80,255,0.2);
+    }
+    .api-table td {
+      padding: 9px 14px;
+      color: #a89ec0;
+      font-family: 'Courier New', monospace;
+      border-bottom: 1px solid rgba(120,80,255,0.08);
+      vertical-align: top;
+    }
+    .api-table td:last-child {
+      font-family: 'Fredoka', sans-serif;
+      color: #7a6a9a;
+    }
+    .api-table tr:hover td { background: rgba(106,159,255,0.04); }
+
+    .callout {
+      background: rgba(106,159,255,0.07);
+      border-left: 3px solid #6a9fff;
+      border-radius: 0 8px 8px 0;
+      padding: 14px 18px;
+      margin: 16px 0;
+      color: #a89ec0;
+      font-family: 'Fredoka', sans-serif;
+      font-size: 14px;
+      line-height: 1.65;
+    }
+    .callout.warn {
+      background: rgba(168,85,247,0.07);
+      border-left-color: #a855f7;
+    }
+
+    @media (max-width: 700px) {
+      .docs-layout { flex-direction: column; }
+      .docs-toc { position: static; min-width: unset; width: 100%; }
+      .docs-wrap { padding: 100px 16px 60px; }
+      .docs-hero h1 { font-size: 34px; }
+    }
+  </style>
+</head>
+<body>
+<canvas id="snow"></canvas>
+<div id="orb"></div>
+
+<nav>
+  <div class="nav-links" id="navLinks">
+    <button onclick="window.location.href='index.html'">Home</button>
+    <button onclick="window.location.href='changelogs.html'">Changelogs</button>
+    <button onclick="window.open('https://discord.gg/JbGbVn3HMT', '_blank')">Discord</button>
+    <button id="snowToggle" onclick="toggleSnow()">White Snow</button>
+  </div>
+  <button class="hamburger" id="hamburger" onclick="toggleNav()" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<div class="docs-wrap">
+  <a class="docs-back" href="index.html">← Back to Home</a>
+
+  <div class="docs-hero">
+    <h1>Documentation</h1>
+    <p>Everything you need to use, configure, and script Jetsidian.</p>
+  </div>
+
+  <div class="docs-layout">
+
+    <!-- TOC -->
+    <div class="docs-toc">
+      <h4>Contents</h4>
+      <a href="#getting-started">Getting Started</a>
+      <a href="#injection">Injection</a>
+      <a href="#gui">GUI & Modules</a>
+      <a href="#scripting">Scripting API</a>
+      <a href="#scripting-setup">— Setup</a>
+      <a href="#scripting-tutorial">— Tutorial</a>
+      <a href="#scripting-events">— Events</a>
+      <a href="#scripting-settings">— Settings</a>
+      <a href="#scripting-api-ref">— API Reference</a>
+      <a href="#scripting-models">— Data Models</a>
+      <a href="#scripting-packets">— Packets</a>
+      <a href="#scripting-examples">— Examples</a>
+      <a href="#scripting-debug">— Debugging</a>
+      <a href="#scripting-cheatsheet">— Cheat Sheet</a>
+    </div>
+
+    <!-- Content -->
+    <div class="docs-content">
+
+      <div class="docs-section" id="getting-started">
+        <h2>Getting Started</h2>
+        <p>Jetsidian is an injectable Minecraft client supporting Lunar Client and vanilla Minecraft. Purchase access through our <a href="https://discord.gg/JbGbVn3HMT" target="_blank" style="color:#6a9fff;">Discord server</a>.</p>
+        <p>Once you have a license key, download the injector and follow the injection guide below.</p>
+      </div>
+
+      <div class="docs-section" id="injection">
+        <h2>Injection</h2>
+        <p>Jetsidian injects directly into a running Minecraft process. Supported launchers:</p>
+        <ul>
+          <li>Lunar Client</li>
+          <li>Badlion Client</li>
+          <li>Vanilla Minecraft</li>
+        </ul>
+        <h3>Steps</h3>
+        <ol>
+          <li>Launch Minecraft through your chosen launcher and get to the main menu.</li>
+          <li>Open the Jetsidian injector.</li>
+          <li>Enter your license key and log in.</li>
+          <li>Click Inject. The auth screen will appear in-game.</li>
+          <li>Press <code>Right Shift</code> to open the module panel.</li>
+        </ol>
+        <div class="callout">The injector must be run as Administrator on some systems. If injection fails, right-click the injector and select "Run as administrator".</div>
+      </div>
+
+      <div class="docs-section" id="gui">
+        <h2>GUI & Modules</h2>
+        <p><strong style="color:#c4b8e0;">Right Shift</strong> opens the panel GUI. Drag modules to reposition them. Click a module to toggle it. Right-click for per-module settings and keybind options.</p>
+        <p>A legacy GUI is also available — check the keybind settings in the panel.</p>
+      </div>
+
+      <!-- ═══════════════════════════════════════════════ SCRIPTING ══ -->
+      <div class="docs-section" id="scripting">
+        <h2>Scripting API</h2>
+        <p>Scripts are <code>.java</code> files you drop in a folder. The client compiles them while the game is running and turns each one into its own module you can toggle in the GUI. You write normal Java and get a large built-in API — draw things, read the world, send packets, react to chat, move the player, and more. You can reload scripts on the fly while testing.</p>
+        <div class="callout">If you've written any Java before, you already know 90% of this. If you haven't, the Auto GG tutorial below teaches you enough to get started.</div>
+      </div>
+
+      <div class="docs-section" id="scripting-setup">
+        <h3>Setup</h3>
+        <p>You need a <strong style="color:#c4b8e0;">JDK</strong> installed, not just a JRE. The client compiles your script with the real Java compiler at runtime. If only a JRE is present, scripts won't compile.</p>
+        <p><strong style="color:#c4b8e0;">Where scripts live:</strong></p>
+        <pre><code>&lt;your minecraft folder&gt;/keystrokes/scripts/</code></pre>
+        <p>Every <code>.java</code> file in that folder becomes a module. Files whose name starts with an underscore (e.g. <code>_WIP.java</code>) are skipped.</p>
+        <p><strong style="color:#c4b8e0;">Reload loop:</strong> edit file → reload scripts → toggle the module → test. Only changed files recompile, so reloads are fast.</p>
+      </div>
+
+      <div class="docs-section" id="scripting-tutorial">
+        <h3>Tutorial: Build "Auto GG"</h3>
+        <p>We'll build a script that automatically types "gg" in chat when a game ends, growing it step by step.</p>
+
+        <h3>Step 1 — Prove it loads</h3>
+        <p>Create <code>AutoGG.java</code> in the scripts folder. You write only the class body — no class declaration needed.</p>
+        <pre><code>void onEnable() {
+    client.print("&aAutoGG loaded!");
+}</code></pre>
+        <p>Reload scripts, enable the module. You'll see a green message in chat. <code>&a</code> = green, <code>&c</code> = red, <code>&e</code> = yellow, <code>&b</code> = aqua.</p>
+
+        <h3>Step 2 — Hook incoming chat</h3>
+        <pre><code>boolean onChat(String message) {
+    client.print("CHAT: " + message);
+    return true;
+}</code></pre>
+        <p><code>return true</code> = let the message show. <code>return false</code> = hide it. Hooks are declared by method name + parameter count — no registration needed.</p>
+
+        <h3>Step 3 — Detect game end</h3>
+        <pre><code>String[] triggers = { "Winner:", "1st Killer", " won the game", "1st Place" };
+
+boolean onChat(String message) {
+    String msg = util.strip(message);   // remove colour codes first
+    for (String t : triggers) {
+        if (msg.contains(t)) {
+            client.print("&eGame end detected!");
+            break;
+        }
+    }
+    return true;
+}</code></pre>
+
+        <h3>Step 4 — Delayed send with tick countdown</h3>
+        <p>Never sleep the main thread. Count ticks instead — 20 ticks = 1 second.</p>
+        <pre><code>String[] triggers = { "Winner:", "1st Killer", " won the game", "1st Place" };
+int sendInTicks = -1;   // -1 = idle
+
+boolean onChat(String message) {
+    String msg = util.strip(message);
+    for (String t : triggers) {
+        if (msg.contains(t)) { sendInTicks = 20; break; }
+    }
+    return true;
+}
+
+void onPreUpdate() {
+    if (sendInTicks < 0) return;
+    if (sendInTicks == 0) client.chat("gg");
+    sendInTicks--;
+}</code></pre>
+
+        <h3>Step 5 — Fire only once per game</h3>
+        <pre><code>String[] triggers = { "Winner:", "1st Killer", " won the game", "1st Place" };
+int sendInTicks = -1;
+boolean armed = true;
+
+boolean onChat(String message) {
+    if (!armed) return true;
+    String msg = util.strip(message);
+    for (String t : triggers) {
+        if (msg.contains(t)) { sendInTicks = 20; armed = false; break; }
+    }
+    return true;
+}
+
+void onPreUpdate() {
+    if (sendInTicks < 0) return;
+    if (sendInTicks == 0) client.chat("gg");
+    sendInTicks--;
+}
+
+void onWorldJoin(Entity e) {
+    if (e.isUser) { armed = true; sendInTicks = -1; }
+}</code></pre>
+
+        <h3>Step 6 — Add GUI settings</h3>
+        <p>Register settings in <code>onLoad()</code>, read them anywhere with <code>scriptName</code> as the first argument.</p>
+        <pre><code>void onLoad() {
+    modules.registerSlider("Delay", 1.0, 0.0, 5.0, 0.1);
+    modules.registerButton("Once per game", true);
+}
+
+// In onChat, read the delay:
+double seconds = modules.getSlider(scriptName, "Delay");
+sendInTicks = (int) Math.round(seconds * 20.0);</code></pre>
+
+        <h3>Finished Auto GG</h3>
+        <pre><code>// AutoGG.java
+String[] triggers = { "Winner:", "1st Killer", " won the game", "1st Place" };
+String message = "gg";
+int sendInTicks = -1;
+boolean armed = true;
+
+void onLoad() {
+    modules.registerSlider("Delay", 1.0, 0.0, 5.0, 0.1);
+    modules.registerButton("Once per game", true);
+}
+
+void onEnable()  { client.print("&aAutoGG on"); }
+void onDisable() { sendInTicks = -1; }
+
+boolean onChat(String line) {
+    boolean once = modules.getButton(scriptName, "Once per game");
+    if (once && !armed) return true;
+    String msg = util.strip(line);
+    for (String t : triggers) {
+        if (msg.contains(t)) {
+            double seconds = modules.getSlider(scriptName, "Delay");
+            sendInTicks = (int) Math.round(seconds * 20.0);
+            armed = false;
+            break;
+        }
+    }
+    return true;
+}
+
+void onPreUpdate() {
+    if (sendInTicks < 0) return;
+    if (sendInTicks == 0) client.chat(message);
+    sendInTicks--;
+}
+
+void onWorldJoin(Entity e) {
+    if (e.isUser) { armed = true; sendInTicks = -1; }
+}</code></pre>
+      </div>
+
+      <div class="docs-section" id="scripting-events">
+        <h2>Events</h2>
+        <p>Declare the method with the right name and parameter count and it gets called automatically.</p>
+
+        <h3>Void events (notification only)</h3>
+        <table class="api-table">
+          <tr><th>Method</th><th>Description</th></tr>
+          <tr><td>void onLoad()</td><td>Once after compile. Register settings here.</td></tr>
+          <tr><td>void onEnable()</td><td>Module toggled on.</td></tr>
+          <tr><td>void onDisable()</td><td>Module toggled off. Clean up timers.</td></tr>
+          <tr><td>void onPreUpdate()</td><td>Start of every client tick (20/sec). Main loop.</td></tr>
+          <tr><td>void onPostUpdate()</td><td>End of every client tick.</td></tr>
+          <tr><td>void onPreMotion(PlayerState s)</td><td>Before movement packet. Mutate s to change what's sent silently.</td></tr>
+          <tr><td>void onPostMotion()</td><td>After movement packet sent.</td></tr>
+          <tr><td>void onPrePlayerInput(MovementInput in)</td><td>Before input applied. Set in.forward/strafe/jump/sneak.</td></tr>
+          <tr><td>void onRenderWorld(float partial)</td><td>3D world draw. Use render.block/line3D/tracer/text3d.</td></tr>
+          <tr><td>void onRenderTick(float rtTime)</td><td>2D/HUD draw. Use render.text/rect/roundedRect.</td></tr>
+          <tr><td>void onDispatchPacket(CPacket p)</td><td>Outgoing packet dispatched (info only).</td></tr>
+          <tr><td>void onWorldJoin(Entity e)</td><td>Entity entered world. e.isUser = you joining.</td></tr>
+          <tr><td>void onPlayerMove(Vec3 delta)</td><td>Player moved.</td></tr>
+          <tr><td>void onGuiUpdate(String gui, boolean opened)</td><td>Screen opened/closed.</td></tr>
+          <tr><td>void onDisconnect()</td><td>Left or kicked from server.</td></tr>
+        </table>
+
+        <h3>Cancelable events (return false to block)</h3>
+        <table class="api-table">
+          <tr><th>Method</th><th>Description</th></tr>
+          <tr><td>boolean onChat(String message)</td><td>Incoming chat. false = hide it.</td></tr>
+          <tr><td>boolean onPacketSent(CPacket p)</td><td>Outgoing packet. false = cancel.</td></tr>
+          <tr><td>boolean onPacketReceived(SPacket p)</td><td>Incoming packet. false = cancel.</td></tr>
+          <tr><td>boolean onAttackEntity(Entity target, Entity attacker)</td><td>false = cancel attack.</td></tr>
+          <tr><td>boolean onKeyPress(char typedChar, int keyCode)</td><td>false = swallow key.</td></tr>
+          <tr><td>boolean onMouse(int button, boolean state)</td><td>false = swallow click.</td></tr>
+        </table>
+
+        <h3>Rotation override</h3>
+        <pre><code>Float[] getRotations() {
+    // return { yaw, pitch } to silently set server rotations
+    // return null to leave rotations alone
+    return null;
+}</code></pre>
+      </div>
+
+      <div class="docs-section" id="scripting-settings">
+        <h2>Settings</h2>
+        <p>Register in <code>onLoad()</code>. Read anywhere using <code>scriptName</code> as the first argument.</p>
+        <table class="api-table">
+          <tr><th>Register</th><th>Description</th></tr>
+          <tr><td>modules.registerButton("Name", true)</td><td>On/off toggle</td></tr>
+          <tr><td>modules.registerSlider("Name", def, min, max, step)</td><td>Number slider (double)</td></tr>
+          <tr><td>modules.registerSlider("Name", 0, new String[]{"A","B","C"})</td><td>Dropdown (index)</td></tr>
+          <tr><td>modules.registerKey("Name", keyCode)</td><td>Keybind</td></tr>
+          <tr><td>modules.registerDescription("text")</td><td>Text shown under module</td></tr>
+        </table>
+        <table class="api-table">
+          <tr><th>Read</th><th>Returns</th></tr>
+          <tr><td>modules.getButton(scriptName, "Name")</td><td>boolean</td></tr>
+          <tr><td>modules.getSlider(scriptName, "Name")</td><td>double</td></tr>
+          <tr><td>modules.getKeyPressed(scriptName, "Name")</td><td>boolean (held)</td></tr>
+        </table>
+      </div>
+
+      <div class="docs-section" id="scripting-api-ref">
+        <h2>API Reference</h2>
+
+        <h3>client</h3>
+        <table class="api-table">
+          <tr><th>Method</th><th>Description</th></tr>
+          <tr><td>client.chat(String msg)</td><td>Send to public chat</td></tr>
+          <tr><td>client.print(String msg)</td><td>Print to your own chat (colour codes supported)</td></tr>
+          <tr><td>client.getPlayer()</td><td>Your player as Entity</td></tr>
+          <tr><td>client.getUser()</td><td>Your username</td></tr>
+          <tr><td>client.isFlying()</td><td>Are you flying</td></tr>
+          <tr><td>client.setFlying(boolean)</td><td>Set flying</td></tr>
+          <tr><td>client.getMotion()</td><td>Vec3 motion</td></tr>
+          <tr><td>client.setMotion(Vec3)</td><td>Set motion</td></tr>
+          <tr><td>client.setTimer(double)</td><td>Game speed (1.0 = normal)</td></tr>
+          <tr><td>client.jump()</td><td>Make player jump</td></tr>
+          <tr><td>client.attack(Entity e)</td><td>Attack an entity</td></tr>
+          <tr><td>client.sendPacket(CPacket)</td><td>Send a serverbound packet</td></tr>
+          <tr><td>client.getRotationsToEntity(Entity e)</td><td>float[] yaw/pitch to entity</td></tr>
+          <tr><td>client.async(Runnable r)</td><td>Run work off the main thread</td></tr>
+          <tr><td>client.getFPS()</td><td>Current FPS</td></tr>
+          <tr><td>client.playSound(String, float, float)</td><td>Play a sound</td></tr>
+        </table>
+
+        <h3>world</h3>
+        <table class="api-table">
+          <tr><th>Method</th><th>Description</th></tr>
+          <tr><td>world.getEntities()</td><td>All entities</td></tr>
+          <tr><td>world.getPlayerEntities()</td><td>Players only</td></tr>
+          <tr><td>world.getBlockAt(int x, int y, int z)</td><td>Block at position</td></tr>
+          <tr><td>world.getScoreboard()</td><td>List of sidebar lines</td></tr>
+          <tr><td>world.exists()</td><td>Is a world loaded</td></tr>
+        </table>
+
+        <h3>render</h3>
+        <table class="api-table">
+          <tr><th>Method</th><th>Description</th></tr>
+          <tr><td>render.text(String, x, y, scale, color, shadow)</td><td>2D text (onRenderTick)</td></tr>
+          <tr><td>render.rect(x1, y1, x2, y2, color)</td><td>2D rectangle</td></tr>
+          <tr><td>render.roundedRect(x1, y1, x2, y2, radius, color)</td><td>Rounded rectangle</td></tr>
+          <tr><td>render.entity(Entity, color, partial, filled, outline)</td><td>3D ESP box (onRenderWorld)</td></tr>
+          <tr><td>render.tracer(Entity, width, color, partial)</td><td>3D tracer line</td></tr>
+          <tr><td>render.line3D(Vec3, Vec3, width, color)</td><td>3D line between two points</td></tr>
+          <tr><td>render.text3d(String, Vec3, scale, bg, shadow, depth, color)</td><td>3D world text</td></tr>
+          <tr><td>render.block(Vec3, color, filled, outline)</td><td>3D block highlight</td></tr>
+        </table>
+        <div class="callout">Colours are ARGB ints: <code>0xAARRGGBB</code>. Example: <code>0xFF00E5FF</code> = solid cyan, <code>0x8000E5FF</code> = 50% transparent cyan.</div>
+
+        <h3>util</h3>
+        <table class="api-table">
+          <tr><th>Method</th><th>Description</th></tr>
+          <tr><td>util.strip(String s)</td><td>Remove colour codes</td></tr>
+          <tr><td>util.color(String s)</td><td>Convert &-codes to real colours</td></tr>
+          <tr><td>util.round(double v, int places)</td><td>Round to N decimal places</td></tr>
+          <tr><td>util.randomInt(int min, int max)</td><td>Random integer</td></tr>
+        </table>
+
+        <h3>modules</h3>
+        <table class="api-table">
+          <tr><th>Method</th><th>Description</th></tr>
+          <tr><td>modules.enable(String name)</td><td>Enable a module</td></tr>
+          <tr><td>modules.disable(String name)</td><td>Disable a module</td></tr>
+          <tr><td>modules.isEnabled(String name)</td><td>Check if enabled</td></tr>
+          <tr><td>modules.getKillAuraTarget()</td><td>Current KillAura target Entity</td></tr>
+        </table>
+      </div>
+
+      <div class="docs-section" id="scripting-models">
+        <h2>Data Models</h2>
+
+        <h3>Entity</h3>
+        <table class="api-table">
+          <tr><th>Field / Method</th><th>Description</th></tr>
+          <tr><td>e.isUser</td><td>true if this is your player</td></tr>
+          <tr><td>e.isPlayer</td><td>true if another player</td></tr>
+          <tr><td>e.getName()</td><td>Entity name</td></tr>
+          <tr><td>e.getPosition()</td><td>Vec3 position</td></tr>
+          <tr><td>e.getHealth()</td><td>Current health</td></tr>
+          <tr><td>e.getMaxHealth()</td><td>Max health</td></tr>
+          <tr><td>e.distanceTo(Vec3)</td><td>Distance to a point</td></tr>
+          <tr><td>e.getHeldItem()</td><td>ItemStack in hand</td></tr>
+          <tr><td>e.isSprinting()</td><td>Is entity sprinting</td></tr>
+          <tr><td>e.isDead()</td><td>Is entity dead</td></tr>
+        </table>
+
+        <h3>Vec3</h3>
+        <pre><code>Vec3 v = new Vec3(x, y, z);
+v.offset(Vec3 other);
+v.distanceTo(Vec3 other);
+v.floor(); v.ceil();</code></pre>
+
+        <h3>ItemStack</h3>
+        <pre><code>ItemStack s = inventory.getStackInSlot(0);
+s.type;          // e.g. "minecraft:diamond_sword"
+s.displayName;
+s.stackSize;
+s.getEnchantments();</code></pre>
+      </div>
+
+      <div class="docs-section" id="scripting-packets">
+        <h2>Packets</h2>
+        <p>Serverbound (you send) = <code>C..</code>, extends <code>CPacket</code>. Clientbound (server sends) = <code>S..</code>, extends <code>SPacket</code>.</p>
+
+        <h3>Common packets</h3>
+        <table class="api-table">
+          <tr><th>Packet</th><th>Description</th></tr>
+          <tr><td>C03</td><td>Position/look. Fields: Vec3 position, float yaw/pitch, boolean ground</td></tr>
+          <tr><td>C0A</td><td>Arm swing</td></tr>
+          <tr><td>C0B</td><td>Entity action (sprint start/stop, sneak, etc)</td></tr>
+          <tr><td>S08</td><td>Server teleport. Fields: Vec3 position, float yaw/pitch</td></tr>
+          <tr><td>S12</td><td>Entity velocity. Fields: int entityId, Vec3 motion</td></tr>
+          <tr><td>S02</td><td>Chat message from server</td></tr>
+        </table>
+
+        <h3>Example — cancel server knockback</h3>
+        <pre><code>boolean onPacketReceived(SPacket p) {
+    if (p instanceof S12) {
+        S12 v = (S12) p;
+        if (v.entityId == client.getPlayer().entityId) return false;
+    }
+    return true;
+}</code></pre>
+      </div>
+
+      <div class="docs-section" id="scripting-examples">
+        <h2>Example Scripts</h2>
+
+        <h3>HUD watermark</h3>
+        <pre><code>void onLoad() { modules.registerSlider("Scale", 1.0, 0.5, 3.0, 0.1); }
+void onRenderTick(float rt) {
+    float s = (float) modules.getSlider(scriptName, "Scale");
+    render.text(util.color("&bJetsidian &7| &f" + client.getFPS() + " fps"),
+                4, 4, s, 0xFFFFFFFF, true);
+}</code></pre>
+
+        <h3>Player ESP + tracers</h3>
+        <pre><code>void onRenderWorld(float partial) {
+    for (Entity e : world.getPlayerEntities()) {
+        if (e.isUser) continue;
+        render.entity(e, 0x9900E5FF, partial, true, true);
+        render.tracer(e, 1.5f, 0xFFFF3355, partial);
+    }
+}</code></pre>
+
+        <h3>Silent aim at KillAura target</h3>
+        <pre><code>Float[] getRotations() {
+    Entity t = modules.getKillAuraTarget();
+    if (t == null) return null;
+    float[] r = client.getRotationsToEntity(t);
+    return new Float[]{ r[0], r[1] };
+}</code></pre>
+
+        <h3>Packet counter HUD</h3>
+        <pre><code>int out = 0, in = 0;
+void onDispatchPacket(CPacket p) { out++; }
+boolean onPacketReceived(SPacket p) { in++; return true; }
+void onRenderTick(float rt) {
+    render.text("out " + out + "  in " + in, 4, 20, 1.0f, 0xFFFFFFFF, true);
+}</code></pre>
+      </div>
+
+      <div class="docs-section" id="scripting-debug">
+        <h2>Debugging</h2>
+        <ul>
+          <li><strong style="color:#c4b8e0;">Hook not firing?</strong> Check the method name and parameter count exactly. A typo = silently never called.</li>
+          <li><strong style="color:#c4b8e0;">Compile error?</strong> Chat shows the error type and line number. Fix that line and reload.</li>
+          <li><strong style="color:#c4b8e0;">Never block the game thread.</strong> No <code>Thread.sleep</code>, no busy loops, no network on the main thread. Use tick countdowns in <code>onPreUpdate</code> for delays, and <code>client.async()</code> for heavy work.</li>
+          <li><strong style="color:#c4b8e0;">Register settings in onLoad</strong>, not <code>onEnable</code>. Registering the same setting repeatedly is a common mistake.</li>
+          <li><strong style="color:#c4b8e0;">Always return true</strong> from cancelable hooks when you're not blocking, or you'll accidentally eat events.</li>
+          <li><strong style="color:#c4b8e0;">Clean up in onDisable</strong> — reset timers and flags so toggling off doesn't leave pending actions.</li>
+        </ul>
+      </div>
+
+      <div class="docs-section" id="scripting-cheatsheet">
+        <h2>Cheat Sheet</h2>
+        <table class="api-table">
+          <tr><th>Task</th><th>Code</th></tr>
+          <tr><td>Print to yourself</td><td>client.print("&atext")</td></tr>
+          <tr><td>Send chat</td><td>client.chat("gg")</td></tr>
+          <tr><td>Main loop</td><td>void onPreUpdate() { ... }</td></tr>
+          <tr><td>1 second delay</td><td>count 20 ticks in onPreUpdate</td></tr>
+          <tr><td>Hook chat</td><td>boolean onChat(String m) { return true; }</td></tr>
+          <tr><td>New game/world</td><td>void onWorldJoin(Entity e) { if(e.isUser){...} }</td></tr>
+          <tr><td>Silent aim</td><td>Float[] getRotations() { return new Float[]{yaw,pitch}; }</td></tr>
+          <tr><td>Register setting</td><td>modules.registerSlider/Button/Key in onLoad</td></tr>
+          <tr><td>Read setting</td><td>modules.getSlider(scriptName, "X")</td></tr>
+          <tr><td>All entities</td><td>world.getPlayerEntities()</td></tr>
+          <tr><td>Draw 2D</td><td>onRenderTick → render.text/rect/roundedRect</td></tr>
+          <tr><td>Draw 3D</td><td>onRenderWorld → render.entity/tracer/line3D</td></tr>
+          <tr><td>Strip colours</td><td>util.strip(s)</td></tr>
+          <tr><td>Off-thread work</td><td>client.async(() -> { ... })</td></tr>
+        </table>
+      </div>
+
+    </div><!-- /docs-content -->
+  </div><!-- /docs-layout -->
+</div><!-- /docs-wrap -->
+
+<footer class="site-footer">
+  <div class="footer-inner">
+    <div class="footer-links">
+      <a href="index.html">Home</a>
+      <a href="changelogs.html">Changelogs</a>
+      <a href="https://discord.gg/JbGbVn3HMT" target="_blank">Discord</a>
+    </div>
+    <p class="footer-copy">© 2026 Jetsidian &nbsp;·&nbsp; Client: Bleach &nbsp;·&nbsp; Website: WhyShallow &amp; Bleach &nbsp;·&nbsp; Discord: epcapnimi</p>
+  </div>
+</footer>
+
+<script src="sounds.js"></script>
+<script src="snow.js"></script>
+<script>
+  function toggleNav() {
+    document.getElementById('navLinks').classList.toggle('open');
+    document.getElementById('hamburger').classList.toggle('active');
+  }
+  document.addEventListener('click', function(e) {
+    const nav = document.getElementById('navLinks');
+    const ham = document.getElementById('hamburger');
+    if (!nav.contains(e.target) && !ham.contains(e.target)) {
+      nav.classList.remove('open');
+      ham.classList.remove('active');
+    }
+  });
+</script>
+</body>
 </html>
