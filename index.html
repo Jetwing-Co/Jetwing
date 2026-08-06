@@ -3,14 +3,14 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>JetWing</title>
+  <title>Jetsidian</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
 <div id="loader">
   <div class="loader-content">
-    <div class="loader-title">JetWing</div>
+    <div class="loader-title">Jetsidian</div>
     <div class="loader-sub"><span id="backdoorText"></span><span class="loader-cursor">|</span></div>
     <div class="loader-bar"><div class="loader-fill"></div></div>
   </div>
@@ -85,11 +85,11 @@
           <ellipse cx="88" cy="39" rx="9" ry="4" fill="rgba(100,160,255,0.35)" stroke="url(#jetGrad)" stroke-width="0.8"/>
         </svg>
       </div>
-      <h1>JetWing Client</h1>
+      <h1>Jetsidian Client</h1>
       <p>
-        JetWing is a Minecraft client developed by Bleach and a team of talented developers.
+        Jetsidian is a Minecraft client developed by Bleach and a team of talented developers.
         It features powerful modules like ESP, FastPlace, and advanced anticheat bypass capabilities.
-        JetWing is injectable into Lunar Client and vanilla Minecraft, built by passionate teenagers
+        Jetsidian is injectable into Lunar Client and vanilla Minecraft, built by passionate teenagers
         who managed to bypass million dollar anticheats. Hypixel's anticheat? Not a problem.
         Join our Discord to purchase, or scroll down below.
       </p>
@@ -188,7 +188,7 @@
 
 <!-- PRICING -->
 <section class="pricing-section">
-  <h2 class="pricing-title reveal">Get JetWing</h2>
+  <h2 class="pricing-title reveal">Get Jetsidian</h2>
   <p class="pricing-sub reveal">Purchase through our Discord. All plans include every module.</p>
   <div class="pricing-grid">
 
@@ -243,7 +243,7 @@
         <li>Every future update</li>
         <li>Never pay again</li>
       </ul>
-     <a href="https://discord.gg/JbGbVn3HMT" target="_blank" class="pricing-btn pricing-btn-lifetime">Buy on Discord</a>
+      <a href="https://discord.gg/JbGbVn3HMT" target="_blank" class="pricing-btn pricing-btn-lifetime">Buy on Discord</a>
     </div>
 
   </div>
@@ -268,14 +268,14 @@
         <path d="M18 40 L12 26 L22 32 L22 42 Z" fill="url(#footerGrad)" opacity="0.65"/>
         <path d="M18 42 L8 52 L18 50 L24 42 Z" fill="url(#footerGrad)" opacity="0.5"/>
       </svg>
-      <span class="footer-brand">JetWing</span>
+      <span class="footer-brand">Jetsidian</span>
     </div>
     <div class="footer-links">
       <a href="docs.html">Docs</a>
       <a href="changelogs.html">Changelogs</a>
       <a href="https://discord.gg/JbGbVn3HMT" target="_blank">Discord</a>
     </div>
-    <p class="footer-copy">© 2026 JetWing &nbsp;·&nbsp; Client: Bleach &nbsp;·&nbsp; Website: WhyShallow &amp; Bleach &nbsp;·&nbsp; Discord: epcapnimi</p>
+    <p class="footer-copy">© 2026 Jetsidian &nbsp;·&nbsp; Client: Bleach &nbsp;·&nbsp; Website: WhyShallow &amp; Bleach &nbsp;·&nbsp; Discord: epcapnimi</p>
   </div>
 </footer>
 
@@ -289,12 +289,10 @@
 <script src="snow.js"></script>
 <script src="terminal.js"></script>
 <script>
-  // ── Hide loader ──
   setTimeout(function() {
     document.getElementById('loader').classList.add('hidden');
   }, 2500);
 
-  // ── Typewriter loader ──
   const bdText = "accessing backdoor...";
   const bdEl = document.getElementById("backdoorText");
   let bdI = 0;
@@ -308,14 +306,12 @@
   }
   typeBackdoor();
 
-  // ── Hamburger ──
   function toggleNav() {
     const nav = document.getElementById('navLinks');
     const ham = document.getElementById('hamburger');
     nav.classList.toggle('open');
     ham.classList.toggle('active');
   }
-  // Close nav when clicking outside
   document.addEventListener('click', function(e) {
     const nav = document.getElementById('navLinks');
     const ham = document.getElementById('hamburger');
@@ -325,7 +321,6 @@
     }
   });
 
-  // ── Scroll reveal ──
   const revealObserver = new IntersectionObserver(function(entries) {
     entries.forEach(function(entry) {
       if (entry.isIntersecting) {
@@ -338,7 +333,6 @@
     revealObserver.observe(el);
   });
 
-  // ── Flying jet ──
   const cardJet   = document.getElementById('cardJet');
   const flyingJet = document.getElementById('flyingJet');
   let flying = false;
