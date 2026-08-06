@@ -23,7 +23,7 @@ function typeInto(el, text, speed, done) {
 setTimeout(function() {
 
   var l1 = addLine('');
-  typeInto(l1, '> JetWing Client v3.0', 45, function() {
+  typeInto(l1, '> Jetsidian Client v3.0', 45, function() {
     setTimeout(function() {
 
       var l2 = addLine('> Loading modules... [0/129]');
