@@ -14,7 +14,7 @@
       margin: 0 auto;
       padding: 120px 32px 100px;
     }
-
+ 
     .docs-back {
       display: inline-flex;
       align-items: center;
@@ -27,7 +27,7 @@
       transition: color 0.2s;
     }
     .docs-back:hover { color: #a855f7; }
-
+ 
     .docs-hero {
       margin-bottom: 60px;
     }
@@ -46,7 +46,7 @@
       font-family: 'Fredoka', sans-serif;
       font-size: 16px;
     }
-
+ 
     /* Sidebar TOC */
     .docs-layout {
       display: flex;
@@ -86,10 +86,10 @@
       color: #a855f7;
       border-left-color: #a855f7;
     }
-
+ 
     /* Content */
     .docs-content { flex: 1; min-width: 0; }
-
+ 
     .docs-section {
       margin-bottom: 60px;
     }
@@ -128,7 +128,7 @@
       margin-bottom: 12px;
     }
     .docs-section li { margin-bottom: 4px; }
-
+ 
     pre, code {
       font-family: 'Courier New', monospace;
     }
@@ -157,7 +157,7 @@
       padding: 0;
       color: inherit;
     }
-
+ 
     .api-table {
       width: 100%;
       border-collapse: collapse;
@@ -185,7 +185,7 @@
       color: #7a6a9a;
     }
     .api-table tr:hover td { background: rgba(106,159,255,0.04); }
-
+ 
     .callout {
       background: rgba(106,159,255,0.07);
       border-left: 3px solid #6a9fff;
@@ -201,7 +201,7 @@
       background: rgba(168,85,247,0.07);
       border-left-color: #a855f7;
     }
-
+ 
     @media (max-width: 700px) {
       .docs-layout { flex-direction: column; }
       .docs-toc { position: static; min-width: unset; width: 100%; }
@@ -213,7 +213,7 @@
 <body>
 <canvas id="snow"></canvas>
 <div id="orb"></div>
-
+ 
 <nav>
   <div class="nav-links" id="navLinks">
     <button onclick="window.location.href='index.html'">Home</button>
@@ -225,17 +225,17 @@
     <span></span><span></span><span></span>
   </button>
 </nav>
-
+ 
 <div class="docs-wrap">
   <a class="docs-back" href="index.html">← Back to Home</a>
-
+ 
   <div class="docs-hero">
     <h1>Documentation</h1>
     <p>Everything you need to use, configure, and script Jetsidian.</p>
   </div>
-
+ 
   <div class="docs-layout">
-
+ 
     <!-- TOC -->
     <div class="docs-toc">
       <h4>Contents</h4>
@@ -254,16 +254,16 @@
       <a href="#scripting-debug">— Debugging</a>
       <a href="#scripting-cheatsheet">— Cheat Sheet</a>
     </div>
-
+ 
     <!-- Content -->
     <div class="docs-content">
-
+ 
       <div class="docs-section" id="getting-started">
         <h2>Getting Started</h2>
         <p>Jetsidian is an injectable Minecraft client supporting Lunar Client and vanilla Minecraft. Purchase access through our <a href="https://discord.gg/JbGbVn3HMT" target="_blank" style="color:#6a9fff;">Discord server</a>.</p>
         <p>Once you have a license key, download the injector and follow the injection guide below.</p>
       </div>
-
+ 
       <div class="docs-section" id="injection">
         <h2>Injection</h2>
         <p>Jetsidian injects directly into a running Minecraft process. Supported launchers:</p>
@@ -282,20 +282,20 @@
         </ol>
         <div class="callout">The injector must be run as Administrator on some systems. If injection fails, right-click the injector and select "Run as administrator".</div>
       </div>
-
+ 
       <div class="docs-section" id="gui">
         <h2>GUI & Modules</h2>
         <p><strong style="color:#c4b8e0;">Right Shift</strong> opens the panel GUI. Drag modules to reposition them. Click a module to toggle it. Right-click for per-module settings and keybind options.</p>
         <p>A legacy GUI is also available — check the keybind settings in the panel.</p>
       </div>
-
+ 
       <!-- ═══════════════════════════════════════════════ SCRIPTING ══ -->
       <div class="docs-section" id="scripting">
         <h2>Scripting API</h2>
         <p>Scripts are <code>.java</code> files you drop in a folder. The client compiles them while the game is running and turns each one into its own module you can toggle in the GUI. You write normal Java and get a large built-in API — draw things, read the world, send packets, react to chat, move the player, and more. You can reload scripts on the fly while testing.</p>
         <div class="callout">If you've written any Java before, you already know 90% of this. If you haven't, the Auto GG tutorial below teaches you enough to get started.</div>
       </div>
-
+ 
       <div class="docs-section" id="scripting-setup">
         <h3>Setup</h3>
         <p>You need a <strong style="color:#c4b8e0;">JDK</strong> installed, not just a JRE. The client compiles your script with the real Java compiler at runtime. If only a JRE is present, scripts won't compile.</p>
@@ -304,28 +304,28 @@
         <p>Every <code>.java</code> file in that folder becomes a module. Files whose name starts with an underscore (e.g. <code>_WIP.java</code>) are skipped.</p>
         <p><strong style="color:#c4b8e0;">Reload loop:</strong> edit file → reload scripts → toggle the module → test. Only changed files recompile, so reloads are fast.</p>
       </div>
-
+ 
       <div class="docs-section" id="scripting-tutorial">
         <h3>Tutorial: Build "Auto GG"</h3>
         <p>We'll build a script that automatically types "gg" in chat when a game ends, growing it step by step.</p>
-
+ 
         <h3>Step 1 — Prove it loads</h3>
         <p>Create <code>AutoGG.java</code> in the scripts folder. You write only the class body — no class declaration needed.</p>
         <pre><code>void onEnable() {
     client.print("&aAutoGG loaded!");
 }</code></pre>
         <p>Reload scripts, enable the module. You'll see a green message in chat. <code>&a</code> = green, <code>&c</code> = red, <code>&e</code> = yellow, <code>&b</code> = aqua.</p>
-
+ 
         <h3>Step 2 — Hook incoming chat</h3>
         <pre><code>boolean onChat(String message) {
     client.print("CHAT: " + message);
     return true;
 }</code></pre>
         <p><code>return true</code> = let the message show. <code>return false</code> = hide it. Hooks are declared by method name + parameter count — no registration needed.</p>
-
+ 
         <h3>Step 3 — Detect game end</h3>
         <pre><code>String[] triggers = { "Winner:", "1st Killer", " won the game", "1st Place" };
-
+ 
 boolean onChat(String message) {
     String msg = util.strip(message);   // remove colour codes first
     for (String t : triggers) {
@@ -336,12 +336,12 @@ boolean onChat(String message) {
     }
     return true;
 }</code></pre>
-
+ 
         <h3>Step 4 — Delayed send with tick countdown</h3>
         <p>Never sleep the main thread. Count ticks instead — 20 ticks = 1 second.</p>
         <pre><code>String[] triggers = { "Winner:", "1st Killer", " won the game", "1st Place" };
 int sendInTicks = -1;   // -1 = idle
-
+ 
 boolean onChat(String message) {
     String msg = util.strip(message);
     for (String t : triggers) {
@@ -349,18 +349,18 @@ boolean onChat(String message) {
     }
     return true;
 }
-
+ 
 void onPreUpdate() {
     if (sendInTicks < 0) return;
     if (sendInTicks == 0) client.chat("gg");
     sendInTicks--;
 }</code></pre>
-
+ 
         <h3>Step 5 — Fire only once per game</h3>
         <pre><code>String[] triggers = { "Winner:", "1st Killer", " won the game", "1st Place" };
 int sendInTicks = -1;
 boolean armed = true;
-
+ 
 boolean onChat(String message) {
     if (!armed) return true;
     String msg = util.strip(message);
@@ -369,43 +369,43 @@ boolean onChat(String message) {
     }
     return true;
 }
-
+ 
 void onPreUpdate() {
     if (sendInTicks < 0) return;
     if (sendInTicks == 0) client.chat("gg");
     sendInTicks--;
 }
-
+ 
 void onWorldJoin(Entity e) {
     if (e.isUser) { armed = true; sendInTicks = -1; }
 }</code></pre>
-
+ 
         <h3>Step 6 — Add GUI settings</h3>
         <p>Register settings in <code>onLoad()</code>, read them anywhere with <code>scriptName</code> as the first argument.</p>
         <pre><code>void onLoad() {
     modules.registerSlider("Delay", 1.0, 0.0, 5.0, 0.1);
     modules.registerButton("Once per game", true);
 }
-
+ 
 // In onChat, read the delay:
 double seconds = modules.getSlider(scriptName, "Delay");
 sendInTicks = (int) Math.round(seconds * 20.0);</code></pre>
-
+ 
         <h3>Finished Auto GG</h3>
         <pre><code>// AutoGG.java
 String[] triggers = { "Winner:", "1st Killer", " won the game", "1st Place" };
 String message = "gg";
 int sendInTicks = -1;
 boolean armed = true;
-
+ 
 void onLoad() {
     modules.registerSlider("Delay", 1.0, 0.0, 5.0, 0.1);
     modules.registerButton("Once per game", true);
 }
-
+ 
 void onEnable()  { client.print("&aAutoGG on"); }
 void onDisable() { sendInTicks = -1; }
-
+ 
 boolean onChat(String line) {
     boolean once = modules.getButton(scriptName, "Once per game");
     if (once && !armed) return true;
@@ -420,22 +420,22 @@ boolean onChat(String line) {
     }
     return true;
 }
-
+ 
 void onPreUpdate() {
     if (sendInTicks < 0) return;
     if (sendInTicks == 0) client.chat(message);
     sendInTicks--;
 }
-
+ 
 void onWorldJoin(Entity e) {
     if (e.isUser) { armed = true; sendInTicks = -1; }
 }</code></pre>
       </div>
-
+ 
       <div class="docs-section" id="scripting-events">
         <h2>Events</h2>
         <p>Declare the method with the right name and parameter count and it gets called automatically.</p>
-
+ 
         <h3>Void events (notification only)</h3>
         <table class="api-table">
           <tr><th>Method</th><th>Description</th></tr>
@@ -455,7 +455,7 @@ void onWorldJoin(Entity e) {
           <tr><td>void onGuiUpdate(String gui, boolean opened)</td><td>Screen opened/closed.</td></tr>
           <tr><td>void onDisconnect()</td><td>Left or kicked from server.</td></tr>
         </table>
-
+ 
         <h3>Cancelable events (return false to block)</h3>
         <table class="api-table">
           <tr><th>Method</th><th>Description</th></tr>
@@ -466,7 +466,7 @@ void onWorldJoin(Entity e) {
           <tr><td>boolean onKeyPress(char typedChar, int keyCode)</td><td>false = swallow key.</td></tr>
           <tr><td>boolean onMouse(int button, boolean state)</td><td>false = swallow click.</td></tr>
         </table>
-
+ 
         <h3>Rotation override</h3>
         <pre><code>Float[] getRotations() {
     // return { yaw, pitch } to silently set server rotations
@@ -474,7 +474,7 @@ void onWorldJoin(Entity e) {
     return null;
 }</code></pre>
       </div>
-
+ 
       <div class="docs-section" id="scripting-settings">
         <h2>Settings</h2>
         <p>Register in <code>onLoad()</code>. Read anywhere using <code>scriptName</code> as the first argument.</p>
@@ -493,10 +493,10 @@ void onWorldJoin(Entity e) {
           <tr><td>modules.getKeyPressed(scriptName, "Name")</td><td>boolean (held)</td></tr>
         </table>
       </div>
-
+ 
       <div class="docs-section" id="scripting-api-ref">
         <h2>API Reference</h2>
-
+ 
         <h3>client</h3>
         <table class="api-table">
           <tr><th>Method</th><th>Description</th></tr>
@@ -517,7 +517,7 @@ void onWorldJoin(Entity e) {
           <tr><td>client.getFPS()</td><td>Current FPS</td></tr>
           <tr><td>client.playSound(String, float, float)</td><td>Play a sound</td></tr>
         </table>
-
+ 
         <h3>world</h3>
         <table class="api-table">
           <tr><th>Method</th><th>Description</th></tr>
@@ -527,7 +527,7 @@ void onWorldJoin(Entity e) {
           <tr><td>world.getScoreboard()</td><td>List of sidebar lines</td></tr>
           <tr><td>world.exists()</td><td>Is a world loaded</td></tr>
         </table>
-
+ 
         <h3>render</h3>
         <table class="api-table">
           <tr><th>Method</th><th>Description</th></tr>
@@ -541,7 +541,7 @@ void onWorldJoin(Entity e) {
           <tr><td>render.block(Vec3, color, filled, outline)</td><td>3D block highlight</td></tr>
         </table>
         <div class="callout">Colours are ARGB ints: <code>0xAARRGGBB</code>. Example: <code>0xFF00E5FF</code> = solid cyan, <code>0x8000E5FF</code> = 50% transparent cyan.</div>
-
+ 
         <h3>util</h3>
         <table class="api-table">
           <tr><th>Method</th><th>Description</th></tr>
@@ -550,7 +550,7 @@ void onWorldJoin(Entity e) {
           <tr><td>util.round(double v, int places)</td><td>Round to N decimal places</td></tr>
           <tr><td>util.randomInt(int min, int max)</td><td>Random integer</td></tr>
         </table>
-
+ 
         <h3>modules</h3>
         <table class="api-table">
           <tr><th>Method</th><th>Description</th></tr>
@@ -560,10 +560,10 @@ void onWorldJoin(Entity e) {
           <tr><td>modules.getKillAuraTarget()</td><td>Current KillAura target Entity</td></tr>
         </table>
       </div>
-
+ 
       <div class="docs-section" id="scripting-models">
         <h2>Data Models</h2>
-
+ 
         <h3>Entity</h3>
         <table class="api-table">
           <tr><th>Field / Method</th><th>Description</th></tr>
@@ -578,13 +578,13 @@ void onWorldJoin(Entity e) {
           <tr><td>e.isSprinting()</td><td>Is entity sprinting</td></tr>
           <tr><td>e.isDead()</td><td>Is entity dead</td></tr>
         </table>
-
+ 
         <h3>Vec3</h3>
         <pre><code>Vec3 v = new Vec3(x, y, z);
 v.offset(Vec3 other);
 v.distanceTo(Vec3 other);
 v.floor(); v.ceil();</code></pre>
-
+ 
         <h3>ItemStack</h3>
         <pre><code>ItemStack s = inventory.getStackInSlot(0);
 s.type;          // e.g. "minecraft:diamond_sword"
@@ -592,11 +592,11 @@ s.displayName;
 s.stackSize;
 s.getEnchantments();</code></pre>
       </div>
-
+ 
       <div class="docs-section" id="scripting-packets">
         <h2>Packets</h2>
         <p>Serverbound (you send) = <code>C..</code>, extends <code>CPacket</code>. Clientbound (server sends) = <code>S..</code>, extends <code>SPacket</code>.</p>
-
+ 
         <h3>Common packets</h3>
         <table class="api-table">
           <tr><th>Packet</th><th>Description</th></tr>
@@ -607,7 +607,7 @@ s.getEnchantments();</code></pre>
           <tr><td>S12</td><td>Entity velocity. Fields: int entityId, Vec3 motion</td></tr>
           <tr><td>S02</td><td>Chat message from server</td></tr>
         </table>
-
+ 
         <h3>Example — cancel server knockback</h3>
         <pre><code>boolean onPacketReceived(SPacket p) {
     if (p instanceof S12) {
@@ -617,10 +617,10 @@ s.getEnchantments();</code></pre>
     return true;
 }</code></pre>
       </div>
-
+ 
       <div class="docs-section" id="scripting-examples">
         <h2>Example Scripts</h2>
-
+ 
         <h3>HUD watermark</h3>
         <pre><code>void onLoad() { modules.registerSlider("Scale", 1.0, 0.5, 3.0, 0.1); }
 void onRenderTick(float rt) {
@@ -628,7 +628,7 @@ void onRenderTick(float rt) {
     render.text(util.color("&bJetsidian &7| &f" + client.getFPS() + " fps"),
                 4, 4, s, 0xFFFFFFFF, true);
 }</code></pre>
-
+ 
         <h3>Player ESP + tracers</h3>
         <pre><code>void onRenderWorld(float partial) {
     for (Entity e : world.getPlayerEntities()) {
@@ -637,7 +637,7 @@ void onRenderTick(float rt) {
         render.tracer(e, 1.5f, 0xFFFF3355, partial);
     }
 }</code></pre>
-
+ 
         <h3>Silent aim at KillAura target</h3>
         <pre><code>Float[] getRotations() {
     Entity t = modules.getKillAuraTarget();
@@ -645,7 +645,7 @@ void onRenderTick(float rt) {
     float[] r = client.getRotationsToEntity(t);
     return new Float[]{ r[0], r[1] };
 }</code></pre>
-
+ 
         <h3>Packet counter HUD</h3>
         <pre><code>int out = 0, in = 0;
 void onDispatchPacket(CPacket p) { out++; }
@@ -654,7 +654,7 @@ void onRenderTick(float rt) {
     render.text("out " + out + "  in " + in, 4, 20, 1.0f, 0xFFFFFFFF, true);
 }</code></pre>
       </div>
-
+ 
       <div class="docs-section" id="scripting-debug">
         <h2>Debugging</h2>
         <ul>
@@ -666,7 +666,7 @@ void onRenderTick(float rt) {
           <li><strong style="color:#c4b8e0;">Clean up in onDisable</strong> — reset timers and flags so toggling off doesn't leave pending actions.</li>
         </ul>
       </div>
-
+ 
       <div class="docs-section" id="scripting-cheatsheet">
         <h2>Cheat Sheet</h2>
         <table class="api-table">
@@ -687,11 +687,11 @@ void onRenderTick(float rt) {
           <tr><td>Off-thread work</td><td>client.async(() -> { ... })</td></tr>
         </table>
       </div>
-
+ 
     </div><!-- /docs-content -->
   </div><!-- /docs-layout -->
 </div><!-- /docs-wrap -->
-
+ 
 <footer class="site-footer">
   <div class="footer-inner">
     <div class="footer-links">
@@ -702,7 +702,7 @@ void onRenderTick(float rt) {
     <p class="footer-copy">© 2026 Jetsidian &nbsp;·&nbsp; Client: Bleach &nbsp;·&nbsp; Website: WhyShallow &amp; Bleach &nbsp;·&nbsp; Discord: epcapnimi</p>
   </div>
 </footer>
-
+ 
 <script src="sounds.js"></script>
 <script src="snow.js"></script>
 <script>
@@ -721,3 +721,4 @@ void onRenderTick(float rt) {
 </script>
 </body>
 </html>
+ 
