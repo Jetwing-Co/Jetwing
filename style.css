@@ -836,7 +836,8 @@ nav button:hover {
 }
 
 ::-webkit-scrollbar {
-  width: 6px;
+  width: 3px;
+  height: 3px;
 }
 ::-webkit-scrollbar-track {
   background: rgba(10, 5, 32, 0.5);
@@ -847,4 +848,7 @@ nav button:hover {
 }
 ::-webkit-scrollbar-thumb:hover {
   background: linear-gradient(180deg, #a855f7, #7c3aed);
+}
+::-webkit-scrollbar-corner {
+  background: rgba(10, 5, 32, 0.5);
 }
