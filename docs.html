@@ -202,11 +202,104 @@
       border-left-color: #a855f7;
     }
  
+    /* Collapsible TOC toggle (mobile only) */
+    .toc-toggle {
+      display: none;
+      width: 100%;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      background: none;
+      border: none;
+      padding: 0;
+      cursor: pointer;
+      font-family: 'Fredoka', sans-serif;
+      font-size: 13px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: #5a4a7a;
+    }
+    .toc-toggle .chevron {
+      font-size: 11px;
+      transition: transform 0.25s ease;
+    }
+    .docs-toc.collapsed .toc-toggle .chevron {
+      transform: rotate(-90deg);
+    }
+
     @media (max-width: 700px) {
-      .docs-layout { flex-direction: column; }
-      .docs-toc { position: static; min-width: unset; width: 100%; }
-      .docs-wrap { padding: 100px 16px 60px; }
+      html, body { overflow-x: hidden; }
+      .docs-wrap {
+        box-sizing: border-box;
+        padding: 100px 16px 60px;
+      }
+      .docs-layout { flex-direction: column; gap: 24px; }
+      .docs-toc {
+        position: static;
+        top: auto;
+        min-width: unset;
+        width: 100%;
+        box-sizing: border-box;
+        padding: 16px 18px;
+      }
+      .docs-toc h4 { display: none; }
+      .toc-toggle { display: flex; }
+      .docs-toc a { font-size: 14px; }
+      .docs-toc.collapsed a { display: none; }
+
+      .docs-hero { margin-bottom: 40px; }
       .docs-hero h1 { font-size: 34px; }
+      .docs-hero p { font-size: 15px; }
+
+      .docs-section { margin-bottom: 44px; }
+      .docs-section h2 { font-size: 24px; }
+      .docs-section h3 { font-size: 17px; }
+      .docs-section p,
+      .docs-section ul,
+      .docs-section ol { font-size: 14px; }
+
+      /* tables scroll horizontally instead of overflowing the page */
+      .api-table {
+        display: block;
+        width: 100%;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+        white-space: nowrap;
+      }
+
+      /* code blocks scroll horizontally */
+      pre {
+        padding: 16px;
+        font-size: 12px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .docs-wrap { padding: 88px 12px 48px; }
+      .docs-back { margin-bottom: 28px; font-size: 14px; }
+
+      .docs-hero { margin-bottom: 32px; }
+      .docs-hero h1 { font-size: 27px; }
+      .docs-hero p { font-size: 14px; }
+
+      .docs-toc { padding: 14px 16px; }
+      .docs-toc a { font-size: 13.5px; }
+
+      .docs-section { margin-bottom: 36px; }
+      .docs-section h2 { font-size: 21px; }
+      .docs-section h3 { font-size: 16px; }
+      .docs-section p,
+      .docs-section ul,
+      .docs-section ol { font-size: 13.5px; line-height: 1.7; }
+
+      .api-table { font-size: 12px; }
+      .api-table th { padding: 8px 10px; }
+      .api-table td { padding: 7px 10px; }
+
+      pre { padding: 14px; font-size: 11.5px; border-radius: 8px; }
+      code { font-size: 12px; }
+
+      .callout { padding: 12px 14px; font-size: 13px; }
     }
   </style>
 </head>
@@ -237,8 +330,12 @@
   <div class="docs-layout">
  
     <!-- TOC -->
-    <div class="docs-toc">
+    <div class="docs-toc collapsed" id="docsToc">
       <h4>Contents</h4>
+      <button class="toc-toggle" onclick="toggleToc()" aria-expanded="false" aria-controls="docsToc">
+        <span>Contents</span>
+        <span class="chevron">▾</span>
+      </button>
       <a href="#getting-started">Getting Started</a>
       <a href="#injection">Injection</a>
       <a href="#gui">GUI & Modules</a>
@@ -949,6 +1046,25 @@ NOW WRITE ME A SCRIPT THAT:
       nav.classList.remove('open');
       ham.classList.remove('active');
     }
+  });
+</script>
+<script>
+  function toggleToc() {
+    var toc = document.getElementById('docsToc');
+    if (!toc) return;
+    var btn = toc.querySelector('.toc-toggle');
+    var collapsed = toc.classList.toggle('collapsed');
+    if (btn) btn.setAttribute('aria-expanded', collapsed ? 'false' : 'true');
+  }
+  document.querySelectorAll('#docsToc a').forEach(function (link) {
+    link.addEventListener('click', function () {
+      if (window.matchMedia('(max-width: 700px)').matches) {
+        var toc = document.getElementById('docsToc');
+        toc.classList.add('collapsed');
+        var btn = toc.querySelector('.toc-toggle');
+        if (btn) btn.setAttribute('aria-expanded', 'false');
+      }
+    });
   });
 </script>
 </body>
