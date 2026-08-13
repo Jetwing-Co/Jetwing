@@ -834,3 +834,17 @@ nav button:hover {
   .pricing-section { padding: 48px 16px 60px; }
   .pricing-title { font-size: 30px; }
 }
+
+::-webkit-scrollbar {
+  width: 6px;
+}
+::-webkit-scrollbar-track {
+  background: rgba(10, 5, 32, 0.5);
+}
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, #6a9fff, #a855f7);
+  border-radius: 10px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(180deg, #a855f7, #7c3aed);
+}
