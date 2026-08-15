@@ -341,17 +341,17 @@
       <a href="#injection">Injection</a>
       <a href="#gui">GUI & Modules</a>
       <a href="#scripting">Scripting API</a>
-      <a href="#scripting-setup">— Setup</a>
-      <a href="#scripting-tutorial">— Tutorial</a>
-      <a href="#scripting-events">— Events</a>
-      <a href="#scripting-settings">— Settings</a>
-      <a href="#scripting-api-ref">— API Reference</a>
-      <a href="#scripting-models">— Data Models</a>
-      <a href="#scripting-packets">— Packets</a>
-      <a href="#scripting-examples">— Examples</a>
-      <a href="#scripting-debug">— Debugging</a>
-      <a href="#scripting-cheatsheet">— Cheat Sheet</a>
-      <a href="#scripting-ai">— Using AI</a>
+      <a href="#scripting-setup">Setup</a>
+      <a href="#scripting-tutorial">Tutorial</a>
+      <a href="#scripting-events">Events</a>
+      <a href="#scripting-settings">Settings</a>
+      <a href="#scripting-api-ref">API Reference</a>
+      <a href="#scripting-models">Data Models</a>
+      <a href="#scripting-packets">Packets</a>
+      <a href="#scripting-examples">Examples</a>
+      <a href="#scripting-debug">Debugging</a>
+      <a href="#scripting-cheatsheet">Cheat Sheet</a>
+      <a href="#scripting-ai">Using AI</a>
     </div>
  
     <!-- Content -->
@@ -391,7 +391,7 @@
       <!-- ═══════════════════════════════════════════════ SCRIPTING ══ -->
       <div class="docs-section" id="scripting">
         <h2>Scripting API</h2>
-        <p>Scripts are <code>.java</code> files you drop in a folder. The client compiles them while the game is running and turns each one into its own module you can toggle in the GUI. You write normal Java and get a large built-in API — draw things, read the world, send packets, react to chat, move the player, and more. You can reload scripts on the fly while testing.</p>
+        <p>Scripts are <code>.java</code> files you drop in a folder. The client compiles them while the game is running and turns each one into its own module you can toggle in the GUI. You write normal Java and get a large built-in API draw things, read the world, send packets, react to chat, move the player, and more. You can reload scripts on the fly while testing.</p>
         <div class="callout">If you've written any Java before, you already know 90% of this. If you haven't, the Auto GG tutorial below teaches you enough to get started.</div>
       </div>
  
@@ -408,21 +408,21 @@
         <h3>Tutorial: Build "Auto GG"</h3>
         <p>We'll build a script that automatically types "gg" in chat when a game ends, growing it step by step.</p>
  
-        <h3>Step 1 — Prove it loads</h3>
-        <p>Create <code>AutoGG.java</code> in the scripts folder. You write only the class body — no class declaration needed.</p>
+        <h3>Step 1 Prove it loads</h3>
+        <p>Create <code>AutoGG.java</code> in the scripts folder. You write only the class body no class declaration needed.</p>
         <pre><code>void onEnable() {
     client.print("&aAutoGG loaded!");
 }</code></pre>
         <p>Reload scripts, enable the module. You'll see a green message in chat. <code>&a</code> = green, <code>&c</code> = red, <code>&e</code> = yellow, <code>&b</code> = aqua.</p>
  
-        <h3>Step 2 — Hook incoming chat</h3>
+        <h3>Step 2 Hook incoming chat</h3>
         <pre><code>boolean onChat(String message) {
     client.print("CHAT: " + message);
     return true;
 }</code></pre>
-        <p><code>return true</code> = let the message show. <code>return false</code> = hide it. Hooks are declared by method name + parameter count — no registration needed.</p>
+        <p><code>return true</code> = let the message show. <code>return false</code> = hide it. Hooks are declared by method name + parameter count no registration needed.</p>
  
-        <h3>Step 3 — Detect game end</h3>
+        <h3>Step 3 Detect game end</h3>
         <pre><code>String[] triggers = { "Winner:", "1st Killer", " won the game", "1st Place" };
  
 boolean onChat(String message) {
@@ -436,8 +436,8 @@ boolean onChat(String message) {
     return true;
 }</code></pre>
  
-        <h3>Step 4 — Delayed send with tick countdown</h3>
-        <p>Never sleep the main thread. Count ticks instead — 20 ticks = 1 second.</p>
+        <h3>Step 4 Delayed send with tick countdown</h3>
+        <p>Never sleep the main thread. Count ticks instead 20 ticks = 1 second.</p>
         <pre><code>String[] triggers = { "Winner:", "1st Killer", " won the game", "1st Place" };
 int sendInTicks = -1;   // -1 = idle
  
@@ -455,7 +455,7 @@ void onPreUpdate() {
     sendInTicks--;
 }</code></pre>
  
-        <h3>Step 5 — Fire only once per game</h3>
+        <h3>Step 5 Fire only once per game</h3>
         <pre><code>String[] triggers = { "Winner:", "1st Killer", " won the game", "1st Place" };
 int sendInTicks = -1;
 boolean armed = true;
@@ -479,7 +479,7 @@ void onWorldJoin(Entity e) {
     if (e.isUser) { armed = true; sendInTicks = -1; }
 }</code></pre>
  
-        <h3>Step 6 — Add GUI settings</h3>
+        <h3>Step 6 Add GUI settings</h3>
         <p>Register settings in <code>onLoad()</code>, read them anywhere with <code>scriptName</code> as the first argument.</p>
         <pre><code>void onLoad() {
     modules.registerSlider("Delay", 1.0, 0.0, 5.0, 0.1);
@@ -707,7 +707,7 @@ s.getEnchantments();</code></pre>
           <tr><td>S02</td><td>Chat message from server</td></tr>
         </table>
  
-        <h3>Example — cancel server knockback</h3>
+        <h3>Example cancel server knockback</h3>
         <pre><code>boolean onPacketReceived(SPacket p) {
     if (p instanceof S12) {
         S12 v = (S12) p;
@@ -762,7 +762,7 @@ void onRenderTick(float rt) {
           <li><strong style="color:#c4b8e0;">Never block the game thread.</strong> No <code>Thread.sleep</code>, no busy loops, no network on the main thread. Use tick countdowns in <code>onPreUpdate</code> for delays, and <code>client.async()</code> for heavy work.</li>
           <li><strong style="color:#c4b8e0;">Register settings in onLoad</strong>, not <code>onEnable</code>. Registering the same setting repeatedly is a common mistake.</li>
           <li><strong style="color:#c4b8e0;">Always return true</strong> from cancelable hooks when you're not blocking, or you'll accidentally eat events.</li>
-          <li><strong style="color:#c4b8e0;">Clean up in onDisable</strong> — reset timers and flags so toggling off doesn't leave pending actions.</li>
+          <li><strong style="color:#c4b8e0;">Clean up in onDisable</strong> reset timers and flags so toggling off doesn't leave pending actions.</li>
         </ul>
       </div>
  
@@ -791,7 +791,7 @@ void onRenderTick(float rt) {
       <div class="docs-section" id="scripting-ai">
         <h2>Using AI to Write Scripts</h2>
         <p>You don't need to know Java to make Jetsidian scripts. You can hand an AI assistant like <strong style="color:#c4b8e0;">Claude</strong> the full scripting API below, describe what you want in plain English, and paste the code it writes straight into a <code>.java</code> file. The prompt box holds everything the AI needs to understand how Jetsidian scripts work.</p>
-        <div class="callout">You still need a <strong style="color:#c4b8e0;">JDK</strong> installed (see <a href="#scripting-setup" style="color:#6a9fff;">Setup</a>) so the client can compile what the AI writes. The AI only writes the code — the client still compiles and runs it locally.</div>
+        <div class="callout">You still need a <strong style="color:#c4b8e0;">JDK</strong> installed (see <a href="#scripting-setup" style="color:#6a9fff;">Setup</a>) so the client can compile what the AI writes. The AI only writes the code the client still compiles and runs it locally.</div>
 
         <h3>Step by step</h3>
         <ol>
@@ -799,7 +799,7 @@ void onRenderTick(float rt) {
           <li>Go to <a href="https://claude.ai" target="_blank" style="color:#6a9fff;">claude.ai</a> and paste it into a new chat.</li>
           <li>At the bottom of the prompt (where it says <code>NOW WRITE ME A SCRIPT THAT:</code>) describe what you want in plain English.</li>
           <li>Send it, then copy the Java code Claude writes back.</li>
-          <li>Make a new file in your scripts folder — <code>&lt;your minecraft folder&gt;/keystrokes/scripts/</code> — named something like <code>MyScript.java</code>, and paste the code in.</li>
+          <li>Make a new file in your scripts folder <code>&lt;your minecraft folder&gt;/keystrokes/scripts/</code> named something like <code>MyScript.java</code>, and paste the code in.</li>
           <li>In game, reload scripts, then toggle your new module on in the GUI and test it.</li>
           <li>If it doesn't compile, copy the error from your chat back to Claude and ask it to fix it.</li>
         </ol>
@@ -829,10 +829,10 @@ HARD RULES
 - Reset timers/flags in onDisable() so toggling off leaves nothing pending.
 - Colours are ARGB ints, 0xAARRGGBB (0xFF00E5FF = solid cyan, 0x8000E5FF = 50% cyan). Chat colour codes use &amp;: &amp;a green, &amp;c red, &amp;e yellow, &amp;b aqua.
 
-EVENTS — void (notification only)
+EVENTS void (notification only)
 onLoad()                              once after compile; register settings here
 onEnable() / onDisable()              module toggled on / off
-onPreUpdate() / onPostUpdate()        start / end of each client tick (20/sec) — main loop
+onPreUpdate() / onPostUpdate()        start / end of each client tick (20/sec) main loop
 onPreMotion(PlayerState s)            before movement packet; mutate s to change it silently
 onPostMotion()
 onPrePlayerInput(MovementInput in)    set in.forward / in.strafe / in.jump / in.sneak
@@ -844,7 +844,7 @@ onPlayerMove(Vec3 delta)
 onGuiUpdate(String gui, boolean opened)
 onDisconnect()
 
-EVENTS — boolean (return false to cancel)
+EVENTS boolean (return false to cancel)
 onChat(String message)                incoming chat; false = hide it
 onPacketSent(CPacket p)               outgoing packet; false = cancel
 onPacketReceived(SPacket p)           incoming packet; false = cancel
@@ -853,7 +853,7 @@ onKeyPress(char typedChar, int keyCode)          false = swallow key
 onMouse(int button, boolean state)               false = swallow click
 
 ROTATION OVERRIDE
-Float[] getRotations()  — return new Float[]{ yaw, pitch } to silently set server rotations, or null to leave them alone.
+Float[] getRotations()  return new Float[]{ yaw, pitch } to silently set server rotations, or null to leave them alone.
 
 SETTINGS
 Register (in onLoad):
@@ -867,7 +867,7 @@ Read (anywhere):
   modules.getSlider(scriptName, "Name")         -&gt; double
   modules.getKeyPressed(scriptName, "Name")     -&gt; boolean (held)
 
-API — client
+API client
 client.chat(String)                send to public chat
 client.print(String)               print to your own chat (colour codes work)
 client.getPlayer()                 your player as Entity
@@ -883,14 +883,14 @@ client.async(Runnable)             run work off the main thread
 client.getFPS()
 client.playSound(String, float, float)
 
-API — world
+API world
 world.getEntities()                all entities
 world.getPlayerEntities()          players only
 world.getBlockAt(int x, int y, int z)
 world.getScoreboard()              list of sidebar lines
 world.exists()                     is a world loaded
 
-API — render
+API render
 render.text(String, x, y, scale, color, shadow)                2D text (onRenderTick)
 render.rect(x1, y1, x2, y2, color)
 render.roundedRect(x1, y1, x2, y2, radius, color)
@@ -900,13 +900,13 @@ render.line3D(Vec3, Vec3, width, color)
 render.text3d(String, Vec3, scale, bg, shadow, depth, color)
 render.block(Vec3, color, filled, outline)
 
-API — util
+API util
 util.strip(String)                 remove colour codes
 util.color(String)                 convert &amp;-codes to real colours
 util.round(double, int places)
 util.randomInt(int min, int max)
 
-API — modules
+API modules
 modules.enable(String) / modules.disable(String) / modules.isEnabled(String)
 modules.getKillAuraTarget()        -&gt; current KillAura target Entity (may be null)
 
@@ -918,14 +918,14 @@ Vec3:    new Vec3(x, y, z); v.offset(Vec3); v.distanceTo(Vec3); v.floor(); v.cei
 ItemStack: s.type ("minecraft:diamond_sword"), s.displayName, s.stackSize, s.getEnchantments()
 
 PACKETS  (serverbound C.. extend CPacket, clientbound S.. extend SPacket)
-C03  position/look   — Vec3 position, float yaw/pitch, boolean ground
+C03  position/look   Vec3 position, float yaw/pitch, boolean ground
 C0A  arm swing
-C0B  entity action   — sprint start/stop, sneak, etc
-S08  server teleport — Vec3 position, float yaw/pitch
-S12  entity velocity — int entityId, Vec3 motion
+C0B  entity action   sprint start/stop, sneak, etc
+S08  server teleport Vec3 position, float yaw/pitch
+S12  entity velocity int entityId, Vec3 motion
 S02  server chat message
 
-REFERENCE EXAMPLE — "Auto GG" (types gg once, a moment after a game ends):
+REFERENCE EXAMPLE "Auto GG" (types gg once, a moment after a game ends):
 String[] triggers = { "Winner:", "1st Killer", " won the game", "1st Place" };
 int sendInTicks = -1;
 boolean armed = true;
@@ -983,9 +983,9 @@ NOW WRITE ME A SCRIPT THAT:
         <ul>
           <li><strong style="color:#c4b8e0;">Be specific.</strong> Give the exact trigger text, delay, keybind, colours, and any settings you want. "when I see 'Victory!' wait 1 second then type gg" beats "auto gg".</li>
           <li><strong style="color:#c4b8e0;">Ask for GUI settings.</strong> Request sliders/buttons for numbers you might tweak, so you can adjust in-game without editing code.</li>
-          <li><strong style="color:#c4b8e0;">One script at a time.</strong> Remind it to output only the class body — no imports, no class declaration, no markdown fences.</li>
+          <li><strong style="color:#c4b8e0;">One script at a time.</strong> Remind it to output only the class body no imports, no class declaration, no markdown fences.</li>
           <li><strong style="color:#c4b8e0;">Iterate.</strong> Get one feature working, test it, then ask for the next feature in the same chat so it keeps your context.</li>
-          <li><strong style="color:#c4b8e0;">Paste errors back.</strong> If a compile error shows in chat, give Claude the exact error and line — it usually fixes it in one try.</li>
+          <li><strong style="color:#c4b8e0;">Paste errors back.</strong> If a compile error shows in chat, give Claude the exact error and line it usually fixes it in one try.</li>
           <li><strong style="color:#c4b8e0;">Name your colours.</strong> Tell it the ARGB colours (like <code>0xFF00E5FF</code>) or chat codes (like <code>&amp;a</code>) you want so the output looks how you expect.</li>
         </ul>
 
@@ -1413,7 +1413,7 @@ NOW WRITE ME A SCRIPT THAT:
       </div>
       <div class="builder-apikey-row">
         <span class="builder-key-label" id="builderKeyLabel">No key</span>
-        <input id="builderApiKey" type="password" placeholder="Free — no key needed" spellcheck="false" autocomplete="off" aria-label="API key">
+        <input id="builderApiKey" type="password" placeholder="Free no key needed" spellcheck="false" autocomplete="off" aria-label="API key">
       </div>
       <div class="builder-chat" id="builderChat"></div>
       <div class="builder-input-row">
@@ -1591,7 +1591,7 @@ NOW WRITE ME A SCRIPT THAT:
     var p = builderCurrentModel().provider;
     if (p === 'anthropic')  return { store: 'jetsidianAnthropicKey',  label: 'Anthropic Key',  ph: 'sk-ant-...', needs: true };
     if (p === 'openrouter') return { store: 'jetsidianOpenRouterKey', label: 'OpenRouter Key', ph: 'sk-or-...',  needs: true };
-    return { store: null, label: 'No key', ph: 'Free — no key needed', needs: false };
+    return { store: null, label: 'No key', ph: 'Free no key needed', needs: false };
   }
   function builderSyncKeyRow() {
     var meta = builderKeyMeta();
@@ -1746,13 +1746,13 @@ NOW WRITE ME A SCRIPT THAT:
     var arg = parts.slice(1).join(' ').toLowerCase();
 
     if (cmd === 'help' || cmd === 'commands') {
-      builderAddNote('Commands:\n/help — show this list\n/models — list available models\n/model <name> — switch model (e.g. /model deepseek)\n/free — switch to the free no-key model\n/clear — clear the conversation\n/clearkey — forget saved API keys');
+      builderAddNote('Commands:\n/help show this list\n/models list available models\n/model <name> switch model (e.g. /model deepseek)\n/free switch to the free no-key model\n/clear clear the conversation\n/clearkey forget saved API keys');
       return;
     }
     if (cmd === 'models') {
       var lines = [];
       for (var k in BUILDER_MODELS) {
-        lines.push((k === builderModelKey ? '● ' : '○ ') + k + ' — ' + BUILDER_MODELS[k].label);
+        lines.push((k === builderModelKey ? '● ' : '○ ') + k + ' ' + BUILDER_MODELS[k].label);
       }
       builderAddNote('Models:\n' + lines.join('\n') + '\n\nSwitch with /model <name>.');
       return;
@@ -1770,7 +1770,7 @@ NOW WRITE ME A SCRIPT THAT:
       builderRefreshModelLabel();
       builderSyncKeyRow();
       var meta = builderKeyMeta();
-      builderAddNote('Switched to ' + BUILDER_MODELS[found].label + (meta.needs ? ' — paste your ' + meta.label + ' above.' : ' — no key needed.'));
+      builderAddNote('Switched to ' + BUILDER_MODELS[found].label + (meta.needs ? ' paste your ' + meta.label + ' above.' : ' no key needed.'));
       return;
     }
     if (cmd === 'clear') {
