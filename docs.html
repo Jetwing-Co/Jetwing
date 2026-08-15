@@ -1412,7 +1412,7 @@ NOW WRITE ME A SCRIPT THAT:
         <span class="builder-label" id="builderModelLabel">AI Assistant · Claude Sonnet 4.6 (Anthropic key)</span>
       </div>
       <div class="builder-apikey-row">
-        <span class="builder-key-label" id="builderKeyLabel">Anthropic Key</span>
+        <span class="builder-key-label" id="builderKeyLabel">Anthropic key</span>
         <input id="builderApiKey" type="password" placeholder="sk-ant-..." spellcheck="false" autocomplete="off" aria-label="API key">
       </div>
       <div class="builder-chat" id="builderChat"></div>
@@ -1587,8 +1587,8 @@ NOW WRITE ME A SCRIPT THAT:
     if (el) el.textContent = 'AI Assistant · ' + builderCurrentModel().label;
   }
   function builderKeyMeta() {
-    if (builderCurrentModel().provider === 'openrouter') return { store: 'jetsidianOpenRouterKey', label: 'OpenRouter Key', ph: 'sk-or-...', needs: true };
-    return { store: 'jetsidianAnthropicKey', label: 'Anthropic Key', ph: 'sk-ant-...', needs: true };
+    if (builderCurrentModel().provider === 'openrouter') return { store: 'jetsidianOpenRouterKey', label: 'OpenRouter key', ph: 'sk-or-...', needs: true };
+    return { store: 'jetsidianAnthropicKey', label: 'Anthropic key', ph: 'sk-ant-...', needs: true };
   }
   function builderSyncKeyRow() {
     var meta = builderKeyMeta();
