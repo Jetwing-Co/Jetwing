@@ -990,6 +990,8 @@ NOW WRITE ME A SCRIPT THAT:
         </ul>
 
         <div class="callout warn">The AI can make mistakes and doesn't know about server-specific messages or game modes. Always test scripts yourself and double-check anything before relying on it.</div>
+
+        <p onclick="openBuilder()" style="font-style:italic; text-transform:uppercase; letter-spacing:1px; color:#a855f7; font-family:'Fredoka',sans-serif; font-size:15px; margin-top:18px; cursor:pointer;">It is recommended to use the Builder Mode.</p>
       </div>
 
       <script>
@@ -1357,6 +1359,23 @@ NOW WRITE ME A SCRIPT THAT:
   #builderChatInput:focus { border-color: rgba(106,159,255,0.55); }
   #builderChatInput::placeholder { color: #5a4a7a; }
 
+  .builder-cmds {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    padding: 0 16px 12px;
+    flex-shrink: 0;
+  }
+  .builder-cmds code {
+    font-family: 'Courier New', monospace;
+    font-size: 11px;
+    color: #6a9fff;
+    background: rgba(106,159,255,0.1);
+    border: 1px solid rgba(106,159,255,0.15);
+    border-radius: 4px;
+    padding: 2px 7px;
+  }
+
   @media (max-width: 820px) {
     .builder-body { flex-direction: column; overflow-y: auto; }
     .builder-panel { min-height: 340px; }
@@ -1389,7 +1408,7 @@ NOW WRITE ME A SCRIPT THAT:
     <!-- RIGHT: AI Assistant -->
     <div class="builder-panel">
       <div class="builder-panel-head">
-        <span class="builder-label">AI Assistant · claude-sonnet-4-6</span>
+        <span class="builder-label" id="builderModelLabel">AI Assistant · Claude Sonnet 4.6</span>
       </div>
       <div class="builder-apikey-row">
         <span class="builder-key-label">API Key</span>
@@ -1400,6 +1419,9 @@ NOW WRITE ME A SCRIPT THAT:
         <textarea id="builderChatInput" rows="1" placeholder="Describe the script you want... (Enter to send, Shift+Enter for newline)"></textarea>
         <button class="builder-btn" id="builderSendBtn" onclick="builderSend()">Send</button>
       </div>
+      <div class="builder-cmds">
+        <code>/help</code> <code>/models</code> <code>/model &lt;name&gt;</code> <code>/free</code> <code>/clear</code>
+      </div>
     </div>
 
   </div>
@@ -1408,7 +1430,7 @@ NOW WRITE ME A SCRIPT THAT:
 <script>
 (function () {
   var BUILDER_SYSTEM_PROMPT =
-"You are an expert assistant that writes scripts for Jetsidian, an injectable Minecraft client. Read this whole spec and follow it exactly.\n\n" +
+"You are the Jetsidian Script Builder - an assistant dedicated solely to writing scripts for Jetsidian, an injectable Minecraft client. You already have complete knowledge of the entire Jetsidian scripting API documented below and you never need to ask the user for it. If the user asks about anything unrelated to Jetsidian scripting, briefly and politely steer them back to building a Jetsidian script. Read this whole spec and follow it exactly.\n\n" +
 "HOW SCRIPTS WORK\n" +
 "- A script is a single .java file. The client compiles it at runtime and turns it into a toggleable module.\n" +
 "- Output ONLY the class body: fields and methods. NO class declaration, NO imports, NO package line, NO markdown code fences, NO explanation before or after unless the user explicitly asks a question instead of requesting a script.\n" +
@@ -1546,6 +1568,23 @@ NOW WRITE ME A SCRIPT THAT:
 
   var builderHistory = []; // { role: 'user'|'assistant', content: '...' }
 
+  // ── Models (Anthropic need a key; free needs none) ────────
+  var BUILDER_MODELS = {
+    sonnet: { id: 'claude-sonnet-4-6',         label: 'Claude Sonnet 4.6',   provider: 'anthropic' },
+    opus:   { id: 'claude-opus-4-6',           label: 'Claude Opus 4.6',     provider: 'anthropic' },
+    haiku:  { id: 'claude-haiku-4-5-20251001', label: 'Claude Haiku 4.5',    provider: 'anthropic' },
+    free:   { id: 'openai',                     label: 'Free (Pollinations)', provider: 'pollinations' }
+  };
+  var builderModelKey = localStorage.getItem('jetsidianBuilderModel') || 'sonnet';
+  if (!BUILDER_MODELS[builderModelKey]) builderModelKey = 'sonnet';
+
+  function builderCurrentModel() { return BUILDER_MODELS[builderModelKey]; }
+  function builderRefreshModelLabel() {
+    var m = builderCurrentModel();
+    var el = document.getElementById('builderModelLabel');
+    if (el) el.textContent = 'AI Assistant · ' + m.label + (m.provider === 'anthropic' ? '' : ' · no key needed');
+  }
+
   // ── Open / close ──────────────────────────────────────────
   window.openBuilder = function () {
     var ov = document.getElementById('builderOverlay');
@@ -1554,8 +1593,9 @@ NOW WRITE ME A SCRIPT THAT:
     var key = localStorage.getItem('jetsidianAnthropicKey');
     if (key) document.getElementById('builderApiKey').value = key;
     builderUpdateGutter();
+    builderRefreshModelLabel();
     if (document.getElementById('builderChat').children.length === 0) {
-      builderAddNote('Paste your Anthropic API key above, then describe the script you want. Claude will write it and you can insert it into the editor.');
+      builderAddNote('Describe the Jetsidian script you want and it will be written for you. Paste an Anthropic API key above for Claude models, or type /free to use a no-key model. Type /help for commands.');
     }
   };
   window.closeBuilder = function () {
@@ -1680,13 +1720,72 @@ NOW WRITE ME A SCRIPT THAT:
     return d;
   }
 
-  // ── Send to Claude ────────────────────────────────────────
+  // ── Slash commands ────────────────────────────────────────
+  function builderHandleCommand(text) {
+    var parts = text.slice(1).trim().split(/\s+/);
+    var cmd = (parts[0] || '').toLowerCase();
+    var arg = parts.slice(1).join(' ').toLowerCase();
+
+    if (cmd === 'help' || cmd === 'commands') {
+      builderAddNote('Commands:\n/help — show this list\n/models — list available models\n/model <name> — switch model (e.g. /model opus)\n/free — switch to the no-key free model\n/clear — clear the conversation\n/clearkey — forget the saved API key');
+      return;
+    }
+    if (cmd === 'models') {
+      var lines = [];
+      for (var k in BUILDER_MODELS) {
+        var m = BUILDER_MODELS[k];
+        lines.push((k === builderModelKey ? '● ' : '○ ') + k + ' — ' + m.label + (m.provider === 'anthropic' ? ' (needs key)' : ' (free)'));
+      }
+      builderAddNote('Models:\n' + lines.join('\n') + '\n\nSwitch with /model <name>.');
+      return;
+    }
+    if (cmd === 'model' || cmd === 'free') {
+      var target = cmd === 'free' ? 'free' : arg;
+      if (!target) { builderAddNote('Usage: /model <name>. Type /models to see options.'); return; }
+      var found = null;
+      for (var key2 in BUILDER_MODELS) {
+        if (key2 === target || BUILDER_MODELS[key2].id.toLowerCase() === target) { found = key2; break; }
+      }
+      if (!found) { builderAddNote('Unknown model "' + target + '". Type /models to see options.'); return; }
+      builderModelKey = found;
+      localStorage.setItem('jetsidianBuilderModel', found);
+      builderRefreshModelLabel();
+      builderAddNote('Switched to ' + BUILDER_MODELS[found].label + (BUILDER_MODELS[found].provider === 'anthropic' ? ' (needs an API key).' : ' — no key needed.'));
+      return;
+    }
+    if (cmd === 'clear') {
+      builderHistory = [];
+      document.getElementById('builderChat').innerHTML = '';
+      builderAddNote('Conversation cleared.');
+      return;
+    }
+    if (cmd === 'clearkey') {
+      localStorage.removeItem('jetsidianAnthropicKey');
+      document.getElementById('builderApiKey').value = '';
+      builderAddNote('Saved API key removed.');
+      return;
+    }
+    builderAddNote('Unknown command "/' + cmd + '". Type /help for the list.');
+  }
+
+  // ── Send ──────────────────────────────────────────────────
   window.builderSend = function () {
     var input = document.getElementById('builderChatInput');
     var text = input.value.trim();
     if (!text) return;
+
+    if (text.charAt(0) === '/') {
+      input.value = ''; input.style.height = 'auto';
+      builderHandleCommand(text);
+      return;
+    }
+
+    var model = builderCurrentModel();
     var key = document.getElementById('builderApiKey').value.trim();
-    if (!key) { builderAddNote('Please paste your Anthropic API key above first.'); return; }
+    if (model.provider === 'anthropic' && !key) {
+      builderAddNote('This model needs an Anthropic API key. Paste one above, or type /free to use the no-key model.');
+      return;
+    }
 
     addUser(text);
     builderHistory.push({ role: 'user', content: text });
@@ -1697,7 +1796,26 @@ NOW WRITE ME A SCRIPT THAT:
     sendBtn.disabled = true;
     var pending = addPending();
 
-    fetch('https://api.anthropic.com/v1/messages', {
+    var req = model.provider === 'anthropic'
+      ? builderFetchAnthropic(model, key)
+      : builderFetchPollinations(model);
+
+    req.then(function (reply) {
+      pending.remove();
+      reply = reply || '(empty response)';
+      builderHistory.push({ role: 'assistant', content: reply });
+      addAi(reply);
+    })
+    .catch(function (err) {
+      pending.remove();
+      builderAddNote('Error: ' + err.message);
+      builderHistory.pop();
+    })
+    .then(function () { sendBtn.disabled = false; });
+  };
+
+  function builderFetchAnthropic(model, key) {
+    return fetch('https://api.anthropic.com/v1/messages', {
       method: 'POST',
       headers: {
         'content-type': 'application/json',
@@ -1706,40 +1824,38 @@ NOW WRITE ME A SCRIPT THAT:
         'anthropic-dangerous-direct-browser-access': 'true'
       },
       body: JSON.stringify({
-        model: 'claude-sonnet-4-6',
+        model: model.id,
         max_tokens: 4096,
         system: BUILDER_SYSTEM_PROMPT,
         messages: builderHistory
       })
-    })
-    .then(function (r) {
-      return r.json().then(function (data) { return { ok: r.ok, data: data }; });
-    })
-    .then(function (res) {
-      pending.remove();
-      if (!res.ok) {
-        var msg = (res.data && res.data.error && res.data.error.message) ? res.data.error.message : 'Request failed.';
-        builderAddNote('Error: ' + msg);
-        builderHistory.pop();
-        return;
-      }
-      var reply = '';
-      if (res.data && res.data.content) {
-        for (var i = 0; i < res.data.content.length; i++) {
-          if (res.data.content[i].type === 'text') reply += res.data.content[i].text;
-        }
-      }
-      reply = reply || '(empty response)';
-      builderHistory.push({ role: 'assistant', content: reply });
-      addAi(reply);
-    })
-    .catch(function (err) {
-      pending.remove();
-      builderAddNote('Network error: ' + err.message + ' (the key must be valid and your browser must allow the request).');
-      builderHistory.pop();
-    })
-    .then(function () { sendBtn.disabled = false; });
-  };
+    }).then(function (r) {
+      return r.json().then(function (data) {
+        if (!r.ok) throw new Error((data && data.error && data.error.message) || 'Request failed.');
+        var reply = '';
+        if (data.content) for (var i = 0; i < data.content.length; i++) if (data.content[i].type === 'text') reply += data.content[i].text;
+        return reply;
+      });
+    });
+  }
+
+  function builderFetchPollinations(model) {
+    var msgs = [{ role: 'system', content: BUILDER_SYSTEM_PROMPT }].concat(builderHistory);
+    return fetch('https://text.pollinations.ai/openai', {
+      method: 'POST',
+      headers: { 'content-type': 'application/json' },
+      body: JSON.stringify({ model: model.id, messages: msgs })
+    }).then(function (r) {
+      return r.text().then(function (raw) {
+        if (!r.ok) throw new Error('Free model request failed (' + r.status + '). Try again or use an Anthropic key.');
+        var data;
+        try { data = JSON.parse(raw); } catch (e) { return raw; }
+        if (data.choices && data.choices[0] && data.choices[0].message) return data.choices[0].message.content;
+        if (typeof data === 'string') return data;
+        return raw;
+      });
+    });
+  }
 
   // Enter to send, Shift+Enter for newline, auto-grow
   var chatInput = document.getElementById('builderChatInput');
