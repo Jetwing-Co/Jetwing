@@ -1251,6 +1251,7 @@ NOW WRITE ME A SCRIPT THAT:
     transition: border-color 0.2s;
   }
   .builder-apikey-row input:focus { border-color: rgba(106,159,255,0.55); }
+  .builder-apikey-row input:disabled { opacity: 0.5; cursor: not-allowed; }
   .builder-apikey-row .builder-key-label {
     font-family: 'Fredoka', sans-serif;
     font-size: 12px;
@@ -1408,11 +1409,11 @@ NOW WRITE ME A SCRIPT THAT:
     <!-- RIGHT: AI Assistant -->
     <div class="builder-panel">
       <div class="builder-panel-head">
-        <span class="builder-label" id="builderModelLabel">AI Assistant · Claude Sonnet 4.6</span>
+        <span class="builder-label" id="builderModelLabel">AI Assistant · GPT-OSS 20B (free)</span>
       </div>
       <div class="builder-apikey-row">
-        <span class="builder-key-label">API Key</span>
-        <input id="builderApiKey" type="password" placeholder="sk-ant-..." spellcheck="false" autocomplete="off" aria-label="Anthropic API key">
+        <span class="builder-key-label" id="builderKeyLabel">No key</span>
+        <input id="builderApiKey" type="password" placeholder="Free — no key needed" spellcheck="false" autocomplete="off" aria-label="API key">
       </div>
       <div class="builder-chat" id="builderChat"></div>
       <div class="builder-input-row">
@@ -1568,21 +1569,38 @@ NOW WRITE ME A SCRIPT THAT:
 
   var builderHistory = []; // { role: 'user'|'assistant', content: '...' }
 
-  // ── Models (Anthropic need a key; free needs none) ────────
+  // ── Models ────────────────────────────────────────────────
+  //   pollinations = free, no key.  openrouter / anthropic = paste that provider's own key.
   var BUILDER_MODELS = {
-    sonnet: { id: 'claude-sonnet-4-6',         label: 'Claude Sonnet 4.6',   provider: 'anthropic' },
-    opus:   { id: 'claude-opus-4-6',           label: 'Claude Opus 4.6',     provider: 'anthropic' },
-    haiku:  { id: 'claude-haiku-4-5-20251001', label: 'Claude Haiku 4.5',    provider: 'anthropic' },
-    free:   { id: 'openai',                     label: 'Free (Pollinations)', provider: 'pollinations' }
+    free:     { id: 'openai',                                label: 'GPT-OSS 20B (free)',                provider: 'pollinations' },
+    deepseek: { id: 'deepseek/deepseek-chat-v3-0324:free',   label: 'DeepSeek V3 (OpenRouter key)',      provider: 'openrouter' },
+    qwen:     { id: 'qwen/qwen-2.5-coder-32b-instruct:free', label: 'Qwen Coder (OpenRouter key)',       provider: 'openrouter' },
+    sonnet:   { id: 'claude-sonnet-4-6',                     label: 'Claude Sonnet 4.6 (Anthropic key)', provider: 'anthropic' },
+    opus:     { id: 'claude-opus-4-6',                       label: 'Claude Opus 4.6 (Anthropic key)',   provider: 'anthropic' },
+    haiku:    { id: 'claude-haiku-4-5-20251001',             label: 'Claude Haiku 4.5 (Anthropic key)',  provider: 'anthropic' }
   };
-  var builderModelKey = localStorage.getItem('jetsidianBuilderModel') || 'sonnet';
-  if (!BUILDER_MODELS[builderModelKey]) builderModelKey = 'sonnet';
+  var builderModelKey = localStorage.getItem('jetsidianBuilderModel') || 'free';
+  if (!BUILDER_MODELS[builderModelKey]) builderModelKey = 'free';
 
   function builderCurrentModel() { return BUILDER_MODELS[builderModelKey]; }
   function builderRefreshModelLabel() {
-    var m = builderCurrentModel();
     var el = document.getElementById('builderModelLabel');
-    if (el) el.textContent = 'AI Assistant · ' + m.label + (m.provider === 'anthropic' ? '' : ' · no key needed');
+    if (el) el.textContent = 'AI Assistant · ' + builderCurrentModel().label;
+  }
+  function builderKeyMeta() {
+    var p = builderCurrentModel().provider;
+    if (p === 'anthropic')  return { store: 'jetsidianAnthropicKey',  label: 'Anthropic Key',  ph: 'sk-ant-...', needs: true };
+    if (p === 'openrouter') return { store: 'jetsidianOpenRouterKey', label: 'OpenRouter Key', ph: 'sk-or-...',  needs: true };
+    return { store: null, label: 'No key', ph: 'Free — no key needed', needs: false };
+  }
+  function builderSyncKeyRow() {
+    var meta = builderKeyMeta();
+    var input = document.getElementById('builderApiKey');
+    var label = document.getElementById('builderKeyLabel');
+    if (label) label.textContent = meta.label;
+    input.placeholder = meta.ph;
+    input.disabled = !meta.needs;
+    input.value = (meta.needs && meta.store) ? (localStorage.getItem(meta.store) || '') : '';
   }
 
   // ── Open / close ──────────────────────────────────────────
@@ -1590,12 +1608,11 @@ NOW WRITE ME A SCRIPT THAT:
     var ov = document.getElementById('builderOverlay');
     ov.classList.add('open');
     document.body.style.overflow = 'hidden';
-    var key = localStorage.getItem('jetsidianAnthropicKey');
-    if (key) document.getElementById('builderApiKey').value = key;
     builderUpdateGutter();
     builderRefreshModelLabel();
+    builderSyncKeyRow();
     if (document.getElementById('builderChat').children.length === 0) {
-      builderAddNote('Describe the Jetsidian script you want and it will be written for you. Paste an Anthropic API key above for Claude models, or type /free to use a no-key model. Type /help for commands.');
+      builderAddNote('Describe the Jetsidian script you want and it will be written for you. The default model is free and needs no key. Switch any time with /model (e.g. /model deepseek). Type /help for commands.');
     }
   };
   window.closeBuilder = function () {
@@ -1663,9 +1680,11 @@ NOW WRITE ME A SCRIPT THAT:
 
   // ── API key persistence ───────────────────────────────────
   document.getElementById('builderApiKey').addEventListener('input', function () {
+    var meta = builderKeyMeta();
+    if (!meta.store) return;
     var v = this.value.trim();
-    if (v) localStorage.setItem('jetsidianAnthropicKey', v);
-    else localStorage.removeItem('jetsidianAnthropicKey');
+    if (v) localStorage.setItem(meta.store, v);
+    else localStorage.removeItem(meta.store);
   });
 
   // ── Chat rendering ────────────────────────────────────────
@@ -1727,14 +1746,13 @@ NOW WRITE ME A SCRIPT THAT:
     var arg = parts.slice(1).join(' ').toLowerCase();
 
     if (cmd === 'help' || cmd === 'commands') {
-      builderAddNote('Commands:\n/help — show this list\n/models — list available models\n/model <name> — switch model (e.g. /model opus)\n/free — switch to the no-key free model\n/clear — clear the conversation\n/clearkey — forget the saved API key');
+      builderAddNote('Commands:\n/help — show this list\n/models — list available models\n/model <name> — switch model (e.g. /model deepseek)\n/free — switch to the free no-key model\n/clear — clear the conversation\n/clearkey — forget saved API keys');
       return;
     }
     if (cmd === 'models') {
       var lines = [];
       for (var k in BUILDER_MODELS) {
-        var m = BUILDER_MODELS[k];
-        lines.push((k === builderModelKey ? '● ' : '○ ') + k + ' — ' + m.label + (m.provider === 'anthropic' ? ' (needs key)' : ' (free)'));
+        lines.push((k === builderModelKey ? '● ' : '○ ') + k + ' — ' + BUILDER_MODELS[k].label);
       }
       builderAddNote('Models:\n' + lines.join('\n') + '\n\nSwitch with /model <name>.');
       return;
@@ -1750,7 +1768,9 @@ NOW WRITE ME A SCRIPT THAT:
       builderModelKey = found;
       localStorage.setItem('jetsidianBuilderModel', found);
       builderRefreshModelLabel();
-      builderAddNote('Switched to ' + BUILDER_MODELS[found].label + (BUILDER_MODELS[found].provider === 'anthropic' ? ' (needs an API key).' : ' — no key needed.'));
+      builderSyncKeyRow();
+      var meta = builderKeyMeta();
+      builderAddNote('Switched to ' + BUILDER_MODELS[found].label + (meta.needs ? ' — paste your ' + meta.label + ' above.' : ' — no key needed.'));
       return;
     }
     if (cmd === 'clear') {
@@ -1761,8 +1781,9 @@ NOW WRITE ME A SCRIPT THAT:
     }
     if (cmd === 'clearkey') {
       localStorage.removeItem('jetsidianAnthropicKey');
-      document.getElementById('builderApiKey').value = '';
-      builderAddNote('Saved API key removed.');
+      localStorage.removeItem('jetsidianOpenRouterKey');
+      builderSyncKeyRow();
+      builderAddNote('Saved API keys removed.');
       return;
     }
     builderAddNote('Unknown command "/' + cmd + '". Type /help for the list.');
@@ -1782,8 +1803,8 @@ NOW WRITE ME A SCRIPT THAT:
 
     var model = builderCurrentModel();
     var key = document.getElementById('builderApiKey').value.trim();
-    if (model.provider === 'anthropic' && !key) {
-      builderAddNote('This model needs an Anthropic API key. Paste one above, or type /free to use the no-key model.');
+    if (model.provider !== 'pollinations' && !key) {
+      builderAddNote('The ' + model.label + ' model needs a ' + builderKeyMeta().label + '. Paste one above, or run /free for the no-key model.');
       return;
     }
 
@@ -1796,9 +1817,9 @@ NOW WRITE ME A SCRIPT THAT:
     sendBtn.disabled = true;
     var pending = addPending();
 
-    var req = model.provider === 'anthropic'
-      ? builderFetchAnthropic(model, key)
-      : builderFetchPollinations(model);
+    var req = model.provider === 'anthropic'  ? builderFetchAnthropic(model, key)
+            : model.provider === 'openrouter' ? builderFetchOpenRouter(model, key)
+            : builderFetchPollinations(model);
 
     req.then(function (reply) {
       pending.remove();
@@ -1839,17 +1860,33 @@ NOW WRITE ME A SCRIPT THAT:
     });
   }
 
+  function builderFetchOpenRouter(model, key) {
+    var msgs = [{ role: 'system', content: BUILDER_SYSTEM_PROMPT }].concat(builderHistory);
+    return fetch('https://openrouter.ai/api/v1/chat/completions', {
+      method: 'POST',
+      headers: { 'content-type': 'application/json', 'authorization': 'Bearer ' + key },
+      body: JSON.stringify({ model: model.id, messages: msgs, max_tokens: 4096 })
+    }).then(function (r) {
+      return r.json().then(function (data) {
+        if (!r.ok) throw new Error((data && data.error && data.error.message) || ('OpenRouter request failed (' + r.status + ').'));
+        if (data.choices && data.choices[0] && data.choices[0].message) return data.choices[0].message.content;
+        return '(empty response)';
+      });
+    });
+  }
+
   function builderFetchPollinations(model) {
     var msgs = [{ role: 'system', content: BUILDER_SYSTEM_PROMPT }].concat(builderHistory);
     return fetch('https://text.pollinations.ai/openai', {
       method: 'POST',
       headers: { 'content-type': 'application/json' },
-      body: JSON.stringify({ model: model.id, messages: msgs })
+      body: JSON.stringify({ model: model.id, messages: msgs, referrer: 'jetsidian', private: true })
     }).then(function (r) {
       return r.text().then(function (raw) {
-        if (!r.ok) throw new Error('Free model request failed (' + r.status + '). Try again or use an Anthropic key.');
+        if (!r.ok) throw new Error('Free model request failed (HTTP ' + r.status + '). Try again in a moment, or /model deepseek with an OpenRouter key.');
         var data;
         try { data = JSON.parse(raw); } catch (e) { return raw; }
+        if (data.error) throw new Error(typeof data.error === 'string' ? data.error : (data.error.message || 'Free model error.'));
         if (data.choices && data.choices[0] && data.choices[0].message) return data.choices[0].message.content;
         if (typeof data === 'string') return data;
         return raw;
