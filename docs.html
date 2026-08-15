@@ -1880,7 +1880,7 @@ NOW WRITE ME A SCRIPT THAT:
     return fetch('https://text.pollinations.ai/openai', {
       method: 'POST',
       headers: { 'content-type': 'application/json' },
-      body: JSON.stringify({ model: model.id, messages: msgs, referrer: 'jetsidian', private: true })
+      body: JSON.stringify({ model: model.id, messages: msgs })
     }).then(function (r) {
       return r.text().then(function (raw) {
         if (!r.ok) throw new Error('Free model request failed (HTTP ' + r.status + '). Try again in a moment, or /model deepseek with an OpenRouter key.');
