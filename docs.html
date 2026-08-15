@@ -312,6 +312,7 @@
     <button onclick="window.location.href='index.html'">Home</button>
     <button onclick="window.location.href='changelogs.html'">Changelogs</button>
     <button onclick="window.open('https://discord.gg/JbGbVn3HMT', '_blank')">Discord</button>
+    <button onclick="openBuilder()">Builder Mode</button>
     <button id="snowToggle" onclick="toggleSnow()">White Snow</button>
   </div>
   <button class="hamburger" id="hamburger" onclick="toggleNav()" aria-label="Menu">
@@ -1031,7 +1032,727 @@ NOW WRITE ME A SCRIPT THAT:
     <p class="footer-copy">© 2026 Jetsidian &nbsp;·&nbsp; Client: Bleach &nbsp;·&nbsp; Website: WhyShallow &amp; Bleach &nbsp;·&nbsp; Discord: epcapnimi</p>
   </div>
 </footer>
- 
+
+<!-- ═══════════════════════════════════════════════ BUILDER MODE ══ -->
+<style>
+  #builderOverlay {
+    position: fixed;
+    inset: 0;
+    z-index: 1000;
+    display: none;
+    flex-direction: column;
+    background:
+      radial-gradient(ellipse at top left, rgba(100, 0, 255, 0.35) 0%, transparent 60%),
+      radial-gradient(ellipse at bottom right, rgba(80, 0, 200, 0.30) 0%, transparent 60%),
+      linear-gradient(135deg, #0a0520 0%, #12063a 30%, #1a0850 60%, #0d0428 100%);
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+  }
+  #builderOverlay.open { display: flex; }
+
+  .builder-topbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    padding: 14px 22px;
+    background: linear-gradient(160deg, rgba(25,22,45,0.42), rgba(12,10,28,0.5));
+    border-bottom: 1px solid rgba(120,80,255,0.22);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    flex-shrink: 0;
+  }
+  .builder-title {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-family: 'Fredoka', sans-serif;
+    font-size: 22px;
+    font-weight: 700;
+    background: linear-gradient(90deg, #6a9fff, #a855f7);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  .builder-title .builder-dot {
+    width: 10px; height: 10px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #6a9fff, #a855f7);
+    box-shadow: 0 0 12px rgba(138,43,226,0.7);
+  }
+  .builder-close {
+    width: 38px; height: 38px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(160deg, rgba(25,22,45,0.4), rgba(12,10,28,0.5));
+    border: 1px solid rgba(120,80,255,0.25);
+    border-radius: 8px;
+    color: #c4b8e0;
+    font-family: 'Fredoka', sans-serif;
+    font-size: 20px;
+    line-height: 1;
+    cursor: pointer;
+    transition: color 0.2s, border-color 0.2s, transform 0.2s, box-shadow 0.2s;
+  }
+  .builder-close:hover {
+    color: #fff;
+    border-color: rgba(168,85,247,0.55);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 18px rgba(138,43,226,0.4);
+  }
+
+  .builder-body {
+    flex: 1;
+    display: flex;
+    gap: 16px;
+    padding: 16px;
+    min-height: 0;
+  }
+
+  .builder-panel {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    min-height: 0;
+    background: linear-gradient(160deg, rgba(25,22,45,0.28), rgba(12,10,28,0.32));
+    border: 1px solid rgba(120,80,255,0.18);
+    border-radius: 14px;
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+    overflow: hidden;
+  }
+
+  .builder-panel-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    flex-wrap: wrap;
+    padding: 12px 16px;
+    border-bottom: 1px solid rgba(120,80,255,0.15);
+    flex-shrink: 0;
+  }
+  .builder-panel-head .builder-label {
+    font-family: 'Fredoka', sans-serif;
+    font-size: 12px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: #5a4a7a;
+  }
+
+  .builder-btn {
+    font-family: 'Fredoka', sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    color: #fff;
+    background: linear-gradient(90deg, #6a9fff, #a855f7);
+    border: none;
+    border-radius: 6px;
+    padding: 7px 16px;
+    cursor: pointer;
+    transition: opacity 0.2s, transform 0.2s, box-shadow 0.2s;
+    white-space: nowrap;
+  }
+  .builder-btn:hover {
+    opacity: 0.92;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 16px rgba(138,43,226,0.45);
+  }
+  .builder-btn.ghost {
+    background: linear-gradient(160deg, rgba(25,22,45,0.4), rgba(12,10,28,0.5));
+    border: 1px solid rgba(120,80,255,0.28);
+    color: #c4b8e0;
+  }
+  .builder-btn.ghost:hover { color: #fff; border-color: rgba(168,85,247,0.55); }
+
+  .builder-filename {
+    flex: 1;
+    min-width: 140px;
+    font-family: 'Courier New', monospace;
+    font-size: 13px;
+    color: #e8e8ff;
+    background: rgba(10,5,32,0.6);
+    border: 1px solid rgba(120,80,255,0.2);
+    border-radius: 6px;
+    padding: 7px 12px;
+    outline: none;
+    transition: border-color 0.2s;
+  }
+  .builder-filename:focus { border-color: rgba(106,159,255,0.55); }
+
+  /* ── Editor ── */
+  .builder-editor-wrap {
+    flex: 1;
+    display: flex;
+    min-height: 0;
+    background: rgba(10,5,32,0.6);
+    overflow: hidden;
+  }
+  .builder-gutter {
+    flex-shrink: 0;
+    padding: 14px 10px 14px 14px;
+    margin: 0;
+    text-align: right;
+    font-family: 'Courier New', monospace;
+    font-size: 13px;
+    line-height: 1.6;
+    color: #4a3a6a;
+    background: rgba(10,5,32,0.55);
+    border-right: 1px solid rgba(120,80,255,0.12);
+    overflow: hidden;
+    white-space: pre;
+    user-select: none;
+  }
+  #builderCode {
+    flex: 1;
+    min-width: 0;
+    resize: none;
+    border: none;
+    outline: none;
+    padding: 14px 16px;
+    margin: 0;
+    font-family: 'Courier New', monospace;
+    font-size: 13px;
+    line-height: 1.6;
+    color: #e8e8ff;
+    background: transparent;
+    white-space: pre;
+    overflow: auto;
+    tab-size: 4;
+    -moz-tab-size: 4;
+  }
+  #builderCode::placeholder { color: #4a3a6a; }
+
+  /* ── AI panel ── */
+  .builder-apikey-row {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    padding: 10px 16px;
+    border-bottom: 1px solid rgba(120,80,255,0.12);
+    flex-shrink: 0;
+  }
+  .builder-apikey-row input {
+    flex: 1;
+    min-width: 0;
+    font-family: 'Courier New', monospace;
+    font-size: 12px;
+    color: #e8e8ff;
+    background: rgba(10,5,32,0.6);
+    border: 1px solid rgba(120,80,255,0.2);
+    border-radius: 6px;
+    padding: 7px 12px;
+    outline: none;
+    transition: border-color 0.2s;
+  }
+  .builder-apikey-row input:focus { border-color: rgba(106,159,255,0.55); }
+  .builder-apikey-row .builder-key-label {
+    font-family: 'Fredoka', sans-serif;
+    font-size: 12px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: #5a4a7a;
+    white-space: nowrap;
+  }
+
+  .builder-chat {
+    flex: 1;
+    overflow-y: auto;
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    min-height: 0;
+  }
+  .builder-msg {
+    max-width: 92%;
+    padding: 11px 14px;
+    border-radius: 12px;
+    font-family: 'Fredoka', sans-serif;
+    font-size: 14px;
+    line-height: 1.6;
+    white-space: pre-wrap;
+    word-break: break-word;
+  }
+  .builder-msg.user {
+    align-self: flex-end;
+    background: linear-gradient(135deg, rgba(74,0,224,0.35), rgba(142,45,226,0.35));
+    border: 1px solid rgba(150,100,255,0.3);
+    color: #e9e2ff;
+  }
+  .builder-msg.ai {
+    align-self: flex-start;
+    background: linear-gradient(160deg, rgba(25,22,45,0.5), rgba(12,10,28,0.55));
+    border: 1px solid rgba(120,80,255,0.2);
+    color: #c4b8e0;
+    width: 92%;
+  }
+  .builder-msg.system-note {
+    align-self: center;
+    background: rgba(106,159,255,0.07);
+    border: 1px solid rgba(106,159,255,0.15);
+    color: #8a7ab0;
+    font-size: 13px;
+    text-align: center;
+  }
+  .builder-msg.ai pre {
+    margin: 8px 0 0;
+    padding: 12px;
+    background: rgba(10,5,32,0.6);
+    border: 1px solid rgba(120,80,255,0.15);
+    border-radius: 8px;
+    overflow-x: auto;
+    font-family: 'Courier New', monospace;
+    font-size: 12px;
+    line-height: 1.55;
+    color: #e8e8ff;
+    white-space: pre;
+  }
+  .builder-msg .builder-insert {
+    margin-top: 10px;
+    font-family: 'Fredoka', sans-serif;
+    font-size: 12px;
+    font-weight: 600;
+    color: #fff;
+    background: linear-gradient(90deg, #6a9fff, #a855f7);
+    border: none;
+    border-radius: 6px;
+    padding: 6px 14px;
+    cursor: pointer;
+    transition: opacity 0.2s, transform 0.2s, box-shadow 0.2s;
+  }
+  .builder-msg .builder-insert:hover {
+    opacity: 0.92;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 14px rgba(138,43,226,0.45);
+  }
+
+  .builder-input-row {
+    display: flex;
+    gap: 10px;
+    align-items: flex-end;
+    padding: 12px 16px;
+    border-top: 1px solid rgba(120,80,255,0.15);
+    flex-shrink: 0;
+  }
+  #builderChatInput {
+    flex: 1;
+    min-width: 0;
+    resize: none;
+    max-height: 140px;
+    font-family: 'Fredoka', sans-serif;
+    font-size: 14px;
+    color: #e8e8ff;
+    background: rgba(10,5,32,0.6);
+    border: 1px solid rgba(120,80,255,0.2);
+    border-radius: 8px;
+    padding: 10px 14px;
+    outline: none;
+    line-height: 1.5;
+    transition: border-color 0.2s;
+  }
+  #builderChatInput:focus { border-color: rgba(106,159,255,0.55); }
+  #builderChatInput::placeholder { color: #5a4a7a; }
+
+  @media (max-width: 820px) {
+    .builder-body { flex-direction: column; overflow-y: auto; }
+    .builder-panel { min-height: 340px; }
+    .builder-title { font-size: 19px; }
+  }
+</style>
+
+<div id="builderOverlay" role="dialog" aria-modal="true" aria-label="Builder Mode">
+  <div class="builder-topbar">
+    <div class="builder-title"><span class="builder-dot"></span>Builder Mode</div>
+    <button class="builder-close" onclick="closeBuilder()" aria-label="Close Builder Mode">✕</button>
+  </div>
+
+  <div class="builder-body">
+
+    <!-- LEFT: Script Editor -->
+    <div class="builder-panel">
+      <div class="builder-panel-head">
+        <input id="builderFilename" class="builder-filename" value="MyScript.java" spellcheck="false" aria-label="Script filename">
+        <button class="builder-btn ghost" onclick="builderCopyScript(this)">Copy Script</button>
+        <button class="builder-btn" onclick="builderDownloadScript()">Download as .java</button>
+      </div>
+      <div class="builder-editor-wrap">
+        <div class="builder-gutter" id="builderGutter">1</div>
+        <textarea id="builderCode" spellcheck="false" placeholder="// Write or generate a Jetsidian script here...
+// Ask the AI on the right, then click &quot;Insert into Editor&quot;."></textarea>
+      </div>
+    </div>
+
+    <!-- RIGHT: AI Assistant -->
+    <div class="builder-panel">
+      <div class="builder-panel-head">
+        <span class="builder-label">AI Assistant · claude-sonnet-4-6</span>
+      </div>
+      <div class="builder-apikey-row">
+        <span class="builder-key-label">API Key</span>
+        <input id="builderApiKey" type="password" placeholder="sk-ant-..." spellcheck="false" autocomplete="off" aria-label="Anthropic API key">
+      </div>
+      <div class="builder-chat" id="builderChat"></div>
+      <div class="builder-input-row">
+        <textarea id="builderChatInput" rows="1" placeholder="Describe the script you want... (Enter to send, Shift+Enter for newline)"></textarea>
+        <button class="builder-btn" id="builderSendBtn" onclick="builderSend()">Send</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<script>
+(function () {
+  var BUILDER_SYSTEM_PROMPT =
+"You are an expert assistant that writes scripts for Jetsidian, an injectable Minecraft client. Read this whole spec and follow it exactly.\n\n" +
+"HOW SCRIPTS WORK\n" +
+"- A script is a single .java file. The client compiles it at runtime and turns it into a toggleable module.\n" +
+"- Output ONLY the class body: fields and methods. NO class declaration, NO imports, NO package line, NO markdown code fences, NO explanation before or after unless the user explicitly asks a question instead of requesting a script.\n" +
+"- Hooks are wired up by method name + parameter count. No annotations or registration. A misspelled hook name silently never runs.\n\n" +
+"HARD RULES\n" +
+"- Never block the game thread: no Thread.sleep, no while-true loops, no networking on the main thread.\n" +
+"- For delays, count ticks inside onPreUpdate(). 20 ticks = 1 second.\n" +
+"- For heavy work, use client.async(() -> { ... }).\n" +
+"- Register every setting in onLoad() only. Read settings anywhere using scriptName as the first argument.\n" +
+"- Cancelable hooks return a boolean: return true to allow the event, false to block it. Always return true when not blocking.\n" +
+"- Reset timers/flags in onDisable() so toggling off leaves nothing pending.\n" +
+"- Colours are ARGB ints, 0xAARRGGBB (0xFF00E5FF = solid cyan, 0x8000E5FF = 50% cyan). Chat colour codes use &: &a green, &c red, &e yellow, &b aqua.\n\n" +
+"EVENTS - void (notification only)\n" +
+"onLoad()                              once after compile; register settings here\n" +
+"onEnable() / onDisable()              module toggled on / off\n" +
+"onPreUpdate() / onPostUpdate()        start / end of each client tick (20/sec) - main loop\n" +
+"onPreMotion(PlayerState s)            before movement packet; mutate s to change it silently\n" +
+"onPostMotion()\n" +
+"onPrePlayerInput(MovementInput in)    set in.forward / in.strafe / in.jump / in.sneak\n" +
+"onRenderWorld(float partial)          3D draw: render.entity / tracer / line3D / text3d / block\n" +
+"onRenderTick(float rtTime)            2D/HUD draw: render.text / rect / roundedRect\n" +
+"onDispatchPacket(CPacket p)           outgoing packet dispatched (info only)\n" +
+"onWorldJoin(Entity e)                 entity entered world; e.isUser = you joining\n" +
+"onPlayerMove(Vec3 delta)\n" +
+"onGuiUpdate(String gui, boolean opened)\n" +
+"onDisconnect()\n\n" +
+"EVENTS - boolean (return false to cancel)\n" +
+"onChat(String message)                incoming chat; false = hide it\n" +
+"onPacketSent(CPacket p)               outgoing packet; false = cancel\n" +
+"onPacketReceived(SPacket p)           incoming packet; false = cancel\n" +
+"onAttackEntity(Entity target, Entity attacker)   false = cancel attack\n" +
+"onKeyPress(char typedChar, int keyCode)          false = swallow key\n" +
+"onMouse(int button, boolean state)               false = swallow click\n\n" +
+"ROTATION OVERRIDE\n" +
+"Float[] getRotations()  - return new Float[]{ yaw, pitch } to silently set server rotations, or null to leave them alone.\n\n" +
+"SETTINGS\n" +
+"Register (in onLoad):\n" +
+"  modules.registerButton(\"Name\", true)\n" +
+"  modules.registerSlider(\"Name\", def, min, max, step)\n" +
+"  modules.registerSlider(\"Name\", 0, new String[]{\"A\",\"B\",\"C\"})   // dropdown, value is the index\n" +
+"  modules.registerKey(\"Name\", keyCode)\n" +
+"  modules.registerDescription(\"text\")\n" +
+"Read (anywhere):\n" +
+"  modules.getButton(scriptName, \"Name\")        -> boolean\n" +
+"  modules.getSlider(scriptName, \"Name\")         -> double\n" +
+"  modules.getKeyPressed(scriptName, \"Name\")     -> boolean (held)\n\n" +
+"API - client\n" +
+"client.chat(String)                send to public chat\n" +
+"client.print(String)               print to your own chat (colour codes work)\n" +
+"client.getPlayer()                 your player as Entity\n" +
+"client.getUser()                   your username\n" +
+"client.isFlying() / client.setFlying(boolean)\n" +
+"client.getMotion() / client.setMotion(Vec3)     Vec3 motion\n" +
+"client.setTimer(double)            game speed (1.0 = normal)\n" +
+"client.jump()                      make the player jump\n" +
+"client.attack(Entity)              attack an entity\n" +
+"client.sendPacket(CPacket)         send a serverbound packet\n" +
+"client.getRotationsToEntity(Entity)   -> float[] { yaw, pitch }\n" +
+"client.async(Runnable)             run work off the main thread\n" +
+"client.getFPS()\n" +
+"client.playSound(String, float, float)\n\n" +
+"API - world\n" +
+"world.getEntities()                all entities\n" +
+"world.getPlayerEntities()          players only\n" +
+"world.getBlockAt(int x, int y, int z)\n" +
+"world.getScoreboard()              list of sidebar lines\n" +
+"world.exists()                     is a world loaded\n\n" +
+"API - render\n" +
+"render.text(String, x, y, scale, color, shadow)                2D text (onRenderTick)\n" +
+"render.rect(x1, y1, x2, y2, color)\n" +
+"render.roundedRect(x1, y1, x2, y2, radius, color)\n" +
+"render.entity(Entity, color, partial, filled, outline)         3D ESP box (onRenderWorld)\n" +
+"render.tracer(Entity, width, color, partial)\n" +
+"render.line3D(Vec3, Vec3, width, color)\n" +
+"render.text3d(String, Vec3, scale, bg, shadow, depth, color)\n" +
+"render.block(Vec3, color, filled, outline)\n\n" +
+"API - util\n" +
+"util.strip(String)                 remove colour codes\n" +
+"util.color(String)                 convert &-codes to real colours\n" +
+"util.round(double, int places)\n" +
+"util.randomInt(int min, int max)\n\n" +
+"API - modules\n" +
+"modules.enable(String) / modules.disable(String) / modules.isEnabled(String)\n" +
+"modules.getKillAuraTarget()        -> current KillAura target Entity (may be null)\n\n" +
+"DATA MODELS\n" +
+"Entity:  e.isUser, e.isPlayer, e.getName(), e.getPosition() -> Vec3, e.getHealth(),\n" +
+"         e.getMaxHealth(), e.distanceTo(Vec3), e.getHeldItem() -> ItemStack,\n" +
+"         e.isSprinting(), e.isDead(), e.entityId\n" +
+"Vec3:    new Vec3(x, y, z); v.offset(Vec3); v.distanceTo(Vec3); v.floor(); v.ceil()\n" +
+"ItemStack: s.type (\"minecraft:diamond_sword\"), s.displayName, s.stackSize, s.getEnchantments()\n\n" +
+"API - inventory\n" +
+"inventory.getStackInSlot(int slot)  -> ItemStack in a slot\n\n" +
+"API - keybinds\n" +
+"keybinds.isKeyDown(int keyCode)     -> boolean (raw key held)\n\n" +
+"PACKETS  (serverbound C.. extend CPacket, clientbound S.. extend SPacket)\n" +
+"C03  position/look   - Vec3 position, float yaw/pitch, boolean ground\n" +
+"C0A  arm swing\n" +
+"C0B  entity action   - sprint start/stop, sneak, etc\n" +
+"S08  server teleport - Vec3 position, float yaw/pitch\n" +
+"S12  entity velocity - int entityId, Vec3 motion\n" +
+"S02  server chat message\n\n" +
+"REFERENCE EXAMPLE - \"Auto GG\" (types gg once, a moment after a game ends):\n" +
+"String[] triggers = { \"Winner:\", \"1st Killer\", \" won the game\", \"1st Place\" };\n" +
+"int sendInTicks = -1;\n" +
+"boolean armed = true;\n\n" +
+"void onLoad() {\n" +
+"    modules.registerSlider(\"Delay\", 1.0, 0.0, 5.0, 0.1);\n" +
+"    modules.registerButton(\"Once per game\", true);\n" +
+"}\n\n" +
+"void onEnable()  { client.print(\"&aAutoGG on\"); }\n" +
+"void onDisable() { sendInTicks = -1; }\n\n" +
+"boolean onChat(String line) {\n" +
+"    boolean once = modules.getButton(scriptName, \"Once per game\");\n" +
+"    if (once && !armed) return true;\n" +
+"    String msg = util.strip(line);\n" +
+"    for (String t : triggers) {\n" +
+"        if (msg.contains(t)) {\n" +
+"            double seconds = modules.getSlider(scriptName, \"Delay\");\n" +
+"            sendInTicks = (int) Math.round(seconds * 20.0);\n" +
+"            armed = false;\n" +
+"            break;\n" +
+"        }\n" +
+"    }\n" +
+"    return true;\n" +
+"}\n\n" +
+"void onPreUpdate() {\n" +
+"    if (sendInTicks < 0) return;\n" +
+"    if (sendInTicks == 0) client.chat(\"gg\");\n" +
+"    sendInTicks--;\n" +
+"}\n\n" +
+"void onWorldJoin(Entity e) {\n" +
+"    if (e.isUser) { armed = true; sendInTicks = -1; }\n" +
+"}\n\n" +
+"When the user requests a script, respond with ONLY the Java class body (no fences, no prose). If the user asks a general question, answer briefly.";
+
+  var builderHistory = []; // { role: 'user'|'assistant', content: '...' }
+
+  // ── Open / close ──────────────────────────────────────────
+  window.openBuilder = function () {
+    var ov = document.getElementById('builderOverlay');
+    ov.classList.add('open');
+    document.body.style.overflow = 'hidden';
+    var key = localStorage.getItem('jetsidianAnthropicKey');
+    if (key) document.getElementById('builderApiKey').value = key;
+    builderUpdateGutter();
+    if (document.getElementById('builderChat').children.length === 0) {
+      builderAddNote('Paste your Anthropic API key above, then describe the script you want. Claude will write it and you can insert it into the editor.');
+    }
+  };
+  window.closeBuilder = function () {
+    document.getElementById('builderOverlay').classList.remove('open');
+    document.body.style.overflow = '';
+  };
+
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape' && document.getElementById('builderOverlay').classList.contains('open')) {
+      closeBuilder();
+    }
+  });
+
+  // ── Editor: line numbers ──────────────────────────────────
+  var codeEl = document.getElementById('builderCode');
+  var gutterEl = document.getElementById('builderGutter');
+  function builderUpdateGutter() {
+    var lines = codeEl.value.split('\n').length;
+    var out = '';
+    for (var i = 1; i <= lines; i++) out += i + (i < lines ? '\n' : '');
+    gutterEl.textContent = out || '1';
+  }
+  window.builderUpdateGutter = builderUpdateGutter;
+  codeEl.addEventListener('input', builderUpdateGutter);
+  codeEl.addEventListener('scroll', function () { gutterEl.scrollTop = codeEl.scrollTop; });
+  // Tab inserts spaces instead of leaving the field
+  codeEl.addEventListener('keydown', function (e) {
+    if (e.key === 'Tab') {
+      e.preventDefault();
+      var s = this.selectionStart, en = this.selectionEnd;
+      this.value = this.value.substring(0, s) + '    ' + this.value.substring(en);
+      this.selectionStart = this.selectionEnd = s + 4;
+      builderUpdateGutter();
+    }
+  });
+
+  // ── Editor buttons ────────────────────────────────────────
+  window.builderCopyScript = function (btn) {
+    var text = codeEl.value;
+    var label = btn.getAttribute('data-label');
+    if (label === null) { label = btn.textContent; btn.setAttribute('data-label', label); }
+    function done() { btn.textContent = 'Copied!'; setTimeout(function () { btn.textContent = label; }, 1500); }
+    function fallback() {
+      var ta = document.createElement('textarea');
+      ta.value = text; ta.style.position = 'fixed'; ta.style.opacity = '0';
+      document.body.appendChild(ta); ta.select();
+      try { document.execCommand('copy'); } catch (e) {}
+      document.body.removeChild(ta); done();
+    }
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(text).then(done, fallback);
+    } else { fallback(); }
+  };
+
+  window.builderDownloadScript = function () {
+    var name = (document.getElementById('builderFilename').value || 'MyScript.java').trim();
+    if (!/\.java$/i.test(name)) name += '.java';
+    var blob = new Blob([codeEl.value], { type: 'text/x-java-source' });
+    var url = URL.createObjectURL(blob);
+    var a = document.createElement('a');
+    a.href = url; a.download = name;
+    document.body.appendChild(a); a.click(); document.body.removeChild(a);
+    setTimeout(function () { URL.revokeObjectURL(url); }, 1000);
+  };
+
+  // ── API key persistence ───────────────────────────────────
+  document.getElementById('builderApiKey').addEventListener('input', function () {
+    var v = this.value.trim();
+    if (v) localStorage.setItem('jetsidianAnthropicKey', v);
+    else localStorage.removeItem('jetsidianAnthropicKey');
+  });
+
+  // ── Chat rendering ────────────────────────────────────────
+  var chatEl = document.getElementById('builderChat');
+  function esc(s) {
+    return s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+  }
+  function stripFences(text) {
+    var m = text.match(/```(?:java)?\s*\n?([\s\S]*?)```/);
+    return m ? m[1].replace(/\s+$/, '') : text.trim();
+  }
+  function scrollChat() { chatEl.scrollTop = chatEl.scrollHeight; }
+
+  window.builderAddNote = function (text) {
+    var d = document.createElement('div');
+    d.className = 'builder-msg system-note';
+    d.textContent = text;
+    chatEl.appendChild(d); scrollChat();
+  };
+  function addUser(text) {
+    var d = document.createElement('div');
+    d.className = 'builder-msg user';
+    d.textContent = text;
+    chatEl.appendChild(d); scrollChat();
+  }
+  function addAi(text) {
+    var code = stripFences(text);
+    var d = document.createElement('div');
+    d.className = 'builder-msg ai';
+    var pre = document.createElement('pre');
+    pre.innerHTML = esc(text);
+    d.appendChild(pre);
+    var ins = document.createElement('button');
+    ins.className = 'builder-insert';
+    ins.textContent = 'Insert into Editor';
+    ins.onclick = function () {
+      codeEl.value = code;
+      builderUpdateGutter();
+      codeEl.scrollTop = 0;
+      ins.textContent = 'Inserted ✓';
+      setTimeout(function () { ins.textContent = 'Insert into Editor'; }, 1500);
+    };
+    d.appendChild(ins);
+    chatEl.appendChild(d); scrollChat();
+    return d;
+  }
+  function addPending() {
+    var d = document.createElement('div');
+    d.className = 'builder-msg ai';
+    d.textContent = 'Thinking…';
+    chatEl.appendChild(d); scrollChat();
+    return d;
+  }
+
+  // ── Send to Claude ────────────────────────────────────────
+  window.builderSend = function () {
+    var input = document.getElementById('builderChatInput');
+    var text = input.value.trim();
+    if (!text) return;
+    var key = document.getElementById('builderApiKey').value.trim();
+    if (!key) { builderAddNote('Please paste your Anthropic API key above first.'); return; }
+
+    addUser(text);
+    builderHistory.push({ role: 'user', content: text });
+    input.value = '';
+    input.style.height = 'auto';
+
+    var sendBtn = document.getElementById('builderSendBtn');
+    sendBtn.disabled = true;
+    var pending = addPending();
+
+    fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: {
+        'content-type': 'application/json',
+        'x-api-key': key,
+        'anthropic-version': '2023-06-01',
+        'anthropic-dangerous-direct-browser-access': 'true'
+      },
+      body: JSON.stringify({
+        model: 'claude-sonnet-4-6',
+        max_tokens: 4096,
+        system: BUILDER_SYSTEM_PROMPT,
+        messages: builderHistory
+      })
+    })
+    .then(function (r) {
+      return r.json().then(function (data) { return { ok: r.ok, data: data }; });
+    })
+    .then(function (res) {
+      pending.remove();
+      if (!res.ok) {
+        var msg = (res.data && res.data.error && res.data.error.message) ? res.data.error.message : 'Request failed.';
+        builderAddNote('Error: ' + msg);
+        builderHistory.pop();
+        return;
+      }
+      var reply = '';
+      if (res.data && res.data.content) {
+        for (var i = 0; i < res.data.content.length; i++) {
+          if (res.data.content[i].type === 'text') reply += res.data.content[i].text;
+        }
+      }
+      reply = reply || '(empty response)';
+      builderHistory.push({ role: 'assistant', content: reply });
+      addAi(reply);
+    })
+    .catch(function (err) {
+      pending.remove();
+      builderAddNote('Network error: ' + err.message + ' (the key must be valid and your browser must allow the request).');
+      builderHistory.pop();
+    })
+    .then(function () { sendBtn.disabled = false; });
+  };
+
+  // Enter to send, Shift+Enter for newline, auto-grow
+  var chatInput = document.getElementById('builderChatInput');
+  chatInput.addEventListener('keydown', function (e) {
+    if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); builderSend(); }
+  });
+  chatInput.addEventListener('input', function () {
+    this.style.height = 'auto';
+    this.style.height = Math.min(this.scrollHeight, 140) + 'px';
+  });
+})();
+</script>
+
 <script src="sounds.js"></script>
 <script src="snow.js"></script>
 <script>
