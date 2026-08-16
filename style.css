@@ -129,22 +129,32 @@ nav {
 }
 
 nav button {
-  background: linear-gradient(135deg, #4a00e0, #8e2de2);
-  color: white;
-  border: none;
+  background: linear-gradient(135deg, rgba(120, 80, 255, 0.34), rgba(90, 40, 200, 0.22));
+  color: #fff;
+  border: 1px solid rgba(255, 255, 255, 0.16);
   padding: 7px 14px;
-  border-radius: 6px;
+  border-radius: 9px;
   cursor: pointer;
   font-size: 13px;
   font-family: 'Fredoka', sans-serif;
-  transition: opacity 0.2s, transform 0.2s, box-shadow 0.2s;
+  backdrop-filter: blur(14px) saturate(170%);
+  -webkit-backdrop-filter: blur(14px) saturate(170%);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.28),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.22),
+    0 4px 16px rgba(0, 0, 0, 0.25);
+  transition: transform 0.2s, box-shadow 0.2s, background 0.2s, border-color 0.2s;
   white-space: nowrap;
 }
 
 nav button:hover {
-  opacity: 0.9;
+  background: linear-gradient(135deg, rgba(142, 102, 255, 0.5), rgba(110, 60, 220, 0.34));
+  border-color: rgba(255, 255, 255, 0.3);
   transform: translateY(-2px);
-  box-shadow: 0 4px 20px rgba(138, 43, 226, 0.5);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.4),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.2),
+    0 6px 24px rgba(138, 43, 226, 0.45);
 }
 
 /* HERO */
@@ -183,17 +193,23 @@ nav button:hover {
 .card-wrap { perspective: 900px; }
 
 .card {
-  background: linear-gradient(160deg, rgba(25, 22, 45, 0.25), rgba(12, 10, 28, 0.30));
-  border: 1px solid rgba(120, 80, 255, 0.25);
-  border-radius: 14px;
+  position: relative;
+  background:
+    linear-gradient(160deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0) 42%),
+    linear-gradient(160deg, rgba(25, 22, 45, 0.32), rgba(12, 10, 28, 0.4));
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-radius: 18px;
   padding: 40px 36px;
   max-width: 520px;
   width: 100%;
   text-align: center;
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
+  backdrop-filter: blur(24px) saturate(175%);
+  -webkit-backdrop-filter: blur(24px) saturate(175%);
   transform: rotateY(15deg) rotateX(4deg) rotate(1deg);
   box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.3),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.04),
+    inset 0 -20px 40px rgba(0, 0, 0, 0.2),
     0 0 40px rgba(138, 43, 226, 0.3),
     0 0 80px rgba(100, 0, 200, 0.15),
     0 30px 80px rgba(0, 0, 0, 0.7);
@@ -202,10 +218,13 @@ nav button:hover {
 
 .card:hover {
   box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.42),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.06),
+    inset 0 -20px 40px rgba(0, 0, 0, 0.18),
     0 0 60px rgba(138, 43, 226, 0.5),
     0 0 100px rgba(100, 0, 200, 0.25),
     0 30px 80px rgba(0, 0, 0, 0.7);
-  border-color: rgba(150, 100, 255, 0.5);
+  border-color: rgba(180, 150, 255, 0.55);
 }
 
 .card h1 {
@@ -237,8 +256,10 @@ nav button:hover {
 .terminal-wrap { perspective: 900px; }
 
 .terminal {
-  background: linear-gradient(160deg, rgba(25, 22, 45, 0.25), rgba(12, 10, 28, 0.30));
-  border-radius: 12px;
+  background:
+    linear-gradient(160deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0) 42%),
+    linear-gradient(160deg, rgba(25, 22, 45, 0.32), rgba(12, 10, 28, 0.4));
+  border-radius: 16px;
   padding: 40px 36px;
   min-width: 520px;
   max-width: 520px;
@@ -247,16 +268,22 @@ nav button:hover {
   position: relative;
   transform: rotateY(-15deg) rotateX(4deg) rotate(-1deg);
   box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.28),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.04),
+    inset 0 -20px 40px rgba(0, 0, 0, 0.22),
     0 0 40px rgba(100, 0, 255, 0.35),
     0 0 80px rgba(80, 0, 200, 0.2),
     0 30px 80px rgba(0, 0, 0, 0.7);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
+  backdrop-filter: blur(24px) saturate(175%);
+  -webkit-backdrop-filter: blur(24px) saturate(175%);
   transition: box-shadow 0.3s;
 }
 
 .terminal:hover {
   box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.4),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.06),
+    inset 0 -20px 40px rgba(0, 0, 0, 0.2),
     0 0 60px rgba(100, 0, 255, 0.55),
     0 0 100px rgba(80, 0, 200, 0.3),
     0 30px 80px rgba(0, 0, 0, 0.7);
@@ -335,20 +362,28 @@ nav button:hover {
 }
 
 .feature-card {
-  background: linear-gradient(160deg, rgba(25, 22, 45, 0.28), rgba(12, 10, 28, 0.32));
-  border: 1px solid rgba(120, 80, 255, 0.18);
-  border-radius: 14px;
+  position: relative;
+  background:
+    linear-gradient(160deg, rgba(255, 255, 255, 0.07), rgba(255, 255, 255, 0) 45%),
+    linear-gradient(160deg, rgba(25, 22, 45, 0.32), rgba(12, 10, 28, 0.38));
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 18px;
   padding: 36px 28px;
   text-align: left;
-  backdrop-filter: blur(14px);
-  -webkit-backdrop-filter: blur(14px);
+  backdrop-filter: blur(20px) saturate(170%);
+  -webkit-backdrop-filter: blur(20px) saturate(170%);
   transition: border-color 0.3s, box-shadow 0.3s, transform 0.3s;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.24),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.04),
+    0 8px 32px rgba(0, 0, 0, 0.3);
 }
 
 .feature-card:hover {
-  border-color: rgba(150, 100, 255, 0.45);
+  border-color: rgba(180, 150, 255, 0.5);
   box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.36),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.06),
     0 0 30px rgba(138, 43, 226, 0.25),
     0 12px 40px rgba(0, 0, 0, 0.4);
   transform: translateY(-4px);
@@ -388,10 +423,13 @@ nav button:hover {
   position: relative;
   z-index: 5;
   width: 100%;
-  border-top: 1px solid rgba(120, 80, 255, 0.15);
-  background: rgba(10, 5, 32, 0.5);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0) 40%),
+    rgba(10, 5, 32, 0.5);
+  backdrop-filter: blur(18px) saturate(170%);
+  -webkit-backdrop-filter: blur(18px) saturate(170%);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.14);
   padding: 40px 60px;
 }
 
@@ -458,14 +496,20 @@ nav button:hover {
   bottom: 20px;
   left: 20px;
   z-index: 10;
-  background: rgba(12, 10, 28, 0.75);
-  border: 1px solid rgba(120, 80, 255, 0.2);
-  border-radius: 8px;
+  background:
+    linear-gradient(160deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0) 50%),
+    rgba(12, 10, 28, 0.6);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-radius: 12px;
   padding: 8px 20px;
   font-family: 'Fredoka', sans-serif;
   font-size: 15px;
   color: #9b87c8;
-  backdrop-filter: blur(10px);
+  backdrop-filter: blur(16px) saturate(170%);
+  -webkit-backdrop-filter: blur(16px) saturate(170%);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.22),
+    0 8px 24px rgba(0, 0, 0, 0.35);
 }
 
 .credit-bleach {
@@ -672,27 +716,40 @@ nav button:hover {
 }
 
 .pricing-card {
-  background: linear-gradient(160deg, rgba(25, 22, 45, 0.28), rgba(12, 10, 28, 0.32));
-  border: 1px solid rgba(120, 80, 255, 0.18);
-  border-radius: 16px;
+  background:
+    linear-gradient(160deg, rgba(255, 255, 255, 0.07), rgba(255, 255, 255, 0) 45%),
+    linear-gradient(160deg, rgba(25, 22, 45, 0.32), rgba(12, 10, 28, 0.38));
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 20px;
   padding: 32px 24px 28px;
   text-align: center;
-  backdrop-filter: blur(14px);
-  -webkit-backdrop-filter: blur(14px);
+  backdrop-filter: blur(20px) saturate(170%);
+  -webkit-backdrop-filter: blur(20px) saturate(170%);
   transition: border-color 0.3s, box-shadow 0.3s, transform 0.3s;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.24),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.04),
+    0 8px 32px rgba(0, 0, 0, 0.3);
   position: relative;
 }
 
 .pricing-card:hover {
-  border-color: rgba(150, 100, 255, 0.45);
-  box-shadow: 0 0 30px rgba(138, 43, 226, 0.25), 0 12px 40px rgba(0, 0, 0, 0.4);
+  border-color: rgba(180, 150, 255, 0.5);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.36),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.06),
+    0 0 30px rgba(138, 43, 226, 0.25),
+    0 12px 40px rgba(0, 0, 0, 0.4);
   transform: translateY(-4px);
 }
 
 .pricing-lifetime {
-  border-color: rgba(168, 85, 247, 0.45);
-  box-shadow: 0 0 30px rgba(168, 85, 247, 0.2), 0 8px 32px rgba(0, 0, 0, 0.4);
+  border-color: rgba(200, 130, 255, 0.5);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.3),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.05),
+    0 0 30px rgba(168, 85, 247, 0.2),
+    0 8px 32px rgba(0, 0, 0, 0.4);
 }
 
 .pricing-period {
@@ -765,22 +822,31 @@ nav button:hover {
   display: block;
   width: 100%;
   padding: 12px;
-  background: linear-gradient(135deg, #4a00e0, #8e2de2);
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.18), rgba(255, 255, 255, 0) 55%),
+    linear-gradient(135deg, #4a00e0, #8e2de2);
   color: white;
-  border: none;
-  border-radius: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 10px;
   font-size: 15px;
   font-family: 'Fredoka', sans-serif;
   font-weight: 600;
   cursor: pointer;
   text-decoration: none;
-  transition: opacity 0.2s, transform 0.2s, box-shadow 0.2s;
+  backdrop-filter: blur(10px) saturate(160%);
+  -webkit-backdrop-filter: blur(10px) saturate(160%);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.4),
+    inset 0 -2px 6px rgba(0, 0, 0, 0.2);
+  transition: transform 0.2s, box-shadow 0.2s, filter 0.2s;
 }
 
 .pricing-btn:hover {
-  opacity: 0.9;
+  filter: brightness(1.08);
   transform: translateY(-2px);
-  box-shadow: 0 4px 20px rgba(138, 43, 226, 0.5);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.5),
+    0 6px 24px rgba(138, 43, 226, 0.5);
 }
 
 .pricing-btn-lifetime {

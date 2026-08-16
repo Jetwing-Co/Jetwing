@@ -57,11 +57,18 @@
       position: sticky;
       top: 100px;
       min-width: 200px;
-      background: linear-gradient(160deg, rgba(25,22,45,0.28), rgba(12,10,28,0.32));
-      border: 1px solid rgba(120,80,255,0.18);
-      border-radius: 12px;
+      background:
+        linear-gradient(160deg, rgba(255,255,255,0.07), rgba(255,255,255,0) 45%),
+        linear-gradient(160deg, rgba(25,22,45,0.32), rgba(12,10,28,0.38));
+      border: 1px solid rgba(255,255,255,0.12);
+      border-radius: 16px;
       padding: 20px;
-      backdrop-filter: blur(14px);
+      backdrop-filter: blur(20px) saturate(170%);
+      -webkit-backdrop-filter: blur(20px) saturate(170%);
+      box-shadow:
+        inset 0 1px 0 rgba(255,255,255,0.22),
+        inset 0 0 0 1px rgba(255,255,255,0.04),
+        0 8px 32px rgba(0,0,0,0.3);
     }
     .docs-toc h4 {
       font-family: 'Fredoka', sans-serif;
@@ -133,15 +140,22 @@
       font-family: 'Courier New', monospace;
     }
     pre {
-      background: rgba(10,5,32,0.6);
-      border: 1px solid rgba(120,80,255,0.15);
-      border-radius: 10px;
+      background:
+        linear-gradient(160deg, rgba(255,255,255,0.05), rgba(255,255,255,0) 40%),
+        rgba(10,5,32,0.5);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 12px;
       padding: 20px;
       overflow-x: auto;
       margin: 16px 0;
       font-size: 13px;
       line-height: 1.65;
       color: #e8e8ff;
+      backdrop-filter: blur(14px) saturate(160%);
+      -webkit-backdrop-filter: blur(14px) saturate(160%);
+      box-shadow:
+        inset 0 1px 0 rgba(255,255,255,0.14),
+        inset 0 0 0 1px rgba(255,255,255,0.03);
     }
     code {
       background: rgba(106,159,255,0.1);
@@ -187,15 +201,21 @@
     .api-table tr:hover td { background: rgba(106,159,255,0.04); }
  
     .callout {
-      background: rgba(106,159,255,0.07);
+      background:
+        linear-gradient(160deg, rgba(255,255,255,0.06), rgba(255,255,255,0) 50%),
+        rgba(106,159,255,0.08);
+      border: 1px solid rgba(255,255,255,0.08);
       border-left: 3px solid #6a9fff;
-      border-radius: 0 8px 8px 0;
+      border-radius: 4px 12px 12px 4px;
       padding: 14px 18px;
       margin: 16px 0;
       color: #a89ec0;
       font-family: 'Fredoka', sans-serif;
       font-size: 14px;
       line-height: 1.65;
+      backdrop-filter: blur(14px) saturate(165%);
+      -webkit-backdrop-filter: blur(14px) saturate(165%);
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.14);
     }
     .callout.warn {
       background: rgba(168,85,247,0.07);
@@ -1047,8 +1067,8 @@ NOW WRITE ME A SCRIPT THAT:
       radial-gradient(ellipse at top left, rgba(100, 0, 255, 0.35) 0%, transparent 60%),
       radial-gradient(ellipse at bottom right, rgba(80, 0, 200, 0.30) 0%, transparent 60%),
       linear-gradient(135deg, #0a0520 0%, #12063a 30%, #1a0850 60%, #0d0428 100%);
-    backdrop-filter: blur(4px);
-    -webkit-backdrop-filter: blur(4px);
+    backdrop-filter: blur(6px) saturate(160%);
+    -webkit-backdrop-filter: blur(6px) saturate(160%);
   }
   #builderOverlay.open { display: flex; }
 
@@ -1058,10 +1078,13 @@ NOW WRITE ME A SCRIPT THAT:
     justify-content: space-between;
     gap: 16px;
     padding: 14px 22px;
-    background: linear-gradient(160deg, rgba(25,22,45,0.42), rgba(12,10,28,0.5));
-    border-bottom: 1px solid rgba(120,80,255,0.22);
-    backdrop-filter: blur(16px);
-    -webkit-backdrop-filter: blur(16px);
+    background:
+      linear-gradient(180deg, rgba(255,255,255,0.08), rgba(255,255,255,0) 60%),
+      linear-gradient(160deg, rgba(25,22,45,0.45), rgba(12,10,28,0.52));
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+    backdrop-filter: blur(22px) saturate(175%);
+    -webkit-backdrop-filter: blur(22px) saturate(175%);
+    box-shadow: inset 0 1px 0 rgba(255,255,255,0.18);
     flex-shrink: 0;
   }
   .builder-title {
@@ -1118,12 +1141,17 @@ NOW WRITE ME A SCRIPT THAT:
     flex-direction: column;
     min-width: 0;
     min-height: 0;
-    background: linear-gradient(160deg, rgba(25,22,45,0.28), rgba(12,10,28,0.32));
-    border: 1px solid rgba(120,80,255,0.18);
-    border-radius: 14px;
-    backdrop-filter: blur(14px);
-    -webkit-backdrop-filter: blur(14px);
-    box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+    background:
+      linear-gradient(160deg, rgba(255,255,255,0.06), rgba(255,255,255,0) 42%),
+      linear-gradient(160deg, rgba(25,22,45,0.32), rgba(12,10,28,0.38));
+    border: 1px solid rgba(255,255,255,0.12);
+    border-radius: 18px;
+    backdrop-filter: blur(22px) saturate(170%);
+    -webkit-backdrop-filter: blur(22px) saturate(170%);
+    box-shadow:
+      inset 0 1px 0 rgba(255,255,255,0.2),
+      inset 0 0 0 1px rgba(255,255,255,0.04),
+      0 8px 32px rgba(0,0,0,0.3);
     overflow: hidden;
   }
 
@@ -1150,18 +1178,23 @@ NOW WRITE ME A SCRIPT THAT:
     font-size: 13px;
     font-weight: 600;
     color: #fff;
-    background: linear-gradient(90deg, #6a9fff, #a855f7);
-    border: none;
-    border-radius: 6px;
+    background:
+      linear-gradient(180deg, rgba(255,255,255,0.22), rgba(255,255,255,0) 55%),
+      linear-gradient(90deg, #6a9fff, #a855f7);
+    border: 1px solid rgba(255,255,255,0.2);
+    border-radius: 8px;
     padding: 7px 16px;
     cursor: pointer;
-    transition: opacity 0.2s, transform 0.2s, box-shadow 0.2s;
+    box-shadow: inset 0 1px 0 rgba(255,255,255,0.4);
+    transition: transform 0.2s, box-shadow 0.2s, filter 0.2s;
     white-space: nowrap;
   }
   .builder-btn:hover {
-    opacity: 0.92;
+    filter: brightness(1.08);
     transform: translateY(-1px);
-    box-shadow: 0 4px 16px rgba(138,43,226,0.45);
+    box-shadow:
+      inset 0 1px 0 rgba(255,255,255,0.5),
+      0 4px 16px rgba(138,43,226,0.45);
   }
   .builder-btn.ghost {
     background: linear-gradient(160deg, rgba(25,22,45,0.4), rgba(12,10,28,0.5));
