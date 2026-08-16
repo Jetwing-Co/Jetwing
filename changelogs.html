@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Changelogs | Jetsidian</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    .cl-wrap {
+      position: relative;
+      z-index: 5;
+      max-width: 820px;
+      width: 100%;
+      margin: 0 auto;
+      padding: 120px 32px 100px;
+    }
+
+    .cl-back {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      color: #7a6a9a;
+      font-family: 'Fredoka', sans-serif;
+      font-size: 15px;
+      text-decoration: none;
+      margin-bottom: 40px;
+      transition: color 0.2s;
+    }
+    .cl-back:hover { color: #a855f7; }
+
+    .cl-hero { margin-bottom: 56px; }
+    .cl-hero h1 {
+      font-size: 48px;
+      font-weight: 700;
+      font-family: 'Fredoka', sans-serif;
+      background: linear-gradient(90deg, #6a9fff, #a855f7);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin-bottom: 12px;
+    }
+    .cl-hero p {
+      color: #7a6a9a;
+      font-family: 'Fredoka', sans-serif;
+      font-size: 16px;
+    }
+
+    /* Timeline */
+    .cl-list {
+      position: relative;
+      padding-left: 26px;
+    }
+    .cl-list::before {
+      content: '';
+      position: absolute;
+      left: 6px;
+      top: 6px;
+      bottom: 6px;
+      width: 2px;
+      background: linear-gradient(180deg, #6a9fff, #a855f7);
+      opacity: 0.35;
+      border-radius: 2px;
+    }
+
+    .cl-entry {
+      position: relative;
+      background: linear-gradient(160deg, rgba(25,22,45,0.28), rgba(12,10,28,0.32));
+      border: 1px solid rgba(120,80,255,0.18);
+      border-radius: 14px;
+      padding: 26px 28px;
+      margin-bottom: 26px;
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+      transition: border-color 0.3s, box-shadow 0.3s, transform 0.3s;
+    }
+    .cl-entry:hover {
+      border-color: rgba(150,100,255,0.45);
+      box-shadow: 0 0 30px rgba(138,43,226,0.22), 0 12px 40px rgba(0,0,0,0.4);
+      transform: translateY(-3px);
+    }
+    /* timeline dot */
+    .cl-entry::before {
+      content: '';
+      position: absolute;
+      left: -26px;
+      top: 30px;
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #6a9fff, #a855f7);
+      box-shadow: 0 0 12px rgba(138,43,226,0.7);
+      transform: translateX(-1px);
+    }
+
+    .cl-head {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      flex-wrap: wrap;
+      margin-bottom: 8px;
+    }
+    .cl-version {
+      font-family: 'Fredoka', sans-serif;
+      font-weight: 700;
+      font-size: 22px;
+      background: linear-gradient(90deg, #6a9fff, #a855f7);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .cl-date {
+      font-family: 'Fredoka', sans-serif;
+      font-size: 12px;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      color: #5a4a7a;
+      background: rgba(106,159,255,0.08);
+      border: 1px solid rgba(120,80,255,0.15);
+      border-radius: 20px;
+      padding: 3px 12px;
+    }
+    .cl-latest {
+      font-family: 'Fredoka', sans-serif;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 1px;
+      color: #fff;
+      background: linear-gradient(135deg, #6a9fff, #a855f7);
+      border-radius: 20px;
+      padding: 3px 11px;
+    }
+    .cl-title {
+      font-family: 'Fredoka', sans-serif;
+      font-size: 15px;
+      color: #a89ec0;
+      margin-bottom: 16px;
+    }
+
+    .cl-group { margin-top: 14px; }
+    .cl-badge {
+      display: inline-block;
+      font-family: 'Fredoka', sans-serif;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      border-radius: 6px;
+      padding: 3px 10px;
+      margin-bottom: 8px;
+    }
+    .cl-badge.added    { color: #4ade80; background: rgba(74,222,128,0.1);  border: 1px solid rgba(74,222,128,0.25); }
+    .cl-badge.fixed    { color: #f472b6; background: rgba(244,114,182,0.1); border: 1px solid rgba(244,114,182,0.25); }
+    .cl-badge.improved { color: #6a9fff; background: rgba(106,159,255,0.1); border: 1px solid rgba(106,159,255,0.25); }
+    .cl-badge.changed  { color: #a855f7; background: rgba(168,85,247,0.1);  border: 1px solid rgba(168,85,247,0.25); }
+
+    .cl-entry ul {
+      list-style: none;
+      padding-left: 2px;
+      margin-bottom: 4px;
+    }
+    .cl-entry li {
+      position: relative;
+      font-family: 'Fredoka', sans-serif;
+      font-size: 14.5px;
+      color: #a89ec0;
+      line-height: 1.6;
+      padding-left: 18px;
+      margin-bottom: 5px;
+    }
+    .cl-entry li::before {
+      content: '';
+      position: absolute;
+      left: 2px;
+      top: 9px;
+      width: 5px;
+      height: 5px;
+      border-radius: 50%;
+      background: #6a9fff;
+    }
+    .cl-entry code {
+      font-family: 'Courier New', monospace;
+      font-size: 12.5px;
+      color: #6a9fff;
+      background: rgba(106,159,255,0.1);
+      border: 1px solid rgba(106,159,255,0.15);
+      border-radius: 4px;
+      padding: 1px 5px;
+    }
+
+    @media (max-width: 700px) {
+      html, body { overflow-x: hidden; }
+      .cl-wrap { box-sizing: border-box; padding: 100px 16px 60px; }
+      .cl-hero { margin-bottom: 40px; }
+      .cl-hero h1 { font-size: 34px; }
+      .cl-hero p { font-size: 15px; }
+      .cl-entry { padding: 22px 20px; }
+      .cl-version { font-size: 19px; }
+    }
+    @media (max-width: 480px) {
+      .cl-wrap { padding: 88px 12px 48px; }
+      .cl-back { margin-bottom: 28px; font-size: 14px; }
+      .cl-hero h1 { font-size: 27px; }
+      .cl-list { padding-left: 20px; }
+      .cl-entry::before { left: -20px; }
+      .cl-entry li { font-size: 14px; }
+    }
+  </style>
+</head>
+<body>
+<canvas id="snow"></canvas>
+<div id="orb"></div>
+
+<nav>
+  <div class="nav-links" id="navLinks">
+    <button onclick="window.location.href='index.html'">Home</button>
+    <button onclick="window.location.href='docs.html'">Docs</button>
+    <button onclick="window.open('https://discord.gg/JbGbVn3HMT', '_blank')">Discord</button>
+    <button id="snowToggle" onclick="toggleSnow()">White Snow</button>
+  </div>
+  <button class="hamburger" id="hamburger" onclick="toggleNav()" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<div class="cl-wrap">
+  <a class="cl-back" href="index.html">← Back to Home</a>
+
+  <div class="cl-hero">
+    <h1>Changelogs</h1>
+    <p>Every update to Jetsidian, newest first. We ship changes pretty often, so check back.</p>
+  </div>
+
+  <div class="cl-list">
+
+    <!-- v2.4.0 -->
+    <div class="cl-entry">
+      <div class="cl-head">
+        <span class="cl-version">v2.4.0</span>
+        <span class="cl-date">Aug 10, 2026</span>
+        <span class="cl-latest">LATEST</span>
+      </div>
+      <p class="cl-title">Builder Mode and a big docs pass.</p>
+
+      <div class="cl-group">
+        <span class="cl-badge added">Added</span>
+        <ul>
+          <li>Builder Mode in the docs, so you can write and test Jetsidian scripts right in your browser.</li>
+          <li>A proper scripting API reference with events, all the namespaces, data models and packets.</li>
+          <li>Cloud tab in the theme browser for sharing themes with the community.</li>
+        </ul>
+      </div>
+
+      <div class="cl-group">
+        <span class="cl-badge fixed">Fixed</span>
+        <ul>
+          <li>Camera freezing for a split second when Silent Aim swapped rotations.</li>
+          <li>Stuck sneak when you opened a GUI while BridgeAssist was running.</li>
+        </ul>
+      </div>
+
+      <div class="cl-group">
+        <span class="cl-badge improved">Improved</span>
+        <ul>
+          <li>KillAura target switching feels a lot smoother now.</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- v2.3.0 -->
+    <div class="cl-entry">
+      <div class="cl-head">
+        <span class="cl-version">v2.3.0</span>
+        <span class="cl-date">Jul 2, 2026</span>
+      </div>
+      <p class="cl-title">Clutch update and more Grim work.</p>
+
+      <div class="cl-group">
+        <span class="cl-badge added">Added</span>
+        <ul>
+          <li>ClutchV3 with an Auto Clutch mode that predicts your fall the way Grim expects.</li>
+          <li>New Grim bypass profiles for a few movement modules.</li>
+        </ul>
+      </div>
+
+      <div class="cl-group">
+        <span class="cl-badge fixed">Fixed</span>
+        <ul>
+          <li>FastPlace CPS not matching the slider value.</li>
+          <li>A couple of modules silently doing nothing after a reload.</li>
+        </ul>
+      </div>
+
+      <div class="cl-group">
+        <span class="cl-badge changed">Changed</span>
+        <ul>
+          <li>Panel still opens with <code>Right Shift</code>, but you can now rebind it per profile.</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- v2.2.0 -->
+    <div class="cl-entry">
+      <div class="cl-head">
+        <span class="cl-version">v2.2.0</span>
+        <span class="cl-date">May 18, 2026</span>
+      </div>
+      <p class="cl-title">Visual overhaul.</p>
+
+      <div class="cl-group">
+        <span class="cl-badge added">Added</span>
+        <ul>
+          <li>RefineVisuals V2: rounded ESP boxes, gradient glow, pill nametags with a HP bar, chams rim lighting and fading tracers.</li>
+        </ul>
+      </div>
+
+      <div class="cl-group">
+        <span class="cl-badge improved">Improved</span>
+        <ul>
+          <li>Cleaner glass style across the HUD and panel.</li>
+          <li>Better performance when a lot of players are on screen.</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- v2.1.0 -->
+    <div class="cl-entry">
+      <div class="cl-head">
+        <span class="cl-version">v2.1.0</span>
+        <span class="cl-date">Apr 5, 2026</span>
+      </div>
+      <p class="cl-title">Scripting and accounts.</p>
+
+      <div class="cl-group">
+        <span class="cl-badge added">Added</span>
+        <ul>
+          <li>The scripting system: drop a <code>.java</code> file in the scripts folder and it becomes a toggleable module.</li>
+          <li>HWID lock and a 60 day remember-me login so you dont have to sign in every time.</li>
+        </ul>
+      </div>
+
+      <div class="cl-group">
+        <span class="cl-badge fixed">Fixed</span>
+        <ul>
+          <li>Injector needing admin on some systems without telling you why.</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- v2.0.0 -->
+    <div class="cl-entry">
+      <div class="cl-head">
+        <span class="cl-version">v2.0.0</span>
+        <span class="cl-date">Feb 20, 2026</span>
+      </div>
+      <p class="cl-title">The big rewrite.</p>
+
+      <div class="cl-group">
+        <span class="cl-badge added">Added</span>
+        <ul>
+          <li>129 modules across every category, all in one client.</li>
+          <li>Injectable into Lunar Client and vanilla Minecraft.</li>
+          <li>Anticheat bypass built from scratch for Watchdog, Grim and NCP.</li>
+          <li>A brand new drag and drop GUI with per-module settings and keybinds.</li>
+        </ul>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<footer class="site-footer">
+  <div class="footer-inner">
+    <div class="footer-links">
+      <a href="index.html">Home</a>
+      <a href="docs.html">Docs</a>
+      <a href="https://discord.gg/JbGbVn3HMT" target="_blank">Discord</a>
+    </div>
+    <p class="footer-copy">© 2026 Jetsidian &nbsp;·&nbsp; Client: Bleach &nbsp;·&nbsp; Website: WhyShallow &amp; Bleach &nbsp;·&nbsp; Discord: epcapnimi</p>
+  </div>
+</footer>
+
+<script src="sounds.js"></script>
+<script src="snow.js"></script>
+<script>
+  function toggleNav() {
+    document.getElementById('navLinks').classList.toggle('open');
+    document.getElementById('hamburger').classList.toggle('active');
+  }
+  document.addEventListener('click', function(e) {
+    const nav = document.getElementById('navLinks');
+    const ham = document.getElementById('hamburger');
+    if (!nav.contains(e.target) && !ham.contains(e.target)) {
+      nav.classList.remove('open');
+      ham.classList.remove('active');
+    }
+  });
+</script>
+</body>
+</html>
